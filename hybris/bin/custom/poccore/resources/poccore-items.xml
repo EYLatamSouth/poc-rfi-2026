@@ -8,4 +8,64 @@
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
 
+    <collectiontypes>
+        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
+    </collectiontypes>
+
+    <enumtypes>
+        <enumtype code="ApprovalStatus" generate="true" autocreate="true" dynamic="true">
+            <value code="PENDING"/>
+            <value code="APPROVED"/>
+            <value code="NOT_APPROVED"/>
+        </enumtype>
+    </enumtypes>
+
+
+    <itemtypes>
+        <typegroup name="Customer">
+            <itemtype code="Customer" autocreate="false" generate="false">
+                <description>Extending Customer to input custom attributes</description>
+                <attributes>
+                    <attribute qualifier="customerProductInquiry" type="CustomerProductInquiryList">
+                        <persistence type="property"/>
+                        <description>Customer Loyalty Informartion Object</description>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="CustomerProductInquiry" autocreate="true" generate="true" >
+                <deployment table="CustomerProductInquiry" typecode="24246"/>
+                <attributes>
+                    <attribute qualifier="customer" type="customer">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="product" type="Product">
+                        <description>product reference</description>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="question" type="java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="answer" type="java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="approvalStatus" type="ApprovalStatus">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="answerDate" type="java.util.Date">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+        </typegroup>
+
+    </itemtypes>
+
+
 </items>
