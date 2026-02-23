@@ -56,7 +56,13 @@
     	<property name="a6" type="java.util.List" equals="true"/>
     	<property name="not4Equals" type="java.lang.Double"/>
     </bean>
-
 	-->
+
+	<bean class="br.com.pocfacades.data.customerinquiry.CustomerInquiryData">
+		<property name="customer" type="String"/>
+		<property name="product" type="String"/>
+		<property name="question" type="String"/>
+		<property name="approvalStatus" type="String"/>
+	</bean>
 
 </beans>
