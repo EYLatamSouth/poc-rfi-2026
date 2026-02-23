@@ -82,5 +82,12 @@
         <property name="mediaService" ref="mediaService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
+
+    <alias name="defaultPocCustomerInquiryFacade" alias="pocCustomerInquiryFacade"/>
+    <bean id="defaultPocCustomerInquiryFacade" class="br.com.pocfacades.customerinquiry.impl.DefaultPocCustomerInquiryFacade">
+        <property name="pocCustomerInquiryService" ref="pocCustomerInquiryService"/>
+        <property name="userService" ref="userService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
 			
 </beans>

@@ -1,6 +1,9 @@
 package com.br.pococc.occ.controllers;
 
 //import br.com.pococc.v2.helper.VivoPocProductsHelper;
+import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
+import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
+import com.br.pococc.occ.validators.PocProductQuestionValidator;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
@@ -14,6 +17,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +41,12 @@ public class PocProductsController  extends PocBaseController
     @Resource(name = "configurationService")
     private ConfigurationService configurationService;
 
+    @Resource(name = "pocProductQuestionValidator")
+    private PocProductQuestionValidator pocProductQuestionValidator;
+
+    @Resource
+    private PocCustomerInquiryFacade pocCustomerInquiryFacade;
+
     @GetMapping("/{productCode}/reviews")
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
     @ResponseBody
@@ -54,5 +65,20 @@ public class PocProductsController  extends PocBaseController
         //    vivoPocProductsHelper.anonymizeReviewPrincipal(reviewDataList);
         }
         return getDataMapper().map(reviewDataList, ReviewListWsDTO.class, fields);
+    }
+
+    @PostMapping("/{productCode}/question")
+    @ResponseBody
+    @Operation(operationId = "sendProductQuestion", summary = "Send Customer Question about the Product.", description = "Customer makes a question about the current product before buy")
+    @ApiBaseSiteIdParam
+    public ResponseEntity<?> sendProductQuestion(
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
+            @Parameter(description = "Customer question about the product.") @RequestBody final PocProductQuestionWsDTO questionWsDTO) {
+
+        validate(questionWsDTO, "questionWsDTO", pocProductQuestionValidator);
+
+        pocCustomerInquiryFacade.createCustomerInquiry(productCode, questionWsDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
