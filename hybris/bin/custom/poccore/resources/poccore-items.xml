@@ -33,7 +33,7 @@
         <sourceElement type="CustomerReview" qualifier="customerReview" cardinality="one">
             <modifiers read="true" write="true" initial="true" optional="true" search="true"/>
         </sourceElement>
-        <targetElement type="CustomerReviewRating" qualifier="CustomerReviewRating" cardinality="many" ordered="false" collectiontype="set">
+        <targetElement type="CustomerReviewRating" qualifier="customerReviewRating" cardinality="many" ordered="false" collectiontype="set">
             <modifiers read="true" write="true" optional="true" search="true"/>
         </targetElement>
     </relation>
