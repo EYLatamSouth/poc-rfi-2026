@@ -2,12 +2,22 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
 -->
-<config xmlns="http://www.hybris.com/cockpit/config">
+<config xmlns="http://www.hybris.com/cockpit/config"
+		xmlns:et="http://www.hybris.com/cockpitng/config/explorertree">
+
 
 	<!-- pocbackoffice UI configuration should be provided here -->
 
 	<!--<context component="component-code" module="pocbackoffice">-->
 		<!--Please check documentation for code snippets for specific components-->
 	<!--</context>-->
+
+	<context component="explorer-tree" merge-by="module">
+		<et:explorer-tree>
+			<et:navigation-node id="hmc_treenode_marketing">
+				<et:type-node id="hmc_typenode_customerproductinquiry" code="CustomerProductInquiry"/>
+			</et:navigation-node>
+		</et:explorer-tree>
+	</context>
 
 </config>

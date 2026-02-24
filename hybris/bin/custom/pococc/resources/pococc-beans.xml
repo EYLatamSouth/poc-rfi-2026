@@ -18,7 +18,6 @@
 	-->
 
 	<bean class="br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO">
-		<property name="userId" type="String"/>
 		<property name="question" type="String"/>
 	</bean>
 
