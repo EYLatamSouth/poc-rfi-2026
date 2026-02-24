@@ -22,7 +22,7 @@ public class DefaultPocCustomerInquiryFacade implements PocCustomerInquiryFacade
         CustomerModel customerModel = getCurrentCustomer();
         ProductModel productModel = getProductService().getProductForCode(productCode);
 
-        CustomerProductInquiryModel inquiryModel = getPocCustomerInquiryService().createCustomerInquiry(productModel, questionWsDTO, customerModel);
+        getPocCustomerInquiryService().createCustomerInquiry(productModel, questionWsDTO, customerModel);
     }
 
     private CustomerModel getCurrentCustomer() {
