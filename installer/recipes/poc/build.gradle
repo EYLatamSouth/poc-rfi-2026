@@ -54,6 +54,7 @@ def platform = platform {
         property 'log4j2.logger.auditableActionsHandler.level', 'OFF'
         property 'audit.order.enabled', 'false'
         property 'auditing.enabled', 'false'
+        property ' ansi.colors', 'true'
 
     }
 
