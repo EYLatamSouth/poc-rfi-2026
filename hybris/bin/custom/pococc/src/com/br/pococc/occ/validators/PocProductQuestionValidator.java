@@ -17,10 +17,6 @@ public class PocProductQuestionValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         if(target instanceof PocProductQuestionWsDTO questionWsDTO) {
-            if(StringUtils.isBlank(questionWsDTO.getUserId())) {
-                errors.rejectValue("userId", FIELD_REQUIRED);
-            }
-
             if(StringUtils.isBlank(questionWsDTO.getQuestion())) {
                 errors.rejectValue("question", FIELD_REQUIRED);
             }

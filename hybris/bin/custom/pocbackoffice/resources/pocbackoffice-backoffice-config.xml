@@ -76,4 +76,12 @@
         </ea:editorArea>
     </context>
 
+	<context component="explorer-tree" merge-by="module">
+		<et:explorer-tree>
+			<et:navigation-node id="hmc_treenode_marketing">
+				<et:type-node id="hmc_typenode_customerproductinquiry" code="CustomerProductInquiry"/>
+			</et:navigation-node>
+		</et:explorer-tree>
+	</context>
+
 </config>

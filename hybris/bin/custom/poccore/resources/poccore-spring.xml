@@ -87,5 +87,14 @@
     <bean id="defaultPocCustomerInquiryService" class="br.com.poccore.customerinquiry.impl.DefaultPocCustomerInquiryService">
         <property name="modelService" ref="modelService"/>
     </bean>
-			
+
+    <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="customerProductInquiryInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerProductInquiryInterceptor"/>
+        <property name="typeCode" value="CustomerProductInquiry"/>
+    </bean>
+
 </beans>

@@ -19,19 +19,19 @@ public class DefaultPocCustomerInquiryFacade implements PocCustomerInquiryFacade
 
     @Override
     public void createCustomerInquiry(String productCode, PocProductQuestionWsDTO questionWsDTO) {
-        CustomerModel customerModel = getCustomerByUid(questionWsDTO.getUserId());
+        CustomerModel customerModel = getCurrentCustomer();
         ProductModel productModel = getProductService().getProductForCode(productCode);
 
         CustomerProductInquiryModel inquiryModel = getPocCustomerInquiryService().createCustomerInquiry(productModel, questionWsDTO, customerModel);
     }
 
-    private CustomerModel getCustomerByUid(String uid) {
-        UserModel userModel = getUserService().getUserForUID(uid);
-        if(userModel instanceof CustomerModel customer) {
+    private CustomerModel getCurrentCustomer() {
+        UserModel userModel = getUserService().getCurrentUser();
+        if(!getUserService().isAnonymousUser(userModel) && userModel instanceof CustomerModel customer) {
             return customer;
         }
 
-        throw new UsernameNotFoundException(String.format("User with uid %s is not a customer", uid));
+        throw new UsernameNotFoundException(String.format("User with uid %s is not a customer", userModel.getUid()));
     }
 
     public PocCustomerInquiryService getPocCustomerInquiryService() {

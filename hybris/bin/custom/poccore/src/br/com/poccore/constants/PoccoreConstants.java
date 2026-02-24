@@ -18,4 +18,6 @@ public final class PoccoreConstants extends GeneratedPoccoreConstants
 	// implement here constants used by this extension
 
 	public static final String PLATFORM_LOGO_CODE = "poccorePlatformLogo";
+
+	public static final String ROLE_SUPPORT = "support";
 }
