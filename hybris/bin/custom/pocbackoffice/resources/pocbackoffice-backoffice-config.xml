@@ -30,6 +30,14 @@
         </y:base>
     </context>
 
+    <context merge-by="type" type="CustomerReviewRating" component="base">
+        <y:base>
+            <y:labels>
+                <y:label>customer.uid + ' - ' +  customerReview.headline + ''</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+
 
     <context merge-by="type" parent="GenericItem" type="CustomerProductInquiry" component="editor-area">
         <ea:editorArea>

@@ -28,6 +28,18 @@
     </enumtypes>
 
 
+    <relations>
+    <relation code="CustomerReview2CustomerInquiryRelation" localized="false">
+        <sourceElement type="CustomerReview" qualifier="customerReview" cardinality="one">
+            <modifiers read="true" write="true" initial="true" optional="true" search="true"/>
+        </sourceElement>
+        <targetElement type="CustomerReviewRating" qualifier="CustomerReviewRating" cardinality="many" ordered="false" collectiontype="set">
+            <modifiers read="true" write="true" optional="true" search="true"/>
+        </targetElement>
+    </relation>
+    </relations>
+
+
     <itemtypes>
         <typegroup name="Customer">
             <itemtype code="Customer" autocreate="false" generate="false">
@@ -125,12 +137,7 @@
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property"/>
                     </attribute>
-                    <attribute qualifier="review" type="customerReview">
-                        <description>product reference</description>
-                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-                        <persistence type="property"/>
-                    </attribute>
-                    <attribute qualifier="useful" type="java.lang.Boolean" >
+                    <attribute qualifier="isUseful" type="java.lang.Boolean" >
                         <description>
                             This attribute can be set to true to indicate,
                             that the review is useful.
