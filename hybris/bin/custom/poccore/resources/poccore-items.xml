@@ -8,62 +8,143 @@
 
 <items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
 
-	<collectiontypes>
-		<collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
-	</collectiontypes>
+    <collectiontypes>
+        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
+    </collectiontypes>
 
-	<enumtypes>
-	<enumtype code="ApprovalStatus" generate="true" autocreate="true" dynamic="true">
-		<value code="PENDING"/>
-		<value code="APPROVED"/>
-		<value code="NOT_APPROVED"/>
-	</enumtype>
-	</enumtypes>
+    <enumtypes>
+        <enumtype code="CustomerInquiryApprovalStatus" generate="true" autocreate="true" dynamic="true">
+            <value code="PENDING"/>
+            <value code="APPROVED"/>
+            <value code="NOT_APPROVED"/>
+        </enumtype>
+
+        <enumtype code="CustomerReviewModerationStatus" generate="true" autocreate="true" dynamic="true">
+            <value code="PENDING"/>
+            <value code="APPROVED"/>
+            <value code="NOT_APPROVED"/>
+        </enumtype>
+
+    </enumtypes>
 
 
-	<itemtypes>
-		<typegroup name="Customer">
-		<itemtype code="Customer" autocreate="false" generate="false">
-		<description>Extending Customer to input custom attributes</description>
-		<attributes>
-		<attribute qualifier="customerProductInquiry" type="CustomerProductInquiryList">
-			<persistence type="property"/>
-			<description>Customer Loyalty Informartion Object</description>
-		</attribute>
-		</attributes>
-		</itemtype>
+    <itemtypes>
+        <typegroup name="Customer">
+            <itemtype code="Customer" autocreate="false" generate="false">
+                <description>Extending Customer to input custom attributes</description>
+                <attributes>
+                    <attribute qualifier="customerProductInquiry" type="CustomerProductInquiryList">
+                        <persistence type="property"/>
+                        <description>Customer Inquiry List</description>
+                    </attribute>
+                </attributes>
+            </itemtype>
 
-		<itemtype code="CustomerProductInquiry" autocreate="true" generate="true" >
-			<deployment table="CustomerProductInquiry" typecode="24246"/>
-			<attributes>
-				<attribute qualifier="customer" type="customer">
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="product" type="Product">
-					<description>product reference</description>
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="question" type="java.lang.String">
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="answer" type="java.lang.String">
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="approvalStatus" type="ApprovalStatus">
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-				<attribute qualifier="answerDate" type="java.util.Date">
-					<modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-					<persistence type="property"/>
-				</attribute>
-			</attributes>
-		</itemtype>
-		</typegroup>
 
-	</itemtypes>
+            <itemtype code="CustomerReview" autocreate="false" generate="false">
+                <description>Extending CustomerReview to input custom attributes</description>
+                <attributes>
+                    <attribute qualifier="moderationNotes" type="localized:java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property">
+                            <columntype>
+                                <value>HYBRIS.LONG_STRING</value>
+                            </columntype>
+                            <columntype database="oracle">
+                                <value>varchar2(4000)</value>
+                            </columntype>
+                            <columntype database="mysql">
+                                <value>text</value>
+                            </columntype>
+                        </persistence>
+                    </attribute>
+                    <attribute qualifier="moderationStatus" type="customerReviewModerationStatus">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+
+
+            <itemtype code="CustomerProductInquiry" autocreate="true" generate="true" >
+                <deployment table="CustomerProductInquiry" typecode="24246"/>
+                <attributes>
+                    <attribute qualifier="customer" type="customer">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="product" type="product">
+                        <description>product reference</description>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="question" type="localized:java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property">
+                            <columntype>
+                                <value>HYBRIS.LONG_STRING</value>
+                            </columntype>
+                            <columntype database="oracle">
+                                <value>varchar2(4000)</value>
+                            </columntype>
+                            <columntype database="mysql">
+                                <value>text</value>
+                            </columntype>
+                        </persistence>
+                    </attribute>
+                    <attribute qualifier="answer" type="localized:java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property">
+                            <columntype>
+                                <value>HYBRIS.LONG_STRING</value>
+                            </columntype>
+                            <columntype database="oracle">
+                                <value>varchar2(4000)</value>
+                            </columntype>
+                            <columntype database="mysql">
+                                <value>text</value>
+                            </columntype>
+                        </persistence>
+                    </attribute>
+                    <attribute qualifier="approvalStatus" type="customerInquiryApprovalStatus">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="answerDate" type="java.util.Date">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+            <itemtype code="CustomerReviewRating" autocreate="true" generate="true" >
+                <deployment table="CustomerReviewRating" typecode="24247"/>
+                <attributes>
+                    <attribute qualifier="customer" type="customer">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="review" type="customerReview">
+                        <description>product reference</description>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="useful" type="java.lang.Boolean" >
+                        <description>
+                            This attribute can be set to true to indicate,
+                            that the review is useful.
+                        </description>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
+                        <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
+                        <persistence type="property" />
+                    </attribute>
+                </attributes>
+            </itemtype>
+
+        </typegroup>
+
+    </itemtypes>
+
+
 </items>

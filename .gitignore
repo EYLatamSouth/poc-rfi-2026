@@ -84,7 +84,7 @@ addonsrc
 
 *.iml
 
-hybris/bin/custom/vivo/vivocore/lib/.lastupdate
+hybris/bin/custom/poc/poccore/lib/.lastupdate
 # Arquivos temporários de desenvolvimento
 *.groovy
 *.impex
@@ -92,9 +92,6 @@ hybris/bin/custom/vivo/vivocore/lib/.lastupdate
 *.py
 *.md
 
-# Arquivos Java temporários
-DefaultVivoOfferCompositionDao_*.java
-DefaultVivoOfferCompositionService-*.java
 
 # Diretórios temporários
 node_modules/

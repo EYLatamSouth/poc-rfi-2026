@@ -42,6 +42,20 @@ def platform = platform {
 		property 'toggle.expiredSavedCartDeletion.enabled', 'false'
 		property 'toggle.cart.b2bUnit.addition.enabled', 'false'
 		property 'toggle.useXForwardedForForIp.enabled', 'false'
+
+        property 'cronjob.timertask.loadonstartup', 'false'
+        property 'mail.smtp.server', 'smtp.google.com.br'
+        property 'mail.smtp.port', '25'
+        property 'mail.smtp.auth', 'false'
+        property 'mail.smtp.starttls.enable', 'false'
+        property 'mail.from', 'noreply@gmail.com.br'
+        property 'build.parallel', 'true'
+        property 'log4j2.logger.auditableActionsHandler.name', 'de.hybris.platform.audit.actions.impl.Slf4jAuditableActionHandler'
+        property 'log4j2.logger.auditableActionsHandler.level', 'OFF'
+        property 'audit.order.enabled', 'false'
+        property 'auditing.enabled', 'false'
+        property ' ansi.colors', 'true'
+
     }
 
     afterSetup {
