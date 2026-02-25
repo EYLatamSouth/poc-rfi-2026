@@ -30,6 +30,14 @@
         </y:base>
     </context>
 
+    <context merge-by="type" type="CustomerReviewRating" component="base">
+        <y:base>
+            <y:labels>
+                <y:label>customer.uid + ' - ' +  customerReview.headline + ''</y:label>
+            </y:labels>
+        </y:base>
+    </context>
+
 
     <context merge-by="type" parent="GenericItem" type="CustomerProductInquiry" component="editor-area">
         <ea:editorArea>
@@ -50,6 +58,21 @@
             </ea:section>
             </ea:tab>
           </ea:editorArea>
+    </context>
+
+    <context merge-by="type" parent="GenericItem" type="CustomerReview" component="editor-area">
+        <ea:editorArea>
+            <ea:tab name="hmc.properties" position="0">
+                <ea:section name="hmc.product.descriptions">
+                    <ea:attribute editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)" qualifier="moderationNotes">
+                        <ea:editor-parameter>
+                            <ea:name>base64Encoded</ea:name>
+                            <ea:value>true</ea:value>
+                        </ea:editor-parameter>
+                    </ea:attribute>
+                </ea:section>
+            </ea:tab>
+        </ea:editorArea>
     </context>
 
 	<context component="explorer-tree" merge-by="module">
