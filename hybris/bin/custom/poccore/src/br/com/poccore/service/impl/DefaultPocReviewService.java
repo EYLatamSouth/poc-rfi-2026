@@ -47,10 +47,11 @@ public class DefaultPocReviewService implements PocReviewService {
     }
 
     /**
+     * Find a previously created {@link CustomerReviewRatingModel} by the rater customer.
      *
-     * @param review
-     * @param rater
-     * @return
+     * @param review    The target review.
+     * @param rater     The rater customer.
+     * @return a {@link CustomerReviewRatingModel} previously created by the rater customer.
      */
     @Override
     public CustomerReviewRatingModel findCustomerReviewRating(CustomerReviewModel review, CustomerModel rater) {
@@ -62,7 +63,7 @@ public class DefaultPocReviewService implements PocReviewService {
      * Will use the productCode and its position to find the targeted review, and create a {@link CustomerReviewRatingModel}
      * to save is helpfulness link both the creator customer (the one that created the CustomerReview) and the rating
      * customer (the one that rated the review). If a {@link CustomerReviewRatingModel} for the given information was found,
-     * will update it'value instead
+     * will update its value instead
      *
      * @param productCode The code for the target product.
      * @param nth         The chronological position.
