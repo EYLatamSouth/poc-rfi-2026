@@ -15,13 +15,13 @@
         <enumtype code="CustomerInquiryApprovalStatus" generate="true" autocreate="true" dynamic="true">
             <value code="PENDING"/>
             <value code="APPROVED"/>
-            <value code="NOT_APPROVED"/>
+            <value code="UNAPPROVED"/>
         </enumtype>
 
         <enumtype code="CustomerReviewModerationStatus" generate="true" autocreate="true" dynamic="true">
             <value code="PENDING"/>
             <value code="APPROVED"/>
-            <value code="NOT_APPROVED"/>
+            <value code="UNAPPROVED"/>
         </enumtype>
     </enumtypes>
 

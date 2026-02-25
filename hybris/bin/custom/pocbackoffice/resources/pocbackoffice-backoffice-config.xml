@@ -88,6 +88,45 @@
                 </advanced-search:field-list>
             </advanced-search:advanced-search>
         </context>
+
+        <context component="create-wizard">
+            <wz:flow id="ProductInquiryWizard" title="create.productinquiry.title">
+                <wz:prepare id="itemPrepare">
+                    <wz:initialize property="newProductInquiry" type="ctx.TYPE_CODE"/>
+                </wz:prepare>
+                <wz:step id="step1" label="create.productinquiry.general.label" sublabel="create.productinquiry.general.sublabel">
+                    <wz:content id="step1.content">
+                        <wz:property-list root="newProductInquiry">
+                            <wz:property qualifier="customer"/>
+                            <wz:property qualifier="product"/>
+                            <wz:property qualifier="creationtime"/>
+                        </wz:property-list>
+                    </wz:content>
+                    <wz:navigation id="step1.navigation">
+                        <wz:cancel/>
+                        <wz:next/>
+                        <wz:done/>
+                    </wz:navigation>
+                </wz:step>
+                <wz:step id="step2" label="create.productinquiry.detail.label" sublabel="create.productinquiry.detail.sublabel">
+                    <wz:content id="step2.content">
+                        <wz:property-list root="newProductInquiry">
+                            <wz:property qualifier="question"/>
+                            <wz:property qualifier="answer"/>
+                            <wz:property qualifier="answerDate"/>
+                            <wz:property qualifier="approvalStatus"/>
+                        </wz:property-list>
+                    </wz:content>
+                    <wz:navigation id="step2.navigation">
+                        <wz:cancel/>
+                        <wz:back/>
+                        <wz:done>
+                            <wz:save property="newProductInquiry"/>
+                        </wz:done>
+                    </wz:navigation>
+                </wz:step>
+            </wz:flow>
+        </context>
     </context>
 
     <context type="CustomerReviewRating" parent="GenericItem" merge-by="type">
