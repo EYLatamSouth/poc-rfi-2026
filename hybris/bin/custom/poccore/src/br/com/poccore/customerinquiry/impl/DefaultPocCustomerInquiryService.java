@@ -2,7 +2,7 @@ package br.com.poccore.customerinquiry.impl;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.poccore.customerinquiry.PocCustomerInquiryService;
-import br.com.poccore.enums.ApprovalStatus;
+import br.com.poccore.enums.CustomerInquiryApprovalStatus;
 import br.com.poccore.model.CustomerProductInquiryModel;
 import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.CustomerModel;
@@ -19,7 +19,7 @@ public class DefaultPocCustomerInquiryService implements PocCustomerInquiryServi
         inquiryModel.setCustomer(customerModel);
         inquiryModel.setProduct(productModel);
         inquiryModel.setQuestion(questionWsDTO.getQuestion());
-        inquiryModel.setApprovalStatus(ApprovalStatus.PENDING);
+        inquiryModel.setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
 
         getModelService().save(inquiryModel);
 
