@@ -1,6 +1,7 @@
 package com.br.pococc.occ.controllers;
 
 //import br.com.pococc.v2.helper.VivoPocProductsHelper;
+import br.com.pocfacades.review.PocReviewFacade;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +39,9 @@ public class PocProductsController extends PocBaseController
     @Resource(name = "configurationService")
     private ConfigurationService configurationService;
 
+    @Resource(name = "pocReviewFacade")
+    private PocReviewFacade pocReviewFacade;
+
     @GetMapping("/{productCode}/reviews")
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
     @ResponseBody
@@ -54,5 +60,27 @@ public class PocProductsController extends PocBaseController
         //    vivoPocProductsHelper.anonymizeReviewPrincipal(reviewDataList);
         }
         return getDataMapper().map(reviewDataList, ReviewListWsDTO.class, fields);
+    }
+
+    /**
+     * Creates and updates a Customer Review Rating for given product.
+     *
+     * @param productCode   The code for the target product.
+     * @param id            The chronological position.
+     * @param helpful       Review rate value.
+     * @return HttpStatus 201 to created customer review rating.
+     */
+    // @Secured({})
+    @PostMapping("/{productCode}/review/{id}/helpful")
+    @ResponseBody
+    @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
+    @ApiBaseSiteIdParam
+    public ResponseEntity<Object> postReviewRating(
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
+            @Parameter(description = "Review Id.", required = true) @PathVariable final String id,
+            @RequestParam(defaultValue = "true") final boolean helpful)
+    {
+        pocReviewFacade.createProductReviewRating(productCode, Integer.parseInt(id), helpful);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
