@@ -2,54 +2,92 @@
 <!--
  Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved
 -->
-    <config xmlns="http://www.hybris.com/cockpit/config"
-            xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
-            xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
-            xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
-            xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
-            xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch"
-            xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
-            xmlns:as="http://www.hybris.com/cockpitng/config/advancedsearch"
-            xmlns:et="http://www.hybris.com/cockpitng/config/explorertree"
-            xmlns:y="http://www.hybris.com/cockpit/config/hybris"
-            xmlns:lv="http://www.hybris.com/cockpitng/component/listView"
-            xmlns:yc="http://www.hybris.com/cockpitng/config/common">
+<config xmlns="http://www.hybris.com/cockpit/config"
+        xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
+        xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+        xmlns:ea="http://www.hybris.com/cockpitng/component/editorArea"
+        xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+        xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch"
+        xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
+        xmlns:as="http://www.hybris.com/cockpitng/config/advancedsearch"
+        xmlns:et="http://www.hybris.com/cockpitng/config/explorertree"
+        xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+        xmlns:lv="http://www.hybris.com/cockpitng/component/listView"
+        xmlns:yc="http://www.hybris.com/cockpitng/config/common">
 
+    <context component="explorer-tree" merge-by="module">
+        <et:explorer-tree>
+            <et:navigation-node id="hmc_treenode_marketing">
+                <et:type-node id="hmc_typenode_product_inquiry" code="CustomerProductInquiry" position="1"/>
+            </et:navigation-node>
+        </et:explorer-tree>
+    </context>
 
-	<!-- pocbackoffice UI configuration should be provided here -->
+    <context type="CustomerProductInquiry">
+        <context merge-by="type" parent="GenericItem" component="editor-area">
+            <ea:editorArea>
+                <ea:tab name="hmc.properties" position="0">
+                    <ea:section name="hmc.product.descriptions">
+                        <ea:attribute
+                                editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"
+                                qualifier="question">
+                            <ea:editor-parameter>
+                                <ea:name>base64Encoded</ea:name>
+                                <ea:value>true</ea:value>
+                            </ea:editor-parameter>
+                        </ea:attribute>
+                        <ea:attribute
+                                editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)"
+                                qualifier="answer">
+                            <ea:editor-parameter>
+                                <ea:name>base64Encoded</ea:name>
+                                <ea:value>true</ea:value>
+                            </ea:editor-parameter>
+                        </ea:attribute>
+                    </ea:section>
+                </ea:tab>
+            </ea:editorArea>
+        </context>
 
-	<!--<context component="component-code" module="pocbackoffice">-->
-		<!--Please check documentation for code snippets for specific components-->
-	<!--</context>-->
+        <context merge-by="type" parent="GenericItem" component="listview">
+            <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+                <list-view:column qualifier="customer"/>
+                <list-view:column qualifier="product"/>
+                <list-view:column qualifier="question"/>
+                <list-view:column qualifier="answer"/>
+                <list-view:column qualifier="approvalStatus"/>
+            </list-view:list-view>
+        </context>
+
+        <context merge-by="type" parent="GenericItem" component="simple-search">
+            <simple-search:simple-search xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
+                <simple-search:field name="product"/>
+                <simple-search:field name="question"/>
+                <simple-search:field name="answer"/>
+            </simple-search:simple-search>
+        </context>
+
+        <context merge-by="type" parent="GenericItem" component="advanced-search">
+            <advanced-search:advanced-search
+                    xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
+                <advanced-search:field-list>
+                    <advanced-search:field name="customer"/>
+                    <advanced-search:field name="product"/>
+                    <advanced-search:field name="question"/>
+                    <advanced-search:field name="answer"/>
+                    <advanced-search:field name="approvalStatus"/>
+                    <advanced-search:field name="answerDate"/>
+                </advanced-search:field-list>
+            </advanced-search:advanced-search>
+        </context>
+    </context>
 
     <context merge-by="type" type="CustomerProductInquiry" component="base">
         <y:base>
             <y:labels>
-                <y:label>product.code + ' - [' +  question + ']'</y:label>
+                <y:label>product.code + ' - [' + question + ']'</y:label>
             </y:labels>
         </y:base>
-    </context>
-
-
-    <context merge-by="type" parent="GenericItem" type="CustomerProductInquiry" component="editor-area">
-        <ea:editorArea>
-            <ea:tab name="hmc.properties" position="0">
-        <ea:section name="hmc.product.descriptions">
-              <ea:attribute editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)" qualifier="question">
-                <ea:editor-parameter>
-                      <ea:name>base64Encoded</ea:name>
-                      <ea:value>true</ea:value>
-                    </ea:editor-parameter>
-              </ea:attribute>
-            <ea:attribute editor="com.hybris.cockpitng.editor.localized(com.hybris.cockpitng.editor.wysiwyg)" qualifier="answer">
-                <ea:editor-parameter>
-                    <ea:name>base64Encoded</ea:name>
-                    <ea:value>true</ea:value>
-                </ea:editor-parameter>
-            </ea:attribute>
-            </ea:section>
-            </ea:tab>
-          </ea:editorArea>
     </context>
 
 </config>
