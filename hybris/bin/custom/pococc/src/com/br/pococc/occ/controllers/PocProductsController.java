@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @Tag(name = "Poc Products")
 @RequestMapping(value = "/{baseSiteId}/products")
-public class PocProductsController  extends PocBaseController
+public class PocProductsController extends PocBaseController
 {
     private static final Logger LOG = LoggerFactory.getLogger(PocProductsController.class);
 
