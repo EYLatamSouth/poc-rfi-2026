@@ -121,6 +121,7 @@
                     </attribute>
                     <attribute qualifier="approvalStatus" type="customerInquiryApprovalStatus">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <defaultvalue>em().getEnumerationValue("ApprovalStatus","PENDING")</defaultvalue>
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="answerDate" type="java.util.Date">
