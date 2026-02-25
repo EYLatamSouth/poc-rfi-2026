@@ -12,7 +12,7 @@ https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/75d4c3895cb34600854590
 1. Instale a versão 21 do Java
    https://sapmachine.io/docs/installation
 
-2. Descompacte o Standard do SAPCommerce versão 2211, arquivo CCL2211J2100P_8-80009731.tar.gz localizado na pasta files do repositório
+2. Descompacte o Standard do SAPCommerce versão 2211, arquivo CCL2211J2100P_8-80009731.zip do projeto
 
 3. Na pasta onde baixou o projeto, sugestão /opt/poc, extrair o conteúdo do ZIP baixados no passo 2.
 
