@@ -23,8 +23,16 @@
         </et:explorer-tree>
     </context>
 
-    <context type="CustomerProductInquiry">
-        <context merge-by="type" parent="GenericItem" component="editor-area">
+    <context type="CustomerProductInquiry" parent="GenericItem" merge-by="type">
+        <context component="base">
+            <y:base>
+                <y:labels>
+                    <y:label>product.code + ' - [' + question + ']'</y:label>
+                </y:labels>
+            </y:base>
+        </context>
+
+        <context component="editor-area">
             <ea:editorArea>
                 <ea:tab name="hmc.properties" position="0">
                     <ea:section name="hmc.product.descriptions">
@@ -49,7 +57,7 @@
             </ea:editorArea>
         </context>
 
-        <context merge-by="type" parent="GenericItem" component="listview">
+        <context component="listview">
             <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
                 <list-view:column qualifier="customer"/>
                 <list-view:column qualifier="product"/>
@@ -59,7 +67,7 @@
             </list-view:list-view>
         </context>
 
-        <context merge-by="type" parent="GenericItem" component="simple-search">
+        <context component="simple-search">
             <simple-search:simple-search xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
                 <simple-search:field name="product"/>
                 <simple-search:field name="question"/>
@@ -67,7 +75,7 @@
             </simple-search:simple-search>
         </context>
 
-        <context merge-by="type" parent="GenericItem" component="advanced-search">
+        <context component="advanced-search">
             <advanced-search:advanced-search
                     xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
                 <advanced-search:field-list>
@@ -80,14 +88,6 @@
                 </advanced-search:field-list>
             </advanced-search:advanced-search>
         </context>
-    </context>
-
-    <context merge-by="type" type="CustomerProductInquiry" component="base">
-        <y:base>
-            <y:labels>
-                <y:label>product.code + ' - [' + question + ']'</y:label>
-            </y:labels>
-        </y:base>
     </context>
 
     <context merge-by="type" parent="GenericItem" type="CustomerProductInquiry" component="editor-area">
@@ -114,7 +114,7 @@
     <context merge-by="type" type="CustomerReviewRating" component="base">
         <y:base>
             <y:labels>
-                <y:label>customer.uid + ' - ' +  customerReview.headline + ''</y:label>
+                <y:label>customer.uid + ' - ' +  customerReviewRating.isUseful + ''</y:label>
             </y:labels>
         </y:base>
     </context>
