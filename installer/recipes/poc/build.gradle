@@ -251,6 +251,7 @@ def platform = platform {
             extName 'pocfacades'
             extName 'pocbackoffice'
             extName 'pococc'
+            extName 'pocinitialdata'
     }
 
     addons {
