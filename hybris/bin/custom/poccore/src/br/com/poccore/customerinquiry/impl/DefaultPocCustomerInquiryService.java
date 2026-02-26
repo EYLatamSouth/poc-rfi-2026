@@ -20,6 +20,7 @@ public class DefaultPocCustomerInquiryService implements PocCustomerInquiryServi
 
         inquiryModel.setCustomer(customerModel);
         inquiryModel.setProduct(productModel);
+        inquiryModel.setQuestion(questionWsDTO.getQuestion());
         inquiryModel.setQuestion(questionWsDTO.getQuestion(), getCommerceCommonI18NService().getCurrentLocale());
         inquiryModel.setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
 

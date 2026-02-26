@@ -17,7 +17,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +41,7 @@ public class DefaultPocCustomerInquiryServiceTest {
 
     @Test
     public void testCreateCustomerInquiry() {
-        CustomerProductInquiryModel inquiryModel = new CustomerProductInquiryModel();
+        CustomerProductInquiryModel inquiryModel = mock(CustomerProductInquiryModel.class);
         when(modelService.create(CustomerProductInquiryModel.class)).thenReturn(inquiryModel);
 
         ProductModel productModel = new ProductModel();
@@ -54,10 +53,12 @@ public class DefaultPocCustomerInquiryServiceTest {
 
         CustomerProductInquiryModel response = pocCustomerInquiryService.createCustomerInquiry(productModel, questionWsDTO, customerModel);
         verify(commerceCommonI18NService, times(1)).getCurrentLocale();
+
         assertNotNull(response);
-        assertEquals(customerModel, response.getCustomer());
-        assertEquals(productModel, response.getProduct());
-        assertEquals(questionWsDTO.getQuestion(), response.getQuestion(loc));
-        assertEquals(CustomerInquiryApprovalStatus.PENDING, response.getApprovalStatus());
+        verify(response, times(1)).setCustomer(customerModel);
+        verify(response, times(1)).setProduct(productModel);
+        verify(response, times(1)).setQuestion(questionWsDTO.getQuestion());
+        verify(response, times(1)).setQuestion(questionWsDTO.getQuestion(), loc);
+        verify(response, times(1)).setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
     }
 }
