@@ -57,3 +57,11 @@ ant clean all
 
 Subir o servidor:
 ./hybrisserver.sh
+
+### Testes automatizados com Karate
+Com o servidor rodando, voce pode executar os testes automatizados com o comando abaixo, dentro da pasta hybris/bin/platform
+
+1- . ./setantenv.sh
+
+2- ant karatetest -Denv={ENVIRONMENT} (onde {ENVIRONMENT} refere-se ao ambiente onde os testes serao executados, exemplo: local)
+

@@ -14,9 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @UnitTest
 @RunWith(MockitoJUnitRunner.class)
@@ -35,7 +34,7 @@ public class DefaultPocCustomerInquiryServiceTest {
 
     @Test
     public void testCreateCustomerInquiry() {
-        CustomerProductInquiryModel inquiryModel = new CustomerProductInquiryModel();
+        CustomerProductInquiryModel inquiryModel = mock(CustomerProductInquiryModel.class);
         when(modelService.create(CustomerProductInquiryModel.class)).thenReturn(inquiryModel);
 
         ProductModel productModel = new ProductModel();
@@ -44,10 +43,11 @@ public class DefaultPocCustomerInquiryServiceTest {
         questionWsDTO.setQuestion("Dummy question?");
 
         CustomerProductInquiryModel response = pocCustomerInquiryService.createCustomerInquiry(productModel, questionWsDTO, customerModel);
+
         assertNotNull(response);
-        assertEquals(customerModel, response.getCustomer());
-        assertEquals(productModel, response.getProduct());
-        assertEquals(questionWsDTO.getQuestion(), response.getQuestion());
-        assertEquals(CustomerInquiryApprovalStatus.PENDING, response.getApprovalStatus());
+        verify(response, times(1)).setCustomer(customerModel);
+        verify(response, times(1)).setProduct(productModel);
+        verify(response, times(1)).setQuestion(questionWsDTO.getQuestion());
+        verify(response, times(1)).setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
     }
 }

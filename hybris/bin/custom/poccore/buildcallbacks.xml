@@ -95,5 +95,21 @@
         </sequential>
         	
     </macrodef>
+
+    <macrodef name="runKarateTests"
+              description="Run karate tests when server is running">
+        <attribute name="env" default="local" />
+        <sequential>
+            <chmod file="${HYBRIS_BIN_DIR}/../../scripts/run-karate-tests.sh" perm="u+x"/>
+            <exec executable="${HYBRIS_BIN_DIR}/../../scripts/run-karate-tests.sh" failonerror="@{failonerror}">
+                <arg value="${env}"/>
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <target name="karatetest" description="Executes Karate tests">
+        <echo message="######## Starting karate tests ########" />
+        <runKarateTests env="${env}"/>
+    </target>
     
 </project>
