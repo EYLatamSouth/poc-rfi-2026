@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,7 +71,7 @@ public class PocProductsController extends PocBaseController
      * @param helpful       Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
-    // @Secured({})
+    @Secured({"ROLE_TRUSTED_CLIENT"})
     @PostMapping("/{productCode}/review/{id}/helpful")
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
