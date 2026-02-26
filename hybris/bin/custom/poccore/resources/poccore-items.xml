@@ -8,7 +8,8 @@
 
 <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
     <collectiontypes>
-        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
+        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true"
+                        type="set"/>
     </collectiontypes>
 
     <enumtypes>
@@ -68,6 +69,12 @@
                     </attribute>
                     <attribute qualifier="moderationStatus" type="customerReviewModerationStatus">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <persistence type="property"/>
+                    </attribute>
+                    <attribute qualifier="hasBoughtProduct" type="java.lang.Boolean">
+                        <description>Has the customer bought the product which they wrote a comment?</description>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>
                     </attribute>
                 </attributes>
@@ -133,9 +140,7 @@
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="isUseful" type="java.lang.Boolean">
-                        <description>
-                            This attribute can be set to true to indicate that the review is useful.
-                        </description>
+                        <description>This attribute can be set to true to indicate that the review is useful.</description>
                         <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>
