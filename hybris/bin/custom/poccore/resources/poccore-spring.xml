@@ -98,4 +98,16 @@
         <property name="typeCode" value="CustomerProductInquiry"/>
     </bean>
 
+
+    <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocReviewService">
+        <property name="modelService" ref="modelService"/>
+        <property name="pocReviewDao" ref="pocReviewDao"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="pocReviewDao" class="br.com.poccore.dao.impl.DefaultPocReviewDao">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
 </beans>

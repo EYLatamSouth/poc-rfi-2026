@@ -89,5 +89,9 @@
         <property name="userService" ref="userService"/>
         <property name="productService" ref="productService"/>
     </bean>
+
+    <bean id="pocReviewFacade" class="br.com.pocfacades.review.impl.DefaultPocReviewFacade">
+        <property name="pocReviewService" ref="pocReviewService"/>
+    </bean>
 			
 </beans>
