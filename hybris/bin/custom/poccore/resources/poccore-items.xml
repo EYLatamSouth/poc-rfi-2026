@@ -52,7 +52,7 @@
             <itemtype code="CustomerReview" autocreate="false" generate="false">
                 <description>Extending CustomerReview to input custom attributes</description>
                 <attributes>
-                    <attribute qualifier="moderationNotes" type="java.lang.String">
+                    <attribute qualifier="moderationNotes" type="localized:java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -85,7 +85,7 @@
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property"/>
                     </attribute>
-                    <attribute qualifier="question" type="java.lang.String">
+                    <attribute qualifier="question" type="localized:java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -99,7 +99,7 @@
                             </columntype>
                         </persistence>
                     </attribute>
-                    <attribute qualifier="answer" type="java.lang.String">
+                    <attribute qualifier="answer" type="localized:java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
