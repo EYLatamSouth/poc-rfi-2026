@@ -1,7 +1,7 @@
 package com.br.pococc.occ.controllers;
 
 //import br.com.pococc.v2.helper.VivoPocProductsHelper;
-import br.com.pocfacades.review.PocReviewFacade;
+import br.com.pocfacades.review.PocCustomerReviewFacade;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
@@ -41,7 +41,7 @@ public class PocProductsController extends PocBaseController
     private ConfigurationService configurationService;
 
     @Resource(name = "pocReviewFacade")
-    private PocReviewFacade pocReviewFacade;
+    private PocCustomerReviewFacade pocCustomerReviewFacade;
 
     @GetMapping("/{productCode}/reviews")
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
@@ -81,7 +81,7 @@ public class PocProductsController extends PocBaseController
             @Parameter(description = "Review Id.", required = true) @PathVariable final String id,
             @RequestParam(defaultValue = "true") final boolean helpful)
     {
-        pocReviewFacade.createProductReviewRating(productCode, Integer.parseInt(id), helpful);
+        pocCustomerReviewFacade.createProductReviewRating(productCode, Integer.parseInt(id), helpful);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

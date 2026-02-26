@@ -1,9 +1,9 @@
 package br.com.poccore.service.impl;
 
 import br.com.poccore.PocUtil;
-import br.com.poccore.dao.PocReviewDao;
+import br.com.poccore.dao.PocCustomerReviewDao;
 import br.com.poccore.model.CustomerReviewRatingModel;
-import br.com.poccore.service.PocReviewService;
+import br.com.poccore.service.PocCustomerReviewService;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.core.servicelayer.data.SearchPageData;
@@ -18,16 +18,16 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class DefaultPocReviewService implements PocReviewService {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocReviewService.class);
+public class DefaultPocCustomerReviewService implements PocCustomerReviewService {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCustomerReviewService.class);
 
     private ModelService modelService;
-    private PocReviewDao pocReviewDao;
+    private PocCustomerReviewDao pocReviewDao;
     private UserService userService;
 
     /**
      * Finds a CustomerReviewModel for given productCode based on its chronological position.
-     * Uses to {@link PocReviewDao} to search the review with the provided information, then validates the returned content.
+     * Uses to {@link PocCustomerReviewDao} to search the review with the provided information, then validates the returned content.
      *
      * @param productCode The code for the target product.
      * @param nth         The chronological position.
@@ -116,11 +116,11 @@ public class DefaultPocReviewService implements PocReviewService {
         this.userService = userService;
     }
 
-    public PocReviewDao getPocReviewDao() {
+    public PocCustomerReviewDao getPocReviewDao() {
         return pocReviewDao;
     }
 
-    public void setPocReviewDao(PocReviewDao pocReviewDao) {
+    public void setPocReviewDao(PocCustomerReviewDao pocReviewDao) {
         this.pocReviewDao = pocReviewDao;
     }
 }

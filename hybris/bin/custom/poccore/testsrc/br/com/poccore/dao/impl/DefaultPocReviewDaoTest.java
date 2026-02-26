@@ -2,7 +2,6 @@ package br.com.poccore.dao.impl;
 
 import br.com.poccore.model.CustomerReviewRatingModel;
 import de.hybris.platform.core.PK;
-import de.hybris.platform.core.servicelayer.data.PaginationData;
 import de.hybris.platform.core.servicelayer.data.SearchPageData;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class DefaultPocReviewDaoTest {
 
     @InjectMocks
-    private DefaultPocReviewDao dao;
+    private DefaultPocCustomerReviewDao dao;
 
     @Mock
     private PaginatedFlexibleSearchService paginatedFlexibleSearchService;

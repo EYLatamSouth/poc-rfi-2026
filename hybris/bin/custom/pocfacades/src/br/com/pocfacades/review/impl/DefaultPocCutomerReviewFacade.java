@@ -1,22 +1,21 @@
 package br.com.pocfacades.review.impl;
 
 import br.com.poccore.PocUtil;
-import br.com.poccore.model.CustomerReviewRatingModel;
-import br.com.poccore.service.PocReviewService;
-import br.com.pocfacades.review.PocReviewFacade;
+import br.com.poccore.service.PocCustomerReviewService;
+import br.com.pocfacades.review.PocCustomerReviewFacade;
 import com.google.common.base.Preconditions;
-import de.hybris.platform.customerreview.model.CustomerReviewModel;
-import de.hybris.platform.servicelayer.util.ServicesUtil;
-import org.apache.commons.lang3.BooleanUtils;
+import de.hybris.platform.commercefacades.product.data.ReviewData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Objects;
+import java.util.List;
 
-public class DefaultPocReviewFacade implements PocReviewFacade {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocReviewFacade.class);
+public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCutomerReviewFacade.class);
 
-    private PocReviewService pocReviewService;
+    private PocCustomerReviewService pocReviewService;
+
+
 
     /**
      * Will call the PocReviewService to create a ProductReviewRating.
@@ -40,11 +39,11 @@ public class DefaultPocReviewFacade implements PocReviewFacade {
         }
     }
 
-    public PocReviewService getPocReviewService() {
+    public PocCustomerReviewService getPocReviewService() {
         return pocReviewService;
     }
 
-    public void setPocReviewService(PocReviewService pocReviewService) {
+    public void setPocReviewService(PocCustomerReviewService pocReviewService) {
         this.pocReviewService = pocReviewService;
     }
 }

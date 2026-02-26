@@ -1,6 +1,6 @@
 package br.com.poccore.service.impl;
 
-import br.com.poccore.dao.PocReviewDao;
+import br.com.poccore.dao.PocCustomerReviewDao;
 import br.com.poccore.model.CustomerReviewRatingModel;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
@@ -9,8 +9,6 @@ import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.servicelayer.model.ModelService;
-import de.hybris.platform.servicelayer.search.SearchResult;
-import de.hybris.platform.servicelayer.search.impl.SearchResultImpl;
 import de.hybris.platform.servicelayer.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,21 +20,20 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultPocReviewServiceTest {
+public class DefaultPocCustomerReviewServiceTest {
 
     @InjectMocks
-    private DefaultPocReviewService service;
+    private DefaultPocCustomerReviewService service;
     @Mock
     private UserService userService;
     @Mock
     private ModelService modelService;
     @Mock
-    private PocReviewDao pocReviewDao;
+    private PocCustomerReviewDao pocReviewDao;
     @Mock
     private SearchPageData<CustomerReviewModel> searchPageData;
     @Mock

@@ -1,6 +1,6 @@
 package br.com.pocfacades.review.impl;
 
-import br.com.poccore.service.PocReviewService;
+import br.com.poccore.service.PocCustomerReviewService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,11 +13,11 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultPocReviewFacadeTest {
+public class DefaultPocCustomerReviewFacadeTest {
     @InjectMocks
-    private DefaultPocReviewFacade facade;
+    private DefaultPocCutomerReviewFacade facade;
     @Mock
-    private PocReviewService pocReviewService;
+    private PocCustomerReviewService pocReviewService;
 
     @Before
     public void setUp() {
