@@ -6,8 +6,7 @@
 	ATTENTION: This is just an example file. You have to edit it according to your needs.
 -->
 
-<items 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
-
+<items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
     <collectiontypes>
         <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
     </collectiontypes>
@@ -16,29 +15,27 @@
         <enumtype code="CustomerInquiryApprovalStatus" generate="true" autocreate="true" dynamic="true">
             <value code="PENDING"/>
             <value code="APPROVED"/>
-            <value code="NOT_APPROVED"/>
+            <value code="UNAPPROVED"/>
         </enumtype>
 
         <enumtype code="CustomerReviewModerationStatus" generate="true" autocreate="true" dynamic="true">
             <value code="PENDING"/>
             <value code="APPROVED"/>
-            <value code="NOT_APPROVED"/>
+            <value code="UNAPPROVED"/>
         </enumtype>
-
     </enumtypes>
 
-
     <relations>
-    <relation code="CustomerReview2CustomerInquiryRelation" localized="false">
-        <sourceElement type="CustomerReview" qualifier="customerReview" cardinality="one">
-            <modifiers read="true" write="true" initial="true" optional="true" search="true"/>
-        </sourceElement>
-        <targetElement type="CustomerReviewRating" qualifier="customerReviewRating" cardinality="many" ordered="false" collectiontype="set">
-            <modifiers read="true" write="true" optional="true" search="true"/>
-        </targetElement>
-    </relation>
+        <relation code="CustomerReview2CustomerInquiryRelation" localized="false">
+            <sourceElement type="CustomerReview" qualifier="customerReview" cardinality="one">
+                <modifiers read="true" write="true" initial="true" optional="true" search="true"/>
+            </sourceElement>
+            <targetElement type="CustomerReviewRating" qualifier="customerReviewRating" cardinality="many"
+                           ordered="false" collectiontype="set">
+                <modifiers read="true" write="true" optional="true" search="true"/>
+            </targetElement>
+        </relation>
     </relations>
-
 
     <itemtypes>
         <typegroup name="Customer">
@@ -52,11 +49,10 @@
                 </attributes>
             </itemtype>
 
-
             <itemtype code="CustomerReview" autocreate="false" generate="false">
                 <description>Extending CustomerReview to input custom attributes</description>
                 <attributes>
-                    <attribute qualifier="moderationNotes" type="localized:java.lang.String">
+                    <attribute qualifier="moderationNotes" type="java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -77,9 +73,7 @@
                 </attributes>
             </itemtype>
 
-
-
-            <itemtype code="CustomerProductInquiry" autocreate="true" generate="true" >
+            <itemtype code="CustomerProductInquiry" autocreate="true" generate="true">
                 <deployment table="CustomerProductInquiry" typecode="24246"/>
                 <attributes>
                     <attribute qualifier="customer" type="customer">
@@ -91,7 +85,7 @@
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property"/>
                     </attribute>
-                    <attribute qualifier="question" type="localized:java.lang.String">
+                    <attribute qualifier="question" type="java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -105,7 +99,7 @@
                             </columntype>
                         </persistence>
                     </attribute>
-                    <attribute qualifier="answer" type="localized:java.lang.String">
+                    <attribute qualifier="answer" type="java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -131,28 +125,24 @@
                 </attributes>
             </itemtype>
 
-            <itemtype code="CustomerReviewRating" autocreate="true" generate="true" >
+            <itemtype code="CustomerReviewRating" autocreate="true" generate="true">
                 <deployment table="CustomerReviewRating" typecode="24247"/>
                 <attributes>
                     <attribute qualifier="customer" type="customer">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property"/>
                     </attribute>
-                    <attribute qualifier="isUseful" type="java.lang.Boolean" >
+                    <attribute qualifier="isUseful" type="java.lang.Boolean">
                         <description>
-                            This attribute can be set to true to indicate,
-                            that the review is useful.
+                            This attribute can be set to true to indicate that the review is useful.
                         </description>
                         <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
-                        <persistence type="property" />
+                        <persistence type="property"/>
                     </attribute>
                 </attributes>
             </itemtype>
-
         </typegroup>
-
     </itemtypes>
-
 
 </items>
