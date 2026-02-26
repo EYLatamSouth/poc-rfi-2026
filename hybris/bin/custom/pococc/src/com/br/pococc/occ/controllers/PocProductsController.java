@@ -1,7 +1,9 @@
 package com.br.pococc.occ.controllers;
 
-//import br.com.pococc.v2.helper.VivoPocProductsHelper;
+import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
+import br.com.pocfacades.product.PocProductFacade;
 import br.com.pocfacades.review.PocReviewFacade;
+import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
@@ -34,13 +36,14 @@ public class PocProductsController extends PocBaseController
     @Resource(name = "cwsProductFacade")
     private ProductFacade productFacade;
 
-//    @Resource(name = "vivoPocProductsHelper")
-//    private VivoPocProductsHelper vivoPocProductsHelper;
+    @Resource(name = "PocProductFacade")
+    private PocProductFacade PocProductFacade;
+
 
     @Resource(name = "configurationService")
     private ConfigurationService configurationService;
 
-    @Resource(name = "pocReviewFacade")
+    @Resource(name = "pocProductFacade")
     private PocReviewFacade pocReviewFacade;
 
     @GetMapping("/{productCode}/reviews")
@@ -84,4 +87,21 @@ public class PocProductsController extends PocBaseController
         pocReviewFacade.createProductReviewRating(productCode, Integer.parseInt(id), helpful);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+
+    @GetMapping("/{productCode}/EngagementSummary")
+    @ResponseBody
+    @Operation(operationId = "getProductEngagementSummary", summary = "Retrieves the Engagement Summary of a product.", description = "Retrieves an Engagement Summary AVG for a product.")
+    @ApiBaseSiteIdParam
+    public PocProductEngagementSummaryWsDTO getProductEngagementSummary(
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
+            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields)
+    {
+        LOG.info("POC CUSTOM GET PRODUCT Engagement Summary");
+        PocProductEngagementSummaryInfoData pocProductEngagementSummary = new PocProductEngagementSummaryInfoData();
+        pocProductEngagementSummary = PocProductFacade.getEngagementSummary(productCode);
+        return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class, fields);
+    }
+
+
 }
