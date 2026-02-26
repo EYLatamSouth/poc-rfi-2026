@@ -107,7 +107,7 @@
         </sequential>
     </macrodef>
 
-    <target name="karatetest" description="Executes Karate tests for this extension">
+    <target name="karatetest" description="Executes Karate tests">
         <echo message="######## Starting karate tests ########" />
         <runKarateTests env="${env}"/>
     </target>

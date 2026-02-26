@@ -86,7 +86,6 @@
     <alias name="defaultPocCustomerInquiryService" alias="pocCustomerInquiryService"/>
     <bean id="defaultPocCustomerInquiryService" class="br.com.poccore.customerinquiry.impl.DefaultPocCustomerInquiryService">
         <property name="modelService" ref="modelService"/>
-        <property name="commerceCommonI18NService" ref="commerceCommonI18NService" />
     </bean>
 
     <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
