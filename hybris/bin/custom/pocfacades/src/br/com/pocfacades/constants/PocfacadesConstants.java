@@ -18,4 +18,5 @@ public final class PocfacadesConstants extends GeneratedPocfacadesConstants
 	// implement here constants used by this extension
 
 	public static final String PLATFORM_LOGO_CODE = "pocfacadesPlatformLogo";
+	public static final String USER_NOT_CUSTOMER_MESSAGE = "User with uid %s is not a customer";
 }

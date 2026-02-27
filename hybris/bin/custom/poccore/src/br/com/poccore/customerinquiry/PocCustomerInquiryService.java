@@ -1,12 +1,10 @@
 package br.com.poccore.customerinquiry;
 
-import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.poccore.model.CustomerProductInquiryModel;
-import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.platform.core.model.user.CustomerModel;
+import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
 
 public interface PocCustomerInquiryService {
 
-    CustomerProductInquiryModel createCustomerInquiry(ProductModel productModel, PocProductQuestionWsDTO questionWsDTO, CustomerModel customerModel);
+    CustomerProductInquiryModel createCustomerInquiry(CustomerInquiryData inquiryData);
 
 }

@@ -26,16 +26,16 @@
     <bean id="defaultPocCustomerInquiryFacade" class="br.com.pocfacades.customerinquiry.impl.DefaultPocCustomerInquiryFacade">
         <property name="pocCustomerInquiryService" ref="pocCustomerInquiryService"/>
         <property name="userService" ref="userService"/>
-        <property name="productService" ref="productService"/>
+        <property name="customerInquiryDataConverter" ref="customerInquiryDataConverter"/>
     </bean>
 
     <bean id="pocReviewFacade" class="br.com.pocfacades.review.impl.DefaultPocReviewFacade">
         <property name="pocReviewService" ref="pocReviewService"/>
     </bean>
 
-
     <bean id="pocProductFacade" class="br.com.pocfacades.product.impl.DefaultPocProductFacade">
         <property name="pocPrductService" ref="pocProductService"/>
     </bean>
-			
+
+
 </beans>

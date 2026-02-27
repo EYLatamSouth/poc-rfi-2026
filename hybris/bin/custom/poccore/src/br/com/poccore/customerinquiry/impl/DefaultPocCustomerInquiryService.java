@@ -1,25 +1,20 @@
 package br.com.poccore.customerinquiry.impl;
 
-import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.poccore.customerinquiry.PocCustomerInquiryService;
-import br.com.poccore.enums.CustomerInquiryApprovalStatus;
 import br.com.poccore.model.CustomerProductInquiryModel;
-import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.platform.core.model.user.CustomerModel;
+import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
+import de.hybris.platform.servicelayer.dto.converter.Converter;
 import de.hybris.platform.servicelayer.model.ModelService;
 
 public class DefaultPocCustomerInquiryService implements PocCustomerInquiryService {
 
     private ModelService modelService;
+    private Converter<CustomerInquiryData, CustomerProductInquiryModel> customerInquiryModelConverter;
 
     @Override
-    public CustomerProductInquiryModel createCustomerInquiry(ProductModel productModel, PocProductQuestionWsDTO questionWsDTO, CustomerModel customerModel) {
+    public CustomerProductInquiryModel createCustomerInquiry(CustomerInquiryData inquiryData) {
         CustomerProductInquiryModel inquiryModel = getModelService().create(CustomerProductInquiryModel.class);
-
-        inquiryModel.setCustomer(customerModel);
-        inquiryModel.setProduct(productModel);
-        inquiryModel.setQuestion(questionWsDTO.getQuestion());
-        inquiryModel.setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
+        getCustomerInquiryModelConverter().convert(inquiryData, inquiryModel);
 
         getModelService().save(inquiryModel);
 
@@ -32,5 +27,13 @@ public class DefaultPocCustomerInquiryService implements PocCustomerInquiryServi
 
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;
+    }
+
+    public Converter<CustomerInquiryData, CustomerProductInquiryModel> getCustomerInquiryModelConverter() {
+        return customerInquiryModelConverter;
+    }
+
+    public void setCustomerInquiryModelConverter(Converter<CustomerInquiryData, CustomerProductInquiryModel> customerInquiryModelConverter) {
+        this.customerInquiryModelConverter = customerInquiryModelConverter;
     }
 }
