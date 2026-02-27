@@ -128,8 +128,7 @@
         </property>
     </bean>
 
-    <alias name="defaultCustomerInquiryDataConverter" alias="
-"/>
+    <alias name="defaultCustomerInquiryDataConverter" alias="customerInquiryDataConverter"/>
     <bean id="defaultCustomerInquiryDataConverter" parent="abstractPopulatingConverter">
         <property name="targetClass" value="br.com.pocfacades.data.customerinquiry.CustomerInquiryData"/>
         <property name="populators">

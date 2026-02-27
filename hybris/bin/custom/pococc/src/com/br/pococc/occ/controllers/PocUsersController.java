@@ -1,6 +1,7 @@
 package com.br.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
+import br.com.poc.occ.dto.user.product.PocCustomerInquiryWsDTO;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
 import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
 import com.br.pococc.occ.validators.PocProductQuestionValidator;
@@ -31,12 +32,12 @@ public class PocUsersController extends PocBaseController {
     @ResponseBody
     @Operation(operationId = "sendProductQuestion", summary = "Send Customer Question about the Product.", description = "Customer makes a question about the current product before buy")
     @ApiBaseSiteIdAndUserIdParam
-    public ResponseEntity<?> sendProductQuestion(
+    public ResponseEntity<PocCustomerInquiryWsDTO> sendProductQuestion(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Customer question about the product.") @RequestBody final PocProductQuestionWsDTO questionWsDTO) {
         validate(questionWsDTO, "questionWsDTO", pocProductQuestionValidator);
 
         CustomerInquiryData data = pocCustomerInquiryFacade.createCustomerInquiry(productCode, questionWsDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(getDataMapper().map(data, PocCustomerInquiryWsDTO.class));
     }
 }
