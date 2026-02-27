@@ -2,11 +2,12 @@ package br.com.pocfacades.customerinquiry.impl;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.poccore.customerinquiry.PocCustomerInquiryService;
+import br.com.poccore.model.CustomerProductInquiryModel;
+import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
 import de.hybris.bootstrap.annotations.UnitTest;
-import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.platform.product.ProductService;
+import de.hybris.platform.servicelayer.dto.converter.Converter;
 import de.hybris.platform.servicelayer.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -33,13 +35,13 @@ public class DefaultPocCustomerInquiryFacadeTest {
     private UserService userService;
 
     @Mock
-    private ProductService productService;
+    private Converter<CustomerProductInquiryModel, CustomerInquiryData> customerInquiryDataConverter;
 
     @Before
     public void setUp() {
         pocCustomerInquiryFacade.setPocCustomerInquiryService(pocCustomerInquiryService);
         pocCustomerInquiryFacade.setUserService(userService);
-        pocCustomerInquiryFacade.setProductService(productService);
+        pocCustomerInquiryFacade.setCustomerInquiryDataConverter(customerInquiryDataConverter);
     }
 
     @Test
@@ -50,14 +52,12 @@ public class DefaultPocCustomerInquiryFacadeTest {
 
         assertThrows(UsernameNotFoundException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
 
-        verify(productService, never()).getProductForCode(anyString());
-        verify(pocCustomerInquiryService, never()).createCustomerInquiry(any(), any(), any());
+        verify(pocCustomerInquiryService, never()).createCustomerInquiry(any());
 
         when(userService.isAnonymousUser(currentUser)).thenReturn(false);
         assertThrows(UsernameNotFoundException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
 
-        verify(productService, never()).getProductForCode(anyString());
-        verify(pocCustomerInquiryService, never()).createCustomerInquiry(any(), any(), any());
+        verify(pocCustomerInquiryService, never()).createCustomerInquiry(any());
     }
 
     @Test
@@ -67,16 +67,19 @@ public class DefaultPocCustomerInquiryFacadeTest {
         when(userService.isAnonymousUser(currentUser)).thenReturn(false);
 
         String productCode = "productCode";
-        ProductModel productModel = mock(ProductModel.class);
-        when(productService.getProductForCode(productCode)).thenReturn(productModel);
 
         PocProductQuestionWsDTO wsDTO = new PocProductQuestionWsDTO();
 
-        pocCustomerInquiryFacade.createCustomerInquiry(productCode, wsDTO);
+        when(pocCustomerInquiryService.createCustomerInquiry(any())).thenReturn(mock(CustomerProductInquiryModel.class));
+        when(customerInquiryDataConverter.convert(any(CustomerProductInquiryModel.class))).thenReturn(mock(CustomerInquiryData.class));
+
+        CustomerInquiryData response = pocCustomerInquiryFacade.createCustomerInquiry(productCode, wsDTO);
+
+        assertNotNull(response);
 
         verify(userService, times(1)).getCurrentUser();
         verify(userService, times(1)).isAnonymousUser(currentUser);
-        verify(productService, times(1)).getProductForCode(productCode);
-        verify(pocCustomerInquiryService, times(1)).createCustomerInquiry(productModel, wsDTO, currentUser);
+        verify(pocCustomerInquiryService, times(1)).createCustomerInquiry(any());
+        verify(customerInquiryDataConverter, times(1)).convert(any(CustomerProductInquiryModel.class));
     }
 }
