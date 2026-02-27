@@ -2,8 +2,3 @@ UPDATE CustomerInquiryApprovalStatus; code[unique = true]; name[lang = pt]; name
                                     ; PENDING            ; "Em análise"   ; "Pending"
                                     ; APPROVED           ; "Aprovado"     ; "Approved"
                                     ; UNAPPROVED         ; "Reprovado"    ; "Unapproved"
-
-UPDATE CustomerReviewModerationStatus; code[unique = true]; name[lang = pt]; name[lang = en]
-                                     ; PENDING            ; "Em análise"   ; "Pending"
-                                     ; APPROVED           ; "Aprovado"     ; "Approved"
-                                     ; UNAPPROVED         ; "Reprovado"    ; "Unapproved"
