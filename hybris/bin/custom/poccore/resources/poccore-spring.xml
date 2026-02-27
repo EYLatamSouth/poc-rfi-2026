@@ -86,6 +86,7 @@
     <alias name="defaultPocCustomerInquiryService" alias="pocCustomerInquiryService"/>
     <bean id="defaultPocCustomerInquiryService" class="br.com.poccore.customerinquiry.impl.DefaultPocCustomerInquiryService">
         <property name="modelService" ref="modelService"/>
+        <property name="customerInquiryModelConverter" ref="customerInquiryModelConverter"/>
     </bean>
 
     <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
@@ -107,6 +108,35 @@
     <bean id="pocReviewDao" class="br.com.poccore.dao.impl.DefaultPocReviewDao">
         <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="customerInquiryModelPopulator" class="br.com.poccore.populators.CustomerInquiryModelPopulator">
+        <property name="userService" ref="userService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="customerInquiryDataPopulator" class="br.com.poccore.populators.CustomerInquiryDataPopulator">
+    </bean>
+
+    <alias name="defaultCustomerInquiryModelConverter" alias="customerInquiryModelConverter"/>
+    <bean id="defaultCustomerInquiryModelConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="br.com.poccore.model.CustomerProductInquiryModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="customerInquiryModelPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultCustomerInquiryDataConverter" alias="
+"/>
+    <bean id="defaultCustomerInquiryDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="br.com.pocfacades.data.customerinquiry.CustomerInquiryData"/>
+        <property name="populators">
+            <list>
+                <ref bean="customerInquiryDataPopulator"/>
+            </list>
+        </property>
     </bean>
 
 </beans>

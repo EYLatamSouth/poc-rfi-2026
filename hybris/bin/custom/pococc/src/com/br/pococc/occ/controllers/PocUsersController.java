@@ -2,6 +2,7 @@ package com.br.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
+import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
 import com.br.pococc.occ.validators.PocProductQuestionValidator;
 import de.hybris.platform.webservicescommons.swagger.ApiBaseSiteIdAndUserIdParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +36,7 @@ public class PocUsersController extends PocBaseController {
             @Parameter(description = "Customer question about the product.") @RequestBody final PocProductQuestionWsDTO questionWsDTO) {
         validate(questionWsDTO, "questionWsDTO", pocProductQuestionValidator);
 
-        pocCustomerInquiryFacade.createCustomerInquiry(productCode, questionWsDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        CustomerInquiryData data = pocCustomerInquiryFacade.createCustomerInquiry(productCode, questionWsDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 }

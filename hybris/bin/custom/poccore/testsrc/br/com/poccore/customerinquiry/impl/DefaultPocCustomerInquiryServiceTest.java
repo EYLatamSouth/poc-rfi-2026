@@ -1,11 +1,9 @@
 package br.com.poccore.customerinquiry.impl;
 
-import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
-import br.com.poccore.enums.CustomerInquiryApprovalStatus;
 import br.com.poccore.model.CustomerProductInquiryModel;
+import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
 import de.hybris.bootstrap.annotations.UnitTest;
-import de.hybris.platform.core.model.product.ProductModel;
-import de.hybris.platform.core.model.user.CustomerModel;
+import de.hybris.platform.servicelayer.dto.converter.Converter;
 import de.hybris.platform.servicelayer.model.ModelService;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,9 +25,14 @@ public class DefaultPocCustomerInquiryServiceTest {
     @Mock
     private ModelService modelService;
 
+    @Mock
+    private Converter<CustomerInquiryData, CustomerProductInquiryModel> customerInquiryConverter;
+
+
     @Before
     public void setUp() {
         pocCustomerInquiryService.setModelService(modelService);
+        pocCustomerInquiryService.setCustomerInquiryModelConverter(customerInquiryConverter);
     }
 
     @Test
@@ -37,17 +40,12 @@ public class DefaultPocCustomerInquiryServiceTest {
         CustomerProductInquiryModel inquiryModel = mock(CustomerProductInquiryModel.class);
         when(modelService.create(CustomerProductInquiryModel.class)).thenReturn(inquiryModel);
 
-        ProductModel productModel = new ProductModel();
-        CustomerModel customerModel = new CustomerModel();
-        PocProductQuestionWsDTO questionWsDTO = new PocProductQuestionWsDTO();
-        questionWsDTO.setQuestion("Dummy question?");
+        CustomerInquiryData data = new CustomerInquiryData();
+        data.setQuestion("Dummy question?");
 
-        CustomerProductInquiryModel response = pocCustomerInquiryService.createCustomerInquiry(productModel, questionWsDTO, customerModel);
-
+        CustomerProductInquiryModel response = pocCustomerInquiryService.createCustomerInquiry(data);
         assertNotNull(response);
-        verify(response, times(1)).setCustomer(customerModel);
-        verify(response, times(1)).setProduct(productModel);
-        verify(response, times(1)).setQuestion(questionWsDTO.getQuestion());
-        verify(response, times(1)).setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
+        verify(modelService, times(1)).create(CustomerProductInquiryModel.class);
+        verify(customerInquiryConverter, times(1)).convert(any(CustomerInquiryData.class), eq(inquiryModel));
     }
 }
