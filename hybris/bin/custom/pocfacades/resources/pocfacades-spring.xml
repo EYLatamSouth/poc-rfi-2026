@@ -35,7 +35,6 @@
 
 
     <bean id="pocProductFacade" class="br.com.pocfacades.product.impl.DefaultPocProductFacade">
-        <property name="pocReviewService" ref="pocReviewService"/>
     </bean>
 			
 </beans>
