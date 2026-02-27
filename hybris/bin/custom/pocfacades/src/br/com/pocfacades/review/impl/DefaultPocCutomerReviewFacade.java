@@ -4,11 +4,9 @@ import br.com.poccore.PocUtil;
 import br.com.poccore.service.PocCustomerReviewService;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
 import com.google.common.base.Preconditions;
-import de.hybris.platform.commercefacades.product.data.ReviewData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 
 public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
     private final Logger LOG = LoggerFactory.getLogger(DefaultPocCutomerReviewFacade.class);

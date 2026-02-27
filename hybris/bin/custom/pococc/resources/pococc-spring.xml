@@ -17,4 +17,8 @@
 
 	<bean id="pocProductQuestionValidator" class="com.br.pococc.occ.validators.PocProductQuestionValidator"/>
 
+	<alias name="defaultPocCustomerReviewPopulator" alias="customerReviewPopulator"/>
+	<bean id="defaultPocCustomerReviewPopulator" class="com.br.pococc.occ.populators.PocCustomerReviewPopulator">
+		<property name="principalConverter" ref="principalConverter"/>
+	</bean>
 </beans>

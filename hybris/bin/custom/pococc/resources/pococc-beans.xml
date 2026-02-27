@@ -21,4 +21,13 @@
 		<property name="question" type="String"/>
 	</bean>
 
+	<bean class="de.hybris.platform.commercefacades.product.data.ReviewData">
+		<property name="helpfulnessRating" type="Integer" />
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO">
+		<property name="helpfulnessRating" type="Integer">
+			<description>Helpfulness rating of review</description>
+		</property>
+	</bean>
 </beans>
