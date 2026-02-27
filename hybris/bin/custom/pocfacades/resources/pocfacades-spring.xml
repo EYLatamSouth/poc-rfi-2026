@@ -34,7 +34,7 @@
     </bean>
 
     <bean id="pocProductFacade" class="br.com.pocfacades.product.impl.DefaultPocProductFacade">
-        <property name="pocPrductService" ref="pocProductService"/>
+        <property name="pocProductService" ref="pocProductService"/>
     </bean>
 
 

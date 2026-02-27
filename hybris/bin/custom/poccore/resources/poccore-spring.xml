@@ -117,7 +117,6 @@
     </bean>
 
     <bean id="pocProductService" class="br.com.poccore.service.impl.DefaultPocProductService">
-        <property name="modelService" ref="modelService"/>
         <property name="pocProductDao" ref="pocProductDao"/>
     </bean>
 

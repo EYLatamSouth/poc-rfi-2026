@@ -6,12 +6,10 @@ import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
 import de.hybris.platform.servicelayer.search.FlexibleSearchService;
 import de.hybris.platform.servicelayer.search.SearchResult;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-public class DefaultProductDao implements PocProductDao {
+public class DefaultPocProductDao implements PocProductDao {
 
     private FlexibleSearchService flexibleSearchService;
 
