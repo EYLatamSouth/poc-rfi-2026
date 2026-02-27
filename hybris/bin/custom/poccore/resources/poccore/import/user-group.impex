@@ -1,0 +1,2 @@
+INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid)[mode = append]; name          ; locName[lang = en]; locName[lang = pt]
+                       ; support           ; employeegroup             ; Support Group ; Support Group     ; Support Group

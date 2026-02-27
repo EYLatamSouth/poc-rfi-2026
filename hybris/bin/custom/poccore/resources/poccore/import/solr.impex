@@ -1,0 +1,7 @@
+$indexLanguages = en, pt
+
+INSERT_UPDATE SolrFacetSearchConfig; name[unique = true]                           ; languages(isocode)
+                                   ; electronicsIndex                              ; $indexLanguages
+                                   ; Solr Config for Backoffice                    ; $indexLanguages
+                                   ; Solr Config for Backoffice Visibility Product ; $indexLanguages
+                                   ; electronicsVisibilityIndex                    ; $indexLanguages
