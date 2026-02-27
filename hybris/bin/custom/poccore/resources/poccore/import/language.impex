@@ -1,0 +1,33 @@
+UPDATE Language; isocode[unique = true]; active[default = false]
+               ; hu                    ;
+               ; pl                    ;
+               ; cs                    ;
+               ; id                    ;
+               ; hi                    ;
+               ; zh_TW                 ;
+               ; zh                    ;
+               ; ru                    ;
+               ; ko                    ;
+               ; ja                    ;
+               ; it                    ;
+               ; fr                    ;
+               ; es_CO                 ;
+               ; es                    ;
+               ; ja                    ;
+
+REMOVE Language; isocode[unique = true]
+               ; hu
+               ; pl
+               ; cs
+               ; id
+               ; hi
+               ; zh_TW
+               ; zh
+               ; ru
+               ; ko
+               ; ja
+               ; it
+               ; fr
+               ; es_CO
+               ; es
+               ; ja

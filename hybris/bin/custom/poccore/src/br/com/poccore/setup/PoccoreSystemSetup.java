@@ -5,32 +5,42 @@ package br.com.poccore.setup;
 
 import static br.com.poccore.constants.PoccoreConstants.PLATFORM_LOGO_CODE;
 
+import de.hybris.platform.commerceservices.setup.AbstractSystemSetup;
 import de.hybris.platform.core.initialization.SystemSetup;
 
 import java.io.InputStream;
+import java.util.List;
 
 import br.com.poccore.constants.PoccoreConstants;
 import br.com.poccore.service.PoccoreService;
-
+import de.hybris.platform.core.initialization.SystemSetupContext;
+import de.hybris.platform.core.initialization.SystemSetupParameter;
 
 @SystemSetup(extension = PoccoreConstants.EXTENSIONNAME)
-public class PoccoreSystemSetup
-{
-	private final PoccoreService poccoreService;
+public class PoccoreSystemSetup extends AbstractSystemSetup {
+    private final PoccoreService poccoreService;
 
-	public PoccoreSystemSetup(final PoccoreService poccoreService)
-	{
-		this.poccoreService = poccoreService;
-	}
+    public PoccoreSystemSetup(final PoccoreService poccoreService) {
+        this.poccoreService = poccoreService;
+    }
 
-	@SystemSetup(process = SystemSetup.Process.ALL, type = SystemSetup.Type.ESSENTIAL)
-	public void createEssentialData()
-	{
-		poccoreService.createLogo(PLATFORM_LOGO_CODE);
-	}
+    @SystemSetup(process = SystemSetup.Process.ALL, type = SystemSetup.Type.ESSENTIAL)
+    public void createEssentialData(final SystemSetupContext context) {
+        importImpexFile(context, "/poccore/import/customer-review.impex");
+        //importImpexFile(context, "/poccore/import/language.impex");
+        importImpexFile(context, "/poccore/import/oauth-client.impex");
+        importImpexFile(context, "/poccore/import/solr.impex");
+        importImpexFile(context, "/poccore/import/user-group.impex");
 
-	private InputStream getImageStream()
-	{
-		return PoccoreSystemSetup.class.getResourceAsStream("/poccore/sap-hybris-platform.png");
-	}
+        poccoreService.createLogo(PLATFORM_LOGO_CODE);
+    }
+
+    private InputStream getImageStream() {
+        return PoccoreSystemSetup.class.getResourceAsStream("/poccore/sap-hybris-platform.png");
+    }
+
+    @Override
+    public List<SystemSetupParameter> getInitializationOptions() {
+        return List.of();
+    }
 }

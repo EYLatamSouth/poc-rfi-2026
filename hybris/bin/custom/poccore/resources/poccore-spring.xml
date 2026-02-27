@@ -74,6 +74,7 @@
     <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PoccoreSystemSetup">
         <!-- constructor arg injection example -->
         <constructor-arg ref="poccoreService"/>
+        <property name="setupImpexService" ref="setupImpexAddonService" />
     </bean>
 
     <bean id="poccoreService" class="br.com.poccore.service.impl.DefaultPoccoreService">
