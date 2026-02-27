@@ -1,21 +1,34 @@
 package br.com.pocfacades.product.impl;
 
+import br.com.poccore.service.PocProductService;
 import br.com.pocfacades.product.PocProductFacade;
 import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
 
 public class DefaultPocProductFacade implements PocProductFacade {
 
+    private PocProductService pocProductService;
+
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode){
 
-        final PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData = new PocProductEngagementSummaryInfoData();
+
+       return  getPocProductService().getEngagementSummary(productCode);
+
+//        PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData = new PocProductEngagementSummaryInfoData();
 
 
-        pocProductEngagementSummaryInfoData.setDistribution(10.0);
+//        pocProductEngagementSummaryInfoData.setDistribution(10.0);
 
-        return pocProductEngagementSummaryInfoData;
+//        return pocProductEngagementSummaryInfoData;
 
 
     }
 
+    public PocProductService getPocProductService() {
+        return pocProductService;
+    }
+
+    public void setPocProductService(PocProductService pocProductService) {
+        this.pocProductService = pocProductService;
+    }
 
 }

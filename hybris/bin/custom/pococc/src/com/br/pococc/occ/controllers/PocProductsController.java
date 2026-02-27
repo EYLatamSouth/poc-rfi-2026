@@ -36,14 +36,14 @@ public class PocProductsController extends PocBaseController
     @Resource(name = "cwsProductFacade")
     private ProductFacade productFacade;
 
-    @Resource(name = "PocProductFacade")
+    @Resource(name = "pocProductFacade")
     private PocProductFacade PocProductFacade;
 
 
     @Resource(name = "configurationService")
     private ConfigurationService configurationService;
 
-    @Resource(name = "pocProductFacade")
+    @Resource(name = "pocReviewFacade")
     private PocReviewFacade pocReviewFacade;
 
     @GetMapping("/{productCode}/reviews")
@@ -89,7 +89,7 @@ public class PocProductsController extends PocBaseController
     }
 
 
-    @GetMapping("/{productCode}/EngagementSummary")
+    @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(operationId = "getProductEngagementSummary", summary = "Retrieves the Engagement Summary of a product.", description = "Retrieves an Engagement Summary AVG for a product.")
     @ApiBaseSiteIdParam

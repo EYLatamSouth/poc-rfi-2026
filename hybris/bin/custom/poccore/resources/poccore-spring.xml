@@ -109,4 +109,15 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 
+
+    <bean id="pocProductDao" class="br.com.poccore.dao.impl.DefaultPocProductDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="pocProductService" class="br.com.poccore.service.impl.DefaultPocProductService">
+        <property name="modelService" ref="modelService"/>
+        <property name="pocProductDao" ref="pocProductDao"/>
+    </bean>
+
+
 </beans>
