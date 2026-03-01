@@ -10,13 +10,7 @@ public class DefaultPocProductFacade implements PocProductFacade {
 
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode){
 
-
        return  getPocProductService().getEngagementSummary(productCode);
-
-
-
-//        return pocProductEngagementSummaryInfoData;
-
 
     }
 

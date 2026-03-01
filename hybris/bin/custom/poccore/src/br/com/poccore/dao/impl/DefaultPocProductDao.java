@@ -1,5 +1,6 @@
 package br.com.poccore.dao.impl;
 
+import br.com.poc.occ.dto.product.PocProductReviewsInfoData;
 import br.com.poccore.dao.PocProductDao;
 import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
@@ -18,61 +19,49 @@ public class DefaultPocProductDao implements PocProductDao {
          PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData = new PocProductEngagementSummaryInfoData();
 
          //média de rating
+        double rating = 0.0;
         int ratingAVG  = getCountRatingAVG(productCode, true);
         int ratingAVGTotal  = getCountRatingAVG(productCode, false);
-        Double rating = (double) (( ratingAVG / ratingAVGTotal ) * 100);
+        if(ratingAVGTotal > 0) {
+            rating = (((double) ratingAVG / ratingAVGTotal) * 100);
+        }
         pocProductEngagementSummaryInfoData.setRating(rating);
-
         //% Verified
+        double verified = 0.0;
         int verifiedAVG  = getCountVerified(productCode, true);
         int verifiedAVGTotal  = getCountVerified(productCode, false);
-        Double verified = (double) (( verifiedAVG / verifiedAVGTotal ) * 100);
+        if(verifiedAVGTotal > 0) {
+            verified = (((double) verifiedAVG / verifiedAVGTotal) * 100);
+        }
         pocProductEngagementSummaryInfoData.setVerified(verified);
 
         //% top N reviews úteis
         SortedMap<String, Integer> listNReviews = getTopNRating(productCode);
+        List<PocProductReviewsInfoData> toplist = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : listNReviews.entrySet()) {
+            PocProductReviewsInfoData pocProductReviewsInfoData = new PocProductReviewsInfoData();
+            pocProductReviewsInfoData.setHeadLine(entry.getKey());
+            pocProductReviewsInfoData.setReviewCount(entry.getValue());
+            toplist.add(pocProductReviewsInfoData);
+        }
+        pocProductEngagementSummaryInfoData.setTopReviews(toplist);
 
-        /*
-
-        Contagem de perguntas - somar o total de inquiry com approved para o produto
-SELECT COUNT({cpi.pk})
-FROM {
-                CustomerProductInquiry as cpi
-      JOIN      Product              as pr  on {cpi.product} = {pr.pk}
-      JOIN      CustomerInquiryApprovalStatus as cias on {cias.pk} = {cpi.approvalStatus}
-     }
-WHERE {pr.code} = '2278102' and {cias.code} = 'APPROVED'
-
-Taxa de publicação - CustomerReview - pegar tabela por produto e somar todas as publicadas (approved ) por total de reviews
-
-SELECT COUNT({cr.pk})
-FROM {
-                CustomerReview as cr
-      JOIN      Product              as pr  on {cr.product} = {pr.pk}
-      JOIN      CustomerReviewApprovalType as cias on {cias.pk} = {cr.approvalStatus}
-     }
-WHERE {pr.code} = '2278102' and {cias.code} = 'APPROVED'
+       //  Contagem de perguntas - somar o total de inquiry com approved para o produto
+        int TotalQuestions  = getTotalQuestions(productCode);
+        pocProductEngagementSummaryInfoData.setQuestionCount(TotalQuestions);
 
 
-SELECT COUNT({cr.pk})
-FROM {
-                CustomerReview as cr
-      JOIN      Product              as pr  on {cr.product} = {pr.pk}
-     }
-WHERE {pr.code} = '2278102'
+        //Taxa de publicação - CustomerReview
+        double publication = 0.0;
+        int publicationAVG  = getCountPublication(productCode, false);
+        int publicationAVGTotal  = getCountPublication(productCode, true);
+        if(publicationAVGTotal > 0) {
+            publication = (((double) publicationAVG / publicationAVGTotal) * 100);
+        }
+        pocProductEngagementSummaryInfoData.setPublication(publication);
 
-Tempo médio do inquiry - passar por todos os enquiry do produto e
-
-SELECT {cpi.creationTime}, {cpi.answerDate}
-FROM {
-                CustomerProductInquiry as cpi
-      JOIN      Product              as pr  on {cpi.product} = {pr.pk}
-     }
-WHERE {pr.code} = '2278102'
-
-         */
-
-
+        int responseTime  = getResponseTime(productCode);
+        pocProductEngagementSummaryInfoData.setResponseTime(responseTime);
 
         return  pocProductEngagementSummaryInfoData;
     }
@@ -85,20 +74,22 @@ WHERE {pr.code} = '2278102'
                 "                CustomerReviewRating as crr" +
                 "      JOIN      CustomerReview       as cr  on {cr.pk} = {crr.customerReview}" +
                 "      JOIN      Product              as pr  on {cr.product} = {pr.pk}" +
-                "     }" +
-                "WHERE {pr.code} = ?code and {crr.isUseful} = ?isUseful";
+                "     }";
 
-        FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
-        query.setResultClassList(Collections.singletonList(Integer.class));
-        query.addQueryParameter("code", productCode);
+
+        StringBuilder query = new StringBuilder(queryString);
 
         if(isUseful){
-            query.addQueryParameter("isUseful", 1);
+            query.append(" WHERE {pr.code} = ?code and {crr.isUseful} = 1");
         } else{
-            query.addQueryParameter("isUseful", "IS NOT NULL");
+            query.append(" WHERE {pr.code} = ?code and {crr.isUseful} IS NOT NULL");
         }
 
-        SearchResult<Integer> result = flexibleSearchService.search(query);
+        final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(query.toString());
+        fQuery.addQueryParameter("code", productCode);
+        fQuery.setResultClassList(Collections.singletonList(Integer.class));
+
+        SearchResult<Integer> result = flexibleSearchService.search(fQuery);
         return result.getResult().getFirst();
 
     }
@@ -110,20 +101,21 @@ WHERE {pr.code} = '2278102'
                 "                CustomerReviewRating as crr" +
                 "      JOIN      CustomerReview       as cr  on {cr.pk} = {crr.customerReview}" +
                 "      JOIN      Product              as pr  on {cr.product} = {pr.pk}" +
-                "     }" +
-                "WHERE {pr.code} = ?code  and {crr.isUseful} IS NOT NULL and  {cr.hasBoughtProduct} = ?hasBoughtProduct";
+                "     }";
 
-        FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
-        query.setResultClassList(Collections.singletonList(Integer.class));
-        query.addQueryParameter("code", productCode);
+        StringBuilder query = new StringBuilder(queryString);
 
         if(hasBoughtProduct){
-            query.addQueryParameter("hasBoughtProduct", 1);
+            query.append(" WHERE {pr.code} = ?code and {cr.hasBoughtProduct} = 1");
         } else{
-            query.addQueryParameter("hasBoughtProduct", "IS NOT NULL");
+            query.append(" WHERE {pr.code} = ?code and {cr.hasBoughtProduct} IS NOT NULL");
         }
 
-        SearchResult<Integer> result = flexibleSearchService.search(query);
+        final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(query.toString());
+        fQuery.addQueryParameter("code", productCode);
+        fQuery.setResultClassList(Collections.singletonList(Integer.class));
+
+        SearchResult<Integer> result = flexibleSearchService.search(fQuery);
         return result.getResult().getFirst();
 
     }
@@ -131,13 +123,13 @@ WHERE {pr.code} = '2278102'
     private SortedMap<String, Integer> getTopNRating(String productCode) {
 
         String queryString = "SELECT {cr.headline}, count({crr.isUseful})" +
-                "FROM {" +
+                " FROM {" +
                 "                CustomerReviewRating as crr" +
                 "      JOIN      CustomerReview       as cr  on {cr.pk} = {crr.customerReview}" +
                 "      JOIN      Product              as pr  on {cr.product} = {pr.pk}" +
-                "     }" +
-                "WHERE {pr.code} = ?code and {crr.isUseful} = 1 and  {cr.hasBoughtProduct} = 1" +
-                "group by {cr.headline}";
+                "     } " +
+                " WHERE {pr.code} = ?code and {crr.isUseful} = 1 and  {cr.hasBoughtProduct} = 1" +
+                " GROUP BY {cr.headline}";
 
         FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
         query.setResultClassList(Arrays.asList(String.class, Integer.class));
@@ -162,6 +154,75 @@ WHERE {pr.code} = '2278102'
         return couponRedemptionsMapSorted;
 
     }
+
+    private int getTotalQuestions(String productCode) {
+
+        String queryString = "SELECT COUNT({cpi.pk})" +
+                "FROM {" +
+                "                CustomerProductInquiry as cpi" +
+                "      JOIN      Product              as pr  on {cpi.product} = {pr.pk}" +
+                "      JOIN      CustomerInquiryApprovalStatus as cias on {cias.pk} = {cpi.approvalStatus}" +
+                "     }" +
+                "WHERE {pr.code} = ?code and {cias.code} = 'APPROVED'";
+
+        FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
+        query.setResultClassList(Collections.singletonList(Integer.class));
+        query.addQueryParameter("code", productCode);
+        SearchResult<Integer> result = flexibleSearchService.search(query);
+        return result.getResult().getFirst();
+
+    }
+
+    private int getCountPublication(String productCode, boolean total) {
+
+        String queryString = "SELECT COUNT({cr.pk})" +
+                "FROM {" +
+                "                CustomerReview as cr" +
+                "      JOIN      Product              as pr  on {cr.product} = {pr.pk}" +
+                "      JOIN      CustomerReviewApprovalType as cias on {cias.pk} = {cr.approvalStatus}" +
+                "     }";
+
+        StringBuilder query = new StringBuilder(queryString);
+
+        if(total){
+            query.append(" WHERE {pr.code} = ?code and {cias.code} = 'APPROVED'");
+        } else {
+            query.append(" WHERE {pr.code} = ?code ");
+        }
+
+        final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(query.toString());
+        fQuery.addQueryParameter("code", productCode);
+        fQuery.setResultClassList(Collections.singletonList(Integer.class));
+
+        SearchResult<Integer> result = flexibleSearchService.search(fQuery);
+        return result.getResult().getFirst();
+
+    }
+
+
+    private int getResponseTime(String productCode) {
+
+        String queryString = "SELECT {cpi.creationTime}, {cpi.answerDate}" +
+                "    FROM {" +
+                "        CustomerProductInquiry as cpi" +
+                "        JOIN      Product              as pr  on {cpi.product} = {pr.pk}" +
+                "    }" +
+                "    WHERE {pr.code} = ?code";
+
+        FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
+        query.setResultClassList(Arrays.asList(Date.class, Date.class));
+        query.addQueryParameter("code", productCode);
+        final SearchResult<List<Object>> result = flexibleSearchService.search(query);
+        Map<Date, Date> couponRedemptionsMap;
+
+        couponRedemptionsMap = result.getResult().stream()
+                .collect(Collectors.toMap(c -> (Date) c.getFirst(), c -> (Date) c.get(1)));
+
+        return 0;
+    }
+
+
+
 
 
 

@@ -21,7 +21,7 @@
         <property name="verified"     type="Double"/>
         <property name="topReviews" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewsInfoData&gt;"/>
         <property name="questionCount" type="Integer"/>
-        <property name="publication" type="Integer"/>
+        <property name="publication" type="Double"/>
         <property name="responseTime" type="Integer"/>
     </bean>
 
