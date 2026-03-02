@@ -26,7 +26,8 @@ public class PoccoreSystemSetup extends AbstractSystemSetup {
 
     @SystemSetup(process = SystemSetup.Process.ALL, type = SystemSetup.Type.ESSENTIAL)
     public void createEssentialData(final SystemSetupContext context) {
-        importImpexFile(context, "/poccore/import/customer-review.impex");
+        importImpexFile(context, "/poccore/import/customer-inquiry-config.impex");
+        importImpexFile(context, "/poccore/import/customer-inquiry-data.impex");
         importImpexFile(context, "/poccore/import/oauth-client.impex");
         importImpexFile(context, "/poccore/import/solr.impex");
         importImpexFile(context, "/poccore/import/user-group.impex");
