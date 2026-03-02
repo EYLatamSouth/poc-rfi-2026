@@ -133,7 +133,7 @@
         <context component="base">
             <y:base>
                 <y:labels>
-                    <y:label>customer.uid + ' - ' + customerReviewRating.isUseful + ''</y:label>
+                    <y:label>customer.uid + ' - ' + (isUseful ? "Útil" : "Não Útil")</y:label>
                 </y:labels>
             </y:base>
         </context>
