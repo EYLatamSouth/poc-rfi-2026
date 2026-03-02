@@ -7,8 +7,11 @@ import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
 import de.hybris.platform.servicelayer.search.FlexibleSearchService;
 import de.hybris.platform.servicelayer.search.SearchResult;
 
+import java.time.temporal.Temporal;
 import java.util.*;
+import java.time.Duration;
 import java.util.stream.Collectors;
+
 
 public class DefaultPocProductDao implements PocProductDao {
 
@@ -145,7 +148,6 @@ public class DefaultPocProductDao implements PocProductDao {
         couponRedemptionsMapSorted.putAll(couponRedemptionsMap);
 
         for (Map.Entry<String, Integer> entry : couponRedemptionsMapSorted.entrySet()) {
-            //System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
             if(entry.getValue().equals(0)){
                 couponRedemptionsMapSorted.remove(entry.getKey(),entry.getValue());
             }
@@ -215,10 +217,47 @@ public class DefaultPocProductDao implements PocProductDao {
         final SearchResult<List<Object>> result = flexibleSearchService.search(query);
         Map<Date, Date> couponRedemptionsMap;
 
+        if (result.getResult().isEmpty()){
+            return 0;
+        }
+
+
         couponRedemptionsMap = result.getResult().stream()
                 .collect(Collectors.toMap(c -> (Date) c.getFirst(), c -> (Date) c.get(1)));
 
-        return 0;
+        List<Duration> durations = new ArrayList<>();
+
+        for (Map.Entry<Date, Date> entry : couponRedemptionsMap.entrySet()) {
+            Duration duration = Duration.between((Temporal) entry.getKey(), (Temporal) entry.getValue());
+            durations.add(duration);
+        }
+
+        // Calculate the average
+        Duration averageDuration = calculateAverageDuration(durations);
+
+        return (int) averageDuration.toMinutes();
+    }
+
+    /**
+     * Calculates the average Duration from a list of Durations.
+     * @param durations The list of durations.
+     * @return The average duration.
+     */
+    public static Duration calculateAverageDuration(List<Duration> durations) {
+        if (durations == null || durations.isEmpty()) {
+            return Duration.ZERO;
+        }
+
+        // Use streams to calculate the average of nanoseconds
+        LongSummaryStatistics stats = durations.stream()
+                .mapToLong(Duration::toNanos) // Convert each Duration to nanoseconds
+                .summaryStatistics(); // Get summary statistics
+
+        // The average is returned as a double. Convert it back to a long for Duration.ofNanos()
+        long meanNanos = (long) stats.getAverage();
+
+        // Create a new Duration from the calculated mean nanoseconds
+        return Duration.ofNanos(meanNanos);
     }
 
 
