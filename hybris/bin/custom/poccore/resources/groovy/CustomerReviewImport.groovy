@@ -24,6 +24,6 @@ customers.each { c ->
     };
 
     println("Inquiry list: " + customerInquiries);
-    c.setCustomerProductInquiry(customerInquiries);
+    c.setCustomerProductInquiries(customerInquiries);
     modelService.save(c);
 }
