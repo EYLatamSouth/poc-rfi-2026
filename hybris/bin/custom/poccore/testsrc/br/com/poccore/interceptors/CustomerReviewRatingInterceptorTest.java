@@ -6,6 +6,7 @@ import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.interceptor.InterceptorContext;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -30,6 +31,21 @@ public class CustomerReviewRatingInterceptorTest {
     public void setUp() {
         when(reviewModel.getHelpfulnessRating()).thenReturn(0);
         when(ratingModel.getCustomerReview()).thenReturn(reviewModel);
+        when(ctx.isNew(any())).thenReturn(false);
+        when(ctx.isModified(any(), any())).thenReturn(true);
+    }
+
+    @Test
+    public void testOnValidate_NewSuccess() {
+        when(ctx.isNew(any())).thenReturn(true);
+        interceptor.onValidate(ratingModel, ctx);
+        verify(reviewModel, never()).setHelpfulnessRating(any());
+    }
+    @Test
+    public void testOnValidate_NotModifiedSuccess() {
+        when(ctx.isModified(any(), any())).thenReturn(false);
+        interceptor.onValidate(ratingModel, ctx);
+        verify(reviewModel, never()).setHelpfulnessRating(any());
     }
 
     @Test

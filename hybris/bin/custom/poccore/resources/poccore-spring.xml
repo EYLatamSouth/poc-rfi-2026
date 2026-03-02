@@ -92,6 +92,13 @@
         <property name="userService" ref="userService"/>
     </bean>
 
+    <bean id="customerReviewRatingInterceptor" class="br.com.poccore.interceptors.CustomerReviewRatingInterceptor" />
+
+    <bean id="vivoAddressRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerReviewRatingInterceptor"/>
+        <property name="typeCode" value="CustomerReviewRating"/>
+    </bean>
+
     <bean id="customerProductInquiryInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
         <property name="interceptor" ref="customerProductInquiryInterceptor"/>
         <property name="typeCode" value="CustomerProductInquiry"/>
