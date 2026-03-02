@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
- Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
--->
-<!--
-	ATTENTION: This is just an example file. You have to edit it according to your needs.
--->
+<!-- Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.-->
 
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
-
-	<!--
-		Example Data POJO
-	
-	<bean class="yemptypackage.data.MyPojo">
-		<property name="id" type="String"/>
-		<property name="flag" type="boolean"/>
-	</bean>
-	-->
 
 	<bean class="br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO">
 		<property name="question" type="String"/>
 	</bean>
+
+
+    <bean class="br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO">
+      <import type="com.fasterxml.jackson.annotation.JsonProperty"/>
+      <import type="com.fasterxml.jackson.annotation.JsonIgnoreProperties"/>
+	  <annotations>@JsonIgnoreProperties(ignoreUnknown = true)</annotations>
+          <property name="rating"       type="Double"/>
+          <property name="distribution" type="Double"/>
+          <property name="verified"     type="Double"/>
+          <property name="topReviews" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewsWsDTO&gt;"/>
+          <property name="questionCount" type="Integer"/>
+          <property name="publication" type="Integer"/>
+          <property name="responseTime" type="Integer"/>
+    </bean>
+
+    <bean class="br.com.poc.occ.dto.product.PocProductReviewsWsDTO">
+        <property name="ReviewCount" type="Integer"/>
+        <property name="headLine" type="String"/>
+    </bean>
 
 	<bean class="br.com.poc.occ.dto.user.product.PocCustomerInquiryWsDTO">
 		<property name="customer" type="String"/>
