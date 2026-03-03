@@ -2,6 +2,8 @@
 Feature: 02_token_usuario - Gerar token usuario
 
   Background:
+  * def usernameInput = karate.get('uid') ? karate.get('uid') : userUid
+  * def passwordInput = karate.get('pwd') ? karate.get('pwd') : userPwd
 
 @user_oauth @token
   Scenario: get user token
@@ -17,8 +19,8 @@ Feature: 02_token_usuario - Gerar token usuario
         * header Authorization = 'Basic ' + clientEncoded
         Given url loginUrl
         And header Content-Type = 'application/x-www-form-urlencoded'
-        And form field username = userUid
-        And form field password = userPwd
+        And form field username = usernameInput
+        And form field password = passwordInput
         And form field _csrf = csrfToken
         When method post
         Then status 200
