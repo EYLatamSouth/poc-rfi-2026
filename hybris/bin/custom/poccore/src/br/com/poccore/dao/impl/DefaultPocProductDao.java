@@ -7,6 +7,8 @@ import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
 import de.hybris.platform.servicelayer.search.FlexibleSearchService;
 import de.hybris.platform.servicelayer.search.SearchResult;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.temporal.Temporal;
 import java.util.*;
 import java.time.Duration;
@@ -28,7 +30,12 @@ public class DefaultPocProductDao implements PocProductDao {
         if(ratingAVGTotal > 0) {
             rating = (((double) ratingAVG / ratingAVGTotal) * 100);
         }
-        pocProductEngagementSummaryInfoData.setRating(rating);
+
+        DecimalFormat df = new DecimalFormat("0.00"); // Use "0.00" to ensure two digits
+        df.setRoundingMode(RoundingMode.HALF_UP); // Set rounding behavior
+        String roundedValue = df.format(rating);
+
+        pocProductEngagementSummaryInfoData.setRating(roundedValue);
         //% Verified
         double verified = 0.0;
         int verifiedAVG  = getCountVerified(productCode, true);
@@ -36,7 +43,12 @@ public class DefaultPocProductDao implements PocProductDao {
         if(verifiedAVGTotal > 0) {
             verified = (((double) verifiedAVG / verifiedAVGTotal) * 100);
         }
-        pocProductEngagementSummaryInfoData.setVerified(verified);
+
+        DecimalFormat df1 = new DecimalFormat("0.00"); // Use "0.00" to ensure two digits
+        df1.setRoundingMode(RoundingMode.HALF_UP); // Set rounding behavior
+        String roundedValue2 = df.format(verified);
+
+        pocProductEngagementSummaryInfoData.setVerified(roundedValue2);
 
         //% top N reviews úteis
         SortedMap<String, Integer> listNReviews = getTopNRating(productCode);
@@ -56,12 +68,17 @@ public class DefaultPocProductDao implements PocProductDao {
 
         //Taxa de publicação - CustomerReview
         double publication = 0.0;
-        int publicationAVG  = getCountPublication(productCode, false);
         int publicationAVGTotal  = getCountPublication(productCode, true);
+        int publicationAVG  = getCountPublication(productCode, false);
         if(publicationAVGTotal > 0) {
             publication = (((double) publicationAVG / publicationAVGTotal) * 100);
         }
-        pocProductEngagementSummaryInfoData.setPublication(publication);
+
+        DecimalFormat df3 = new DecimalFormat("0.00"); // Use "0.00" to ensure two digits
+        df3.setRoundingMode(RoundingMode.HALF_UP); // Set rounding behavior
+        String roundedValue3 = df.format(publication);
+
+        pocProductEngagementSummaryInfoData.setPublication(roundedValue3);
 
         int responseTime  = getResponseTime(productCode);
         pocProductEngagementSummaryInfoData.setResponseTime(responseTime);
@@ -177,26 +194,22 @@ public class DefaultPocProductDao implements PocProductDao {
 
     private int getCountPublication(String productCode, boolean total) {
 
-        String queryString = "SELECT COUNT({cr.pk})" +
+        String queryString = "SELECT COUNT( DISTINCT {cr.pk})" +
                 "FROM {" +
                 "                CustomerReview as cr" +
                 "      JOIN      Product              as pr  on {cr.product} = {pr.pk}" +
                 "      JOIN      CustomerReviewApprovalType as cias on {cias.pk} = {cr.approvalStatus}" +
-                "     }";
+                "     } WHERE {pr.code} = ?code ";
 
-        StringBuilder query = new StringBuilder(queryString);
 
-        if(total){
-            query.append(" WHERE {pr.code} = ?code and {cias.code} = 'APPROVED'");
-        } else {
-            query.append(" WHERE {pr.code} = ?code ");
+        if(!total){
+            queryString = queryString + " AND {cias.code} = 'approved'";
         }
 
-        final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(query.toString());
-        fQuery.addQueryParameter("code", productCode);
-        fQuery.setResultClassList(Collections.singletonList(Integer.class));
-
-        SearchResult<Integer> result = flexibleSearchService.search(fQuery);
+        FlexibleSearchQuery query = new FlexibleSearchQuery(queryString);
+        query.setResultClassList(Collections.singletonList(Integer.class));
+        query.addQueryParameter("code", productCode);
+        SearchResult<Integer> result = flexibleSearchService.search(query);
         return result.getResult().getFirst();
 
     }
@@ -228,36 +241,28 @@ public class DefaultPocProductDao implements PocProductDao {
         List<Duration> durations = new ArrayList<>();
 
         for (Map.Entry<Date, Date> entry : couponRedemptionsMap.entrySet()) {
-            Duration duration = Duration.between((Temporal) entry.getKey(), (Temporal) entry.getValue());
-            durations.add(duration);
+            durations.add( Duration.between(entry.getKey().toInstant(), entry.getValue().toInstant()));
         }
 
         // Calculate the average
-        Duration averageDuration = calculateAverageDuration(durations);
+        double averageInMinutes = calculateAverageDurationInMinutes(durations);
 
-        return (int) averageDuration.toMinutes();
+        return (int) averageInMinutes;
     }
 
-    /**
-     * Calculates the average Duration from a list of Durations.
-     * @param durations The list of durations.
-     * @return The average duration.
-     */
-    public static Duration calculateAverageDuration(List<Duration> durations) {
+    public static double calculateAverageDurationInMinutes(List<Duration> durations) {
         if (durations == null || durations.isEmpty()) {
-            return Duration.ZERO;
+            return 0.0;
         }
 
-        // Use streams to calculate the average of nanoseconds
-        LongSummaryStatistics stats = durations.stream()
-                .mapToLong(Duration::toNanos) // Convert each Duration to nanoseconds
-                .summaryStatistics(); // Get summary statistics
+        long totalMinutes = 0;
+        for (Duration duration : durations) {
+            // Convert each duration to total minutes
+            totalMinutes += duration.toMinutes(); //
+        }
 
-        // The average is returned as a double. Convert it back to a long for Duration.ofNanos()
-        long meanNanos = (long) stats.getAverage();
-
-        // Create a new Duration from the calculated mean nanoseconds
-        return Duration.ofNanos(meanNanos);
+        // Calculate the average by dividing the total sum by the count of durations
+        return (double) totalMinutes / durations.size();
     }
 
 

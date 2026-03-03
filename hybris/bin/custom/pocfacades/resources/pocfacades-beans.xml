@@ -16,12 +16,12 @@
 	</bean>
 
     <bean class="br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData">
-        <property name="rating"       type="Double"/>
-        <property name="distribution" type="Double"/>
-        <property name="verified"     type="Double"/>
+        <property name="rating"       type="String"/>
+        <property name="distribution" type="String"/>
+        <property name="verified"     type="String"/>
         <property name="topReviews" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewsInfoData&gt;"/>
         <property name="questionCount" type="Integer"/>
-        <property name="publication" type="Double"/>
+        <property name="publication" type="String"/>
         <property name="responseTime" type="Integer"/>
     </bean>
 
@@ -29,7 +29,7 @@
 
 
     <bean class="br.com.poc.occ.dto.product.PocProductReviewsInfoData">
-        <property name="ReviewCount" type="Integer"/>
+        <property name="reviewCount" type="Integer"/>
         <property name="headLine" type="String"/>
     </bean>
 
