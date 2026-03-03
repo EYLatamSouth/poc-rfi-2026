@@ -1,4 +1,4 @@
-package com.br.pococc.occ.validators;
+package br.com.pococc.occ.validators;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import de.hybris.bootstrap.annotations.UnitTest;

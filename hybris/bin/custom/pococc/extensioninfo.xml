@@ -15,7 +15,7 @@
         <requires-extension name="pocfacades"/>
                 		
         
-        <coremodule generated="true" manager="com.br.pococc.occ.jalo.PococcManager" packageroot="com.br.pococc.occ"/>
+        <coremodule generated="true" manager="br.com.pococc.occ.jalo.PococcManager" packageroot="br.com.pococc.occ"/>
                 		
         
         	

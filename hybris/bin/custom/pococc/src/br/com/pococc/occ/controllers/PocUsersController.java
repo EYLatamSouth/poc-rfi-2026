@@ -1,10 +1,10 @@
-package com.br.pococc.occ.controllers;
+package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.poc.occ.dto.user.product.PocCustomerInquiryWsDTO;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
 import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
-import com.br.pococc.occ.validators.PocProductQuestionValidator;
+import br.com.pococc.occ.validators.PocProductQuestionValidator;
 import de.hybris.platform.webservicescommons.swagger.ApiBaseSiteIdAndUserIdParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
