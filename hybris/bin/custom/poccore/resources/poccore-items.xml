@@ -8,17 +8,11 @@
 
 <items xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="items.xsd">
     <collectiontypes>
-        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" autocreate="true" type="set"/>
+        <collectiontype code="CustomerProductInquiryList" elementtype="CustomerProductInquiry" type="set"/>
     </collectiontypes>
 
     <enumtypes>
-        <enumtype code="CustomerInquiryApprovalStatus" generate="true" autocreate="true" dynamic="true">
-            <value code="PENDING"/>
-            <value code="APPROVED"/>
-            <value code="UNAPPROVED"/>
-        </enumtype>
-
-        <enumtype code="CustomerReviewModerationStatus" generate="true" autocreate="true" dynamic="true">
+        <enumtype code="CustomerInquiryApprovalStatus" dynamic="true">
             <value code="PENDING"/>
             <value code="APPROVED"/>
             <value code="UNAPPROVED"/>
@@ -26,7 +20,7 @@
     </enumtypes>
 
     <relations>
-        <relation code="CustomerReview2CustomerInquiryRelation" localized="false">
+        <relation code="CustomerReview2CustomerReviewRating" localized="false">
             <sourceElement type="CustomerReview" qualifier="customerReview" cardinality="one">
                 <modifiers read="true" write="true" initial="true" optional="true" search="true"/>
             </sourceElement>
@@ -42,7 +36,7 @@
             <itemtype code="Customer" autocreate="false" generate="false">
                 <description>Extending Customer to input custom attributes</description>
                 <attributes>
-                    <attribute qualifier="customerProductInquiry" type="CustomerProductInquiryList">
+                    <attribute qualifier="customerProductInquiries" type="CustomerProductInquiryList">
                         <persistence type="property"/>
                         <description>Customer Inquiry List</description>
                     </attribute>
@@ -52,7 +46,7 @@
             <itemtype code="CustomerReview" autocreate="false" generate="false">
                 <description>Extending CustomerReview to input custom attributes</description>
                 <attributes>
-                    <attribute qualifier="moderationNotes" type="java.lang.String">
+                    <attribute qualifier="moderationNotes" type="localized:java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -66,27 +60,29 @@
                             </columntype>
                         </persistence>
                     </attribute>
-                    <attribute qualifier="moderationStatus" type="customerReviewModerationStatus">
+                    <attribute qualifier="hasBoughtProduct" type="java.lang.Boolean">
+                        <description>Has the customer bought the product which they wrote a comment?</description>
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>
                     </attribute>
                 </attributes>
             </itemtype>
 
-            <itemtype code="CustomerProductInquiry" autocreate="true" generate="true">
+            <itemtype code="CustomerProductInquiry">
                 <deployment table="CustomerProductInquiry" typecode="24246"/>
                 <attributes>
                     <attribute qualifier="customer" type="customer">
-                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="product" type="product">
                         <description>product reference</description>
-                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <persistence type="property"/>
                     </attribute>
-                    <attribute qualifier="question" type="java.lang.String">
-                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
+                    <attribute qualifier="question" type="localized:java.lang.String">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <persistence type="property">
                             <columntype>
                                 <value>HYBRIS.LONG_STRING</value>
@@ -99,7 +95,7 @@
                             </columntype>
                         </persistence>
                     </attribute>
-                    <attribute qualifier="answer" type="java.lang.String">
+                    <attribute qualifier="answer" type="localized:java.lang.String">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
@@ -115,7 +111,7 @@
                     </attribute>
                     <attribute qualifier="approvalStatus" type="customerInquiryApprovalStatus">
                         <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
-                        <defaultvalue>em().getEnumerationValue("ApprovalStatus","PENDING")</defaultvalue>
+                        <defaultvalue>em().getEnumerationValue("CustomerInquiryApprovalStatus","PENDING")</defaultvalue>
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="answerDate" type="java.util.Date">
@@ -125,7 +121,7 @@
                 </attributes>
             </itemtype>
 
-            <itemtype code="CustomerReviewRating" autocreate="true" generate="true">
+            <itemtype code="CustomerReviewRating">
                 <deployment table="CustomerReviewRating" typecode="24247"/>
                 <attributes>
                     <attribute qualifier="customer" type="customer">
@@ -133,9 +129,7 @@
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="isUseful" type="java.lang.Boolean">
-                        <description>
-                            This attribute can be set to true to indicate that the review is useful.
-                        </description>
+                        <description>This attribute can be set to true to indicate that the review is useful.</description>
                         <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
                         <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>

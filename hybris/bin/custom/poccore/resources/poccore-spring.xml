@@ -74,6 +74,7 @@
     <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PoccoreSystemSetup">
         <!-- constructor arg injection example -->
         <constructor-arg ref="poccoreService"/>
+        <property name="setupImpexService" ref="setupImpexAddonService" />
     </bean>
 
     <bean id="poccoreService" class="br.com.poccore.service.impl.DefaultPoccoreService">
@@ -86,6 +87,7 @@
     <alias name="defaultPocCustomerInquiryService" alias="pocCustomerInquiryService"/>
     <bean id="defaultPocCustomerInquiryService" class="br.com.poccore.customerinquiry.impl.DefaultPocCustomerInquiryService">
         <property name="modelService" ref="modelService"/>
+        <property name="customerInquiryModelConverter" ref="customerInquiryModelConverter"/>
     </bean>
 
     <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
@@ -129,4 +131,40 @@
             <aop:around pointcut-ref="featureFlagRestrictionAspectPoint" method="isActive"/>
         </aop:aspect>
     </aop:config>
+
+    <bean id="pocProductDao" class="br.com.poccore.dao.impl.DefaultPocProductDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="pocProductService" class="br.com.poccore.service.impl.DefaultPocProductService">
+        <property name="pocProductDao" ref="pocProductDao"/>
+    </bean>
+
+    <bean id="customerInquiryModelPopulator" class="br.com.poccore.populators.CustomerInquiryModelPopulator">
+        <property name="userService" ref="userService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="customerInquiryDataPopulator" class="br.com.poccore.populators.CustomerInquiryDataPopulator">
+    </bean>
+
+    <alias name="defaultCustomerInquiryModelConverter" alias="customerInquiryModelConverter"/>
+    <bean id="defaultCustomerInquiryModelConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="br.com.poccore.model.CustomerProductInquiryModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="customerInquiryModelPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultCustomerInquiryDataConverter" alias="customerInquiryDataConverter"/>
+    <bean id="defaultCustomerInquiryDataConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="br.com.pocfacades.data.customerinquiry.CustomerInquiryData"/>
+        <property name="populators">
+            <list>
+                <ref bean="customerInquiryDataPopulator"/>
+            </list>
+        </property>
+    </bean>
 </beans>
