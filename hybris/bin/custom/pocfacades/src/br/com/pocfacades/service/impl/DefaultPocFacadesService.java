@@ -1,10 +1,8 @@
 /*
  * Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
  */
-package br.com.poccore.service.impl;
+package br.com.pocfacades.service.impl;
 
-import br.com.poccore.annotation.FeatureFlagRestriction;
-import br.com.poccore.constants.PoccoreConstants;
 import de.hybris.platform.catalog.model.CatalogUnawareMediaModel;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.servicelayer.exceptions.SystemException;
@@ -19,12 +17,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.poccore.service.PoccoreService;
+import br.com.pocfacades.service.PocFacadesService;
 
 
-public class DefaultPoccoreService implements PoccoreService
+public class DefaultPocFacadesService implements PocFacadesService
 {
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultPoccoreService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultPocFacadesService.class);
 
 	private MediaService mediaService;
 	private ModelService modelService;
@@ -75,7 +73,7 @@ public class DefaultPoccoreService implements PoccoreService
 
 	private InputStream getImageStream()
 	{
-		return DefaultPoccoreService.class.getResourceAsStream("/poccore/sap-hybris-platform.png");
+		return DefaultPocFacadesService.class.getResourceAsStream("/pocfacades/sap-hybris-platform.png");
 	}
 
 	public void setMediaService(final MediaService mediaService)

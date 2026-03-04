@@ -7,7 +7,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="pocbackofficeService" class="br.com.pocbackoffice.services.PocbackofficeService" />
+	<bean id="pocbackofficeService" class="br.com.pocbackoffice.services.PocBackofficeService" />
 
 	<bean id="pocbackofficeLabelLocator" class="com.hybris.cockpitng.util.labels.ResourcesLabelLocator" scope="singleton" init-method="init" lazy-init="false">
   		<property name="location" value="/pocbackoffice-backoffice-labels/"/>
