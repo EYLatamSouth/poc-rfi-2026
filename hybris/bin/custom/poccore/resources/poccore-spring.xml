@@ -111,6 +111,26 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 
+    <bean id="featureFlagDao" class="br.com.poccore.dao.impl.DefaultFeatureFlagDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="featureFlagService" class="br.com.poccore.service.impl.DefaultFeatureFlagService">
+        <property name="featureFlagDao" ref="featureFlagDao"/>
+    </bean>
+
+    <bean id="featureFlagRestrictionAspect"
+          class="br.com.poccore.annotation.FeatureFlagRestrictionAspect">
+        <property name="featureFlagService" ref="featureFlagService"/>
+    </bean>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="featureFlagRestrictionAspectPoint"
+                      expression="@annotation(br.com.poccore.annotation.FeatureFlagRestriction)"/>
+        <aop:aspect ref="featureFlagRestrictionAspect">
+            <aop:around pointcut-ref="featureFlagRestrictionAspectPoint" method="isActive"/>
+        </aop:aspect>
+    </aop:config>
 
     <bean id="pocProductDao" class="br.com.poccore.dao.impl.DefaultPocProductDao">
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
@@ -147,5 +167,4 @@
             </list>
         </property>
     </bean>
-
 </beans>
