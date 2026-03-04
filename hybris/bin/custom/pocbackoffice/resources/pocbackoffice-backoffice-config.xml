@@ -20,8 +20,11 @@
             <et:navigation-node id="hmc_treenode_marketing">
                 <et:type-node id="hmc_typenode_product_inquiry" code="CustomerProductInquiry" position="1"/>
             </et:navigation-node>
-            <et:navigation-node id="hmc_treenode_systemtools" merge-mode="append">
-                <et:type-node code="FeatureFlag" id="hmc_typenode_featureflag"/>
+
+            <et:navigation-node id="hmc_treenode_system">
+                <et:navigation-node id="hmc_treenode_systemtools" merge-mode="append">
+                    <et:type-node code="FeatureFlag" id="hmc_typenode_featureflag"/>
+                </et:navigation-node>
             </et:navigation-node>
         </et:explorer-tree>
     </context>
@@ -97,7 +100,8 @@
                 <wz:prepare id="itemPrepare">
                     <wz:initialize property="newProductInquiry" type="ctx.TYPE_CODE"/>
                 </wz:prepare>
-                <wz:step id="step1" label="create.productinquiry.general.label" sublabel="create.productinquiry.general.sublabel">
+                <wz:step id="step1" label="create.productinquiry.general.label"
+                         sublabel="create.productinquiry.general.sublabel">
                     <wz:content id="step1.content">
                         <wz:property-list root="newProductInquiry">
                             <wz:property qualifier="customer"/>
@@ -111,7 +115,8 @@
                         <wz:done/>
                     </wz:navigation>
                 </wz:step>
-                <wz:step id="step2" label="create.productinquiry.detail.label" sublabel="create.productinquiry.detail.sublabel">
+                <wz:step id="step2" label="create.productinquiry.detail.label"
+                         sublabel="create.productinquiry.detail.sublabel">
                     <wz:content id="step2.content">
                         <wz:property-list root="newProductInquiry">
                             <wz:property qualifier="question"/>
@@ -178,7 +183,62 @@
                 </advanced-search:field-list>
             </advanced-search:advanced-search>
         </context>
+    </context>
 
+    <context type="FeatureFlag" parent="GenericItem" merge-by="type">
+        <context component="listview">
+            <list-view:list-view xmlns:list-view="http://www.hybris.com/cockpitng/component/listView">
+                <list-view:column qualifier="key"/>
+                <list-view:column qualifier="description"/>
+                <list-view:column qualifier="status"/>
+                <list-view:column qualifier="activity"/>
+            </list-view:list-view>
+        </context>
+
+        <context component="simple-search">
+            <simple-search:simple-search xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch">
+                <simple-search:field name="key"/>
+                <simple-search:field name="description"/>
+            </simple-search:simple-search>
+        </context>
+
+        <context component="advanced-search">
+            <advanced-search:advanced-search
+                    xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch">
+                <advanced-search:field-list>
+                    <advanced-search:field name="key"/>
+                    <advanced-search:field name="description"/>
+                    <advanced-search:field name="status"/>
+                    <advanced-search:field name="activity"/>
+                </advanced-search:field-list>
+            </advanced-search:advanced-search>
+        </context>
+
+        <context component="create-wizard">
+            <wz:flow id="FeatureFlagWizard" title="create.featureflag.title">
+                <wz:prepare id="itemPrepare">
+                    <wz:initialize property="newFeatureFlag" type="ctx.TYPE_CODE"/>
+                </wz:prepare>
+                <wz:step id="step1" label="create.featureflag.general.label"
+                         sublabel="create.featureflag.general.sublabel">
+                    <wz:content id="step1.content">
+                        <wz:property-list root="newFeatureFlag">
+                            <wz:property qualifier="key"/>
+                            <wz:property qualifier="description"/>
+                            <wz:property qualifier="status"/>
+                            <wz:property qualifier="activity"/>
+                        </wz:property-list>
+                    </wz:content>
+                    <wz:navigation id="step1.navigation">
+                        <wz:cancel/>
+                        <wz:next/>
+                        <wz:done>
+                            <wz:save property="newFeatureFlag"/>
+                        </wz:done>
+                    </wz:navigation>
+                </wz:step>
+            </wz:flow>
+        </context>
     </context>
 
 </config>
