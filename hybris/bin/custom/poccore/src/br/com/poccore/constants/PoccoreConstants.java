@@ -20,4 +20,6 @@ public final class PoccoreConstants extends GeneratedPoccoreConstants
 	public static final String PLATFORM_LOGO_CODE = "poccorePlatformLogo";
 
 	public static final String ROLE_SUPPORT = "support";
+
+	public static final String FEATURE_FLAG_TEST = "test-feature-flag";
 }

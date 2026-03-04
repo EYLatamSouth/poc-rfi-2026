@@ -3,6 +3,8 @@
  */
 package br.com.poccore.service.impl;
 
+import br.com.poccore.annotation.FeatureFlagRestriction;
+import br.com.poccore.constants.PoccoreConstants;
 import de.hybris.platform.catalog.model.CatalogUnawareMediaModel;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.servicelayer.exceptions.SystemException;
@@ -29,6 +31,7 @@ public class DefaultPoccoreService implements PoccoreService
 	private FlexibleSearchService flexibleSearchService;
 
 	@Override
+	@FeatureFlagRestriction(name = PoccoreConstants.FEATURE_FLAG_TEST)
 	public String getHybrisLogoUrl(final String logoCode)
 	{
 		final MediaModel media = mediaService.getMedia(logoCode);
