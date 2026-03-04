@@ -1,0 +1,5 @@
+userUid,userPassword,productCode,reviewId,helpful
+vipbronze@hybris.com,senha123,2278102,1,true
+vipbronze@hybris.com,senha123,2278102,2,false
+women@hybris.com,123Senha,2278102,3,false
+women@hybris.com,123Senha,2278102,4,true

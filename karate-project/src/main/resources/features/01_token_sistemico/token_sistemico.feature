@@ -16,5 +16,3 @@ Feature: 01_token_sistemico - Gerar token sistemico
           Then status 200
               * def token = response.access_token
               * match token == '#string'
-
-

@@ -9,6 +9,10 @@ import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.product.ProductService;
 import de.hybris.platform.servicelayer.user.UserService;
 
+import java.util.Locale;
+
+import static br.com.poccore.constants.PoccoreConstants.PT;
+
 public class CustomerInquiryModelPopulator implements Populator<CustomerInquiryData, CustomerProductInquiryModel> {
 
     private UserService userService;
@@ -22,6 +26,7 @@ public class CustomerInquiryModelPopulator implements Populator<CustomerInquiryD
         }
         target.setProduct(getProductService().getProductForCode(source.getProduct()));
         target.setQuestion(source.getQuestion());
+        target.setQuestion(source.getQuestion(), Locale.of(PT));
         target.setApprovalStatus(CustomerInquiryApprovalStatus.PENDING);
     }
 

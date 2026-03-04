@@ -74,7 +74,7 @@ public class PocProductsController extends PocBaseController
      * @param helpful       Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
-    @Secured({"ROLE_TRUSTED_CLIENT"})
+    @Secured({"ROLE_TRUSTED_CLIENT", "ROLE_CUSTOMERGROUP"})
     @PostMapping("/{productCode}/review/{id}/helpful")
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
