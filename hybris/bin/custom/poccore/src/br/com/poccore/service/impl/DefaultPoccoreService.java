@@ -31,7 +31,6 @@ public class DefaultPoccoreService implements PoccoreService
 	private FlexibleSearchService flexibleSearchService;
 
 	@Override
-	@FeatureFlagRestriction(name = PoccoreConstants.FEATURE_FLAG_TEST)
 	public String getHybrisLogoUrl(final String logoCode)
 	{
 		final MediaModel media = mediaService.getMedia(logoCode);
