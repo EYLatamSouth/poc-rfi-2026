@@ -137,30 +137,31 @@
                 </attributes>
             </itemtype>
         </typegroup>
+
         <typegroup name="FeatureFlag">
-            <itemtype code="FeatureFlag" autocreate="true" generate="true" extends="GenericItem">
-                <deployment table="FeatureFlag" typecode="10102"/>
+            <itemtype code="FeatureFlag" extends="GenericItem">
+                <deployment table="FeatureFlag" typecode="24248"/>
                 <attributes>
                     <attribute qualifier="key" type="java.lang.String">
-                        <description>Feature Flag Unique Key</description>
+                        <description>Feature flag unique key</description>
                         <persistence type="property"/>
-                        <modifiers unique="true" optional="false"/>
+                        <modifiers unique="true" initial="true" optional="false"/>
                     </attribute>
                     <attribute qualifier="status" type="boolean">
-                        <description>Feature Flag Status</description>
+                        <description>Feature flag status</description>
                         <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>
-                        <modifiers optional="false"/>
+                        <modifiers initial="true" optional="false"/>
                     </attribute>
                     <attribute qualifier="description" type="java.lang.String">
-                        <description>Feature flag Description</description>
+                        <description>Feature flag description</description>
                         <persistence type="property"/>
-                        <modifiers optional="false"/>
+                        <modifiers initial="true" optional="false"/>
                     </attribute>
                     <attribute qualifier="activity" type="java.lang.String">
-                        <description>PTI</description>
+                        <description>Feature flag activity code</description>
                         <persistence type="property"/>
-                        <modifiers optional="false"/>
+                        <modifiers initial="true" optional="false"/>
                     </attribute>
                 </attributes>
                 <indexes>
