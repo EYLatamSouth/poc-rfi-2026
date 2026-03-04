@@ -6,7 +6,7 @@ Feature: 03_Customer_Question
     * def productCode = karate.get('productCode') ? karate.get('productCode') : '23355'
 
     * def uid = karate.get('userUid') ? karate.get('userUid') : userUid
-    * def pwd = karate.get('userPassword') ? karate.get('userPassword') : userUid
+    * def pwd = karate.get('userPassword') ? karate.get('userPassword') : userPwd
     * def login = {'uid': '#(uid)', 'pwd': '#(pwd)'}
 
     * def auth = callonce read('classpath:features/02_token_usuario/token_usuario.feature') login

@@ -5,7 +5,7 @@ function fn() {
   if (!rawEnvProp || rawEnvProp.includes('KARATE_ENV')) {
     rawEnvProp = null;
   }
-  const env = rawEnvProp || java.lang.System.getenv('KARATE_ENV') || 's1';
+  const env = rawEnvProp || java.lang.System.getenv('KARATE_ENV') || 'stage';
 
   let raw;
   try {
@@ -25,6 +25,8 @@ function fn() {
   }
 
   karate.configure('ssl', { trustAll: true });
+  karate.configure('connectTimeout', +pick('CONNECT_TIMEOUT', 30000));
+  karate.configure('readTimeout', +pick('READ_TIMEOUT', 30000));
 
   const config = { env: env };
 

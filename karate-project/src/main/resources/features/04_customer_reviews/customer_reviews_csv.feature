@@ -1,10 +1,10 @@
 @question @data
-Feature: 03_Question - Realiza pergunta sobre o produto via CSV
+Feature: 03_Question - Realiza reviews de produtos via CSV
 
   @question @data
   Scenario: gerar tokens para usuários do CSV
-    * def questions = read('classpath:data/user-questions.csv')
-    * def responses = call read('classpath:features/03_customer_question/customer_question.feature') questions
+    * def reviews = read('classpath:data/user-reviews.csv')
+    * def responses = call read('classpath:features/04_customer_reviews/customer_reviews.feature') reviews
 
     # Filtra somente testes finalizados com sucesso
     * def valid = responses.filter(x => x && x.result)

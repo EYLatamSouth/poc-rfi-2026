@@ -5,7 +5,7 @@
   "TOKEN_CLIENT_SECRET": "secret",
   "CLIENT_ENCODED": "bW9iaWxlX2FuZHJvaWQ6c2VjcmV0",
   "USER_UID": "vipbronze@hybris.com",
-  "USER_PASSWORD": "senha@123",
+  "USER_PASSWORD": "senha123",
   "CONNECT_TIMEOUT": 30000,
   "READ_TIMEOUT": 30000
 }
