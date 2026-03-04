@@ -9,21 +9,21 @@ import org.zkoss.zul.Label;
 
 import com.hybris.cockpitng.util.DefaultWidgetController;
 
-import br.com.pocbackoffice.services.PocbackofficeService;
+import br.com.pocbackoffice.services.PocBackofficeService;
 
 
-public class PocbackofficeController extends DefaultWidgetController
+public class PocBackofficeController extends DefaultWidgetController
 {
 	private static final long serialVersionUID = 1L;
 	private Label label;
 
 	@WireVariable
-	private transient PocbackofficeService pocbackofficeService;
+	private transient PocBackofficeService pocbackofficeService;
 
 	@Override
 	public void initialize(final Component comp)
 	{
 		super.initialize(comp);
-		label.setValue(pocbackofficeService.getHello() + " PocbackofficeController");
+		label.setValue(pocbackofficeService.getHello() + " PocBackofficeController");
 	}
 }

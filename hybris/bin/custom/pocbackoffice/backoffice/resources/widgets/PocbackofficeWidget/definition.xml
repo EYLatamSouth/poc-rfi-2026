@@ -14,5 +14,5 @@
 	<keywords>
 		<keyword>pocbackoffice</keyword>
 	</keywords>
-	<controller class="br.com.pocbackoffice.widgets.PocbackofficeController" />
+	<controller class="br.com.pocbackoffice.widgets.PocBackofficeController" />
 </widget-definition>

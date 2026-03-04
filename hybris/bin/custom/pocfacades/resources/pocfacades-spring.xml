@@ -15,7 +15,7 @@
         <constructor-arg ref="pocfacadesService"/>
     </bean>
 
-    <bean id="pocfacadesService" class="br.com.pocfacades.service.impl.DefaultPocfacadesService">
+    <bean id="pocfacadesService" class="br.com.pocfacades.service.impl.DefaultPocFacadesService">
         <!-- setter injection example -->
         <property name="modelService" ref="modelService"/>
         <property name="mediaService" ref="mediaService"/>

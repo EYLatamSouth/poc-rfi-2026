@@ -1,4 +1,4 @@
-package com.br.pococc.occ.controllers;
+package br.com.pococc.occ.controllers;
 
 import com.google.common.collect.Lists;
 import de.hybris.platform.commerceservices.customer.DuplicateUidException;

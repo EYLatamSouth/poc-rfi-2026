@@ -17,8 +17,7 @@ import jakarta.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.pocfacades.service.PocfacadesService;
-import br.com.pocfacades.service.impl.DefaultPocfacadesService;
+import br.com.pocfacades.service.PocFacadesService;
 
 
 /**
@@ -28,10 +27,10 @@ import br.com.pocfacades.service.impl.DefaultPocfacadesService;
  * in mind that by default it assumes that annotated field name matches the Spring Bean ID.
  */
 @IntegrationTest
-public class DefaultPocfacadesServiceIntegrationTest extends ServicelayerBaseTest
+public class DefaultPocFacadesServiceIntegrationTest extends ServicelayerBaseTest
 {
 	@Resource
-	private PocfacadesService pocfacadesService;
+	private PocFacadesService pocfacadesService;
 	@Resource
 	private FlexibleSearchService flexibleSearchService;
 

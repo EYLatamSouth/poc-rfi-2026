@@ -3,7 +3,7 @@
  */
 package br.com.pocfacades.service;
 
-public interface PocfacadesService
+public interface PocFacadesService
 {
 	String getHybrisLogoUrl(String logoCode);
 

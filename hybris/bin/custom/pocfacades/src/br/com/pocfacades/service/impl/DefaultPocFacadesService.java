@@ -17,12 +17,12 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.pocfacades.service.PocfacadesService;
+import br.com.pocfacades.service.PocFacadesService;
 
 
-public class DefaultPocfacadesService implements PocfacadesService
+public class DefaultPocFacadesService implements PocFacadesService
 {
-	private static final Logger LOG = LoggerFactory.getLogger(DefaultPocfacadesService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultPocFacadesService.class);
 
 	private MediaService mediaService;
 	private ModelService modelService;
@@ -73,7 +73,7 @@ public class DefaultPocfacadesService implements PocfacadesService
 
 	private InputStream getImageStream()
 	{
-		return DefaultPocfacadesService.class.getResourceAsStream("/pocfacades/sap-hybris-platform.png");
+		return DefaultPocFacadesService.class.getResourceAsStream("/pocfacades/sap-hybris-platform.png");
 	}
 
 	public void setMediaService(final MediaService mediaService)

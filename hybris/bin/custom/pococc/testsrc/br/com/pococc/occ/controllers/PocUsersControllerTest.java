@@ -1,8 +1,8 @@
-package com.br.pococc.occ.controllers;
+package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
-import com.br.pococc.occ.validators.PocProductQuestionValidator;
+import br.com.pococc.occ.validators.PocProductQuestionValidator;
 import de.hybris.bootstrap.annotations.UnitTest;
 import org.junit.Before;
 import org.junit.Test;

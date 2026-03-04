@@ -71,7 +71,7 @@
 	       <aop:pointcut id="profiledMethods" expression="execution(* *(..))" />	
 	  -->
 	
-    <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PoccoreSystemSetup">
+    <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PocCoreSystemSetup">
         <!-- constructor arg injection example -->
         <constructor-arg ref="poccoreService"/>
         <property name="setupImpexService" ref="setupImpexAddonService" />

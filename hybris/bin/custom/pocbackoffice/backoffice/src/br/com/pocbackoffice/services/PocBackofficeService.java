@@ -4,9 +4,9 @@
 package br.com.pocbackoffice.services;
 
 /**
- * Hello World PocbackofficeService
+ * Hello World PocBackofficeService
  */
-public class PocbackofficeService
+public class PocBackofficeService
 {
 	private static final String HELLO = "Hello";
 	public String getHello()
