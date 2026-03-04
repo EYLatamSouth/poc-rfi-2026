@@ -17,10 +17,10 @@ import de.hybris.platform.core.initialization.SystemSetupContext;
 import de.hybris.platform.core.initialization.SystemSetupParameter;
 
 @SystemSetup(extension = PoccoreConstants.EXTENSIONNAME)
-public class PoccoreSystemSetup extends AbstractSystemSetup {
+public class PocCoreSystemSetup extends AbstractSystemSetup {
     private final PoccoreService poccoreService;
 
-    public PoccoreSystemSetup(final PoccoreService poccoreService) {
+    public PocCoreSystemSetup(final PoccoreService poccoreService) {
         this.poccoreService = poccoreService;
     }
 
@@ -36,7 +36,7 @@ public class PoccoreSystemSetup extends AbstractSystemSetup {
     }
 
     private InputStream getImageStream() {
-        return PoccoreSystemSetup.class.getResourceAsStream("/poccore/sap-hybris-platform.png");
+        return PocCoreSystemSetup.class.getResourceAsStream("/poccore/sap-hybris-platform.png");
     }
 
     @Override

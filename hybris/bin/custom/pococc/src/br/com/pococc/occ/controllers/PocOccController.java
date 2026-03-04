@@ -3,7 +3,7 @@
  */
 package br.com.pococc.occ.controllers;
 
-public class PococcController
+public class PocOccController
 {
 	// implement the controller here
 }
