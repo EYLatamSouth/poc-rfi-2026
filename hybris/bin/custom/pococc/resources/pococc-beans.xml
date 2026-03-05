@@ -13,12 +13,18 @@
       <import type="com.fasterxml.jackson.annotation.JsonIgnoreProperties"/>
 	  <annotations>@JsonIgnoreProperties(ignoreUnknown = true)</annotations>
           <property name="rating"       type="String"/>
-          <property name="distribution" type="String"/>
+          <property name="distribution" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewInfoWsDTO&gt;"/>
           <property name="verified"     type="String"/>
           <property name="topReviews" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewsWsDTO&gt;"/>
+          <property name="reviewPublication" type="String"/>
           <property name="questionCount" type="Integer"/>
-          <property name="publication" type="String"/>
+          <property name="questionPublication" type="String"/>
           <property name="responseTime" type="Integer"/>
+    </bean>
+
+    <bean class="br.com.poc.occ.dto.product.PocProductReviewInfoWsDTO">
+        <property name="grade" type="Integer"/>
+        <property name="gradeCount" type="Integer"/>
     </bean>
 
     <bean class="br.com.poc.occ.dto.product.PocProductReviewsWsDTO">

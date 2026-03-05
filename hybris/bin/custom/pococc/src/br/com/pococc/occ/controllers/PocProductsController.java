@@ -37,7 +37,7 @@ public class PocProductsController extends PocBaseController
     private ProductFacade productFacade;
 
     @Resource(name = "pocProductFacade")
-    private PocProductFacade PocProductFacade;
+    private PocProductFacade pocProductFacade;
 
 
     @Resource(name = "configurationService")
@@ -88,20 +88,20 @@ public class PocProductsController extends PocBaseController
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
-    @Operation(operationId = "getProductEngagementSummary", summary = "Retrieves the Engagement Summary of a product.", description = "Retrieves an Engagement Summary AVG for a product.")
+    @Operation(
+        operationId = "getProductEngagementSummary",
+        summary = "Retrieves the Engagement Summary of a product.",
+        description = "Retrieves an Engagement Summary AVG for a product."
+    )
     @ApiBaseSiteIdParam
     public PocProductEngagementSummaryWsDTO getProductEngagementSummary(
-            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
-            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields)
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode)
     {
         LOG.info("POC CUSTOM GET PRODUCT Engagement Summary");
-        PocProductEngagementSummaryInfoData pocProductEngagementSummary = new PocProductEngagementSummaryInfoData();
-        pocProductEngagementSummary = PocProductFacade.getEngagementSummary(productCode);
-        return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class, fields);
+        PocProductEngagementSummaryInfoData pocProductEngagementSummary =
+            pocProductFacade.getEngagementSummary(productCode);
+        return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
-
-
 }

@@ -27,7 +27,7 @@ public class CustomerProductInquiryInterceptor implements ValidateInterceptor<Cu
         }
     }
 
-    private Boolean canUserModifyAnswer() {
+    private boolean canUserModifyAnswer() {
         UserModel userModel = getUserService().getCurrentUser();
         UserGroupModel userGroupModel = getUserService().getUserGroupForUID(ROLE_SUPPORT);
 
