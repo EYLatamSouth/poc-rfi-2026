@@ -20,10 +20,10 @@ import static org.mockito.Mockito.*;
 
 @UnitTest
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerProductInquiryInterceptorTest {
+public class CustomerProductInquiryValidateInterceptorTest {
 
     @InjectMocks
-    private CustomerProductInquiryInterceptor customerProductInquiryInterceptor;
+    private CustomerProductInquiryValidateInterceptor customerProductInquiryInterceptor;
 
     @Mock
     private UserService userService;

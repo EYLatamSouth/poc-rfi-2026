@@ -90,15 +90,21 @@
         <property name="customerInquiryModelConverter" ref="customerInquiryModelConverter"/>
     </bean>
 
-    <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
+    <bean id="customerProductInquiryValidateInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryValidateInterceptor">
         <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="customerProductInquiryInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
-        <property name="interceptor" ref="customerProductInquiryInterceptor"/>
+    <bean id="customerProductInquiryValidateInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerProductInquiryValidateInterceptor"/>
         <property name="typeCode" value="CustomerProductInquiry"/>
     </bean>
 
+    <bean id="customerReviewPrepareInterceptor" class="br.com.poccore.interceptors.CustomerReviewPrepareInterceptor"/>
+
+    <bean id="customerReviewPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerReviewPrepareInterceptor"/>
+        <property name="typeCode" value="CustomerReview"/>
+    </bean>
 
     <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocReviewService">
         <property name="modelService" ref="modelService"/>

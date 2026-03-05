@@ -12,7 +12,7 @@ import java.util.Date;
 
 import static br.com.poccore.constants.PoccoreConstants.ROLE_SUPPORT;
 
-public class CustomerProductInquiryInterceptor implements ValidateInterceptor<CustomerProductInquiryModel> {
+public class CustomerProductInquiryValidateInterceptor implements ValidateInterceptor<CustomerProductInquiryModel> {
 
     private UserService userService;
 

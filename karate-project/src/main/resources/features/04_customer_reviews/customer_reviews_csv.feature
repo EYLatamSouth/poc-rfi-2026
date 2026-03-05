@@ -1,5 +1,5 @@
 @question @data
-Feature: 03_Question - Realiza reviews de produtos via CSV
+Feature: 04_Customer_Reviews - Realiza reviews de produtos via CSV
 
   @question @data
   Scenario: gerar tokens para usuários do CSV
