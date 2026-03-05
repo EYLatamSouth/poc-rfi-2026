@@ -1,4 +1,4 @@
-package com.br.pococc.occ.controllers;
+package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
