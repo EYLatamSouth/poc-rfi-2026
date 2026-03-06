@@ -5,20 +5,20 @@ package br.com.pocfacades.setup;
 
 import static br.com.pocfacades.constants.PocfacadesConstants.PLATFORM_LOGO_CODE;
 
+import br.com.pocfacades.service.PocFacadesService;
 import de.hybris.platform.core.initialization.SystemSetup;
 
 import java.io.InputStream;
 
 import br.com.pocfacades.constants.PocfacadesConstants;
-import br.com.pocfacades.service.PocfacadesService;
 
 
 @SystemSetup(extension = PocfacadesConstants.EXTENSIONNAME)
 public class PocfacadesSystemSetup
 {
-	private final PocfacadesService pocfacadesService;
+	private final PocFacadesService pocfacadesService;
 
-	public PocfacadesSystemSetup(final PocfacadesService pocfacadesService)
+	public PocfacadesSystemSetup(final PocFacadesService pocfacadesService)
 	{
 		this.pocfacadesService = pocfacadesService;
 	}

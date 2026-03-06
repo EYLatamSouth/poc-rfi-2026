@@ -1,0 +1,585 @@
+{
+  "info": {
+    "_postman_id": "0d8393bd-66ab-4a05-be48-f3719da5c70b",
+    "name": "POC",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "2524388"
+  },
+  "item": [
+    {
+      "name": "Generate System Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"systemToken\", pm.response.json().access_token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "key": "",
+            "value": "",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "type": "text",
+              "key": "client_id",
+              "value": "mobile_android"
+            },
+            {
+              "type": "text",
+              "key": "client_secret",
+              "value": "secret"
+            },
+            {
+              "type": "text",
+              "key": "grant_type",
+              "value": "client_credentials"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{server}}/authorizationserver/oauth/token",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "authorizationserver",
+            "oauth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "1- Get Customer _CRF",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const $ = require('cheerio').load(pm.response.text());\r",
+              "const _csrf = $('[name=\"_csrf\"]').attr('value');\r",
+              "pm.environment.set(\"_csrf\", _csrf);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followRedirects": false
+      },
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "secret",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "mobile_android",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "url": {
+          "raw": "{{server}}/authorizationserver/login",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "authorizationserver",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "2- Login Customer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "followRedirects": false
+      },
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "secret",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "mobile_android",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "type": "text",
+              "key": "username",
+              "value": "vipbronze@hybris.com"
+            },
+            {
+              "type": "text",
+              "key": "password",
+              "value": "senha123"
+            },
+            {
+              "type": "text",
+              "key": "_csrf",
+              "value": "{{_csrf}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{server}}/authorizationserver/login",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "authorizationserver",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "3- Authorize Customer Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const responseUrl = pm.response.headers.get('Location');\r",
+              "console.log(responseUrl)\r",
+              "const code = \"code=\"\r",
+              "const urlSearchParams = responseUrl.substring(responseUrl.indexOf(code) + code.length, responseUrl.indexOf(\"&\") != -1 ? responseUrl.indexOf(\"&\") : responseUrl.length);\r",
+              "console.log(urlSearchParams)\r",
+              "pm.environment.set(\"code\", urlSearchParams);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true,
+        "followRedirects": false,
+        "followOriginalHttpMethod": false
+      },
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "JSESSIONID",
+            "value": "bJzLurvHIkAiEs3cWLrjlEeixu6m3Esi_w6t586swDwPMqzXDqTyj9_2QCQPdPi4bZfXrHCW69fEvikPnTzPgfmd9wg6As3l",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": []
+        },
+        "url": {
+          "raw": "{{server}}/authorizationserver/oauth/authorize?response_type=code&client_id=mobile_android",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "authorizationserver",
+            "oauth",
+            "authorize"
+          ],
+          "query": [
+            {
+              "key": "response_type",
+              "value": "code"
+            },
+            {
+              "key": "client_id",
+              "value": "mobile_android"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "4- Generate Auth User Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.environment.set(\"userToken\", pm.response.json().access_token);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "password",
+              "value": "secret",
+              "type": "string"
+            },
+            {
+              "key": "username",
+              "value": "mobile_android",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "type": "text",
+              "key": "grant_type",
+              "value": "authorization_code"
+            },
+            {
+              "type": "text",
+              "key": "code",
+              "value": "{{code}}"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{server}}/authorizationserver/oauth/token",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "authorizationserver",
+            "oauth",
+            "token"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Product Reviews",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{systemToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "products",
+            "23355",
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Product Reviews Create",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": \"8796111994930\",\r\n  \"headline\": \"Rodolfo TEste\",\r\n  \"comment\": \"Blablalba\",\r\n  \"rating\": 5.0,\r\n  \"date\": \"2026-03-06T14:11:56-03:00\",\r\n  \"alias\": \"Alias\"\r\n }\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "products",
+            "23355",
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Review Helpful",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{server}}/occ/v2/electronics/products/2278102/review/2/helpful?helpful=false",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "products",
+            "2278102",
+            "review",
+            "2",
+            "helpful"
+          ],
+          "query": [
+            {
+              "key": "helpful",
+              "value": "false"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Engagement Summary",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{systemToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{server}}/occ/v2/electronics/products/2278102/engagementSummary",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "products",
+            "2278102",
+            "engagementSummary"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Customer Question",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"question\": \"Qual é a durabilidade deste produto?\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:9002/occ/v2/electronics/users/current/products/23355/question",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "9002",
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "users",
+            "current",
+            "products",
+            "23355",
+            "question"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Tradução - Limite de caracteres",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "DeepL-Auth-Key 14a78b01-3151-499f-b495-2f2d77dfff20:fx"
+          }
+        ],
+        "url": {
+          "raw": "https://api-free.deepl.com/v2/usage",
+          "protocol": "https",
+          "host": [
+            "api-free",
+            "deepl",
+            "com"
+          ],
+          "path": [
+            "v2",
+            "usage"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

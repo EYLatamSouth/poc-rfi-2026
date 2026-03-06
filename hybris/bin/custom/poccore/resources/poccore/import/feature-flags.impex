@@ -1,0 +1,2 @@
+INSERT_UPDATE FeatureFlag;key[unique=true]          ; activity ; description                             ; status
+                         ;ft-send-customer-question ; US-03    ; Habilita endpoint /questions de cliente ; true

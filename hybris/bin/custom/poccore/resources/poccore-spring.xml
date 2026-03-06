@@ -71,7 +71,7 @@
 	       <aop:pointcut id="profiledMethods" expression="execution(* *(..))" />	
 	  -->
 	
-    <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PoccoreSystemSetup">
+    <bean id="poccoreSystemSetup" class="br.com.poccore.setup.PocCoreSystemSetup">
         <!-- constructor arg injection example -->
         <constructor-arg ref="poccoreService"/>
         <property name="setupImpexService" ref="setupImpexAddonService" />
@@ -90,15 +90,21 @@
         <property name="customerInquiryModelConverter" ref="customerInquiryModelConverter"/>
     </bean>
 
-    <bean id="customerProductInquiryInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryInterceptor">
+    <bean id="customerProductInquiryValidateInterceptor" class="br.com.poccore.interceptors.CustomerProductInquiryValidateInterceptor">
         <property name="userService" ref="userService"/>
     </bean>
 
-    <bean id="customerProductInquiryInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
-        <property name="interceptor" ref="customerProductInquiryInterceptor"/>
+    <bean id="customerProductInquiryValidateInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerProductInquiryValidateInterceptor"/>
         <property name="typeCode" value="CustomerProductInquiry"/>
     </bean>
 
+    <bean id="customerReviewPrepareInterceptor" class="br.com.poccore.interceptors.CustomerReviewPrepareInterceptor"/>
+
+    <bean id="customerReviewPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerReviewPrepareInterceptor"/>
+        <property name="typeCode" value="CustomerReview"/>
+    </bean>
 
     <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocReviewService">
         <property name="modelService" ref="modelService"/>
@@ -111,6 +117,26 @@
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 
+    <bean id="featureFlagDao" class="br.com.poccore.dao.impl.DefaultFeatureFlagDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="featureFlagService" class="br.com.poccore.service.impl.DefaultFeatureFlagService">
+        <property name="featureFlagDao" ref="featureFlagDao"/>
+    </bean>
+
+    <bean id="featureFlagRestrictionAspect"
+          class="br.com.poccore.annotation.FeatureFlagRestrictionAspect">
+        <property name="featureFlagService" ref="featureFlagService"/>
+    </bean>
+
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="featureFlagRestrictionAspectPoint"
+                      expression="@annotation(br.com.poccore.annotation.FeatureFlagRestriction)"/>
+        <aop:aspect ref="featureFlagRestrictionAspect">
+            <aop:around pointcut-ref="featureFlagRestrictionAspectPoint" method="isActive"/>
+        </aop:aspect>
+    </aop:config>
 
     <bean id="pocProductDao" class="br.com.poccore.dao.impl.DefaultPocProductDao">
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
@@ -147,5 +173,4 @@
             </list>
         </property>
     </bean>
-
 </beans>
