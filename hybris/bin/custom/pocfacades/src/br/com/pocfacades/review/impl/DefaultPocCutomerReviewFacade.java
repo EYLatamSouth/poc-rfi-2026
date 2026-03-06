@@ -1,9 +1,7 @@
 package br.com.pocfacades.review.impl;
 
-import br.com.poccore.PocUtil;
 import br.com.poccore.service.PocCustomerReviewService;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
-import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +25,6 @@ public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
     @Override
     public void createProductReviewRating(String productCode, int nth, boolean helpful) throws IllegalArgumentException {
         try {
-            PocUtil.validateStringValues(productCode, "productCode");
-            Preconditions.checkArgument(nth > 0, "Nth cannot be less than zero.");
             getPocReviewService().createProductReviewRating(productCode, nth, helpful);
         }
         catch (Exception e) {

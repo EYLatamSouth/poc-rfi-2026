@@ -42,4 +42,10 @@
 			<description>Helpfulness rating of review</description>
 		</property>
 	</bean>
+
+	<bean class="br.com.poc.occ.dto.product.PocReviewRatingData">
+		<property name="productCode" type="String" />
+		<property name="id" type="Integer" />
+	</bean>
+
 </beans>
