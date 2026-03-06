@@ -1,9 +1,9 @@
 {
   "info": {
-    "_postman_id": "d8c16628-f4a1-4801-8a1e-271074a8632b",
+    "_postman_id": "0d8393bd-66ab-4a05-be48-f3719da5c70b",
     "name": "POC",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "9000334"
+    "_exporter_id": "2524388"
   },
   "item": [
     {
@@ -367,6 +367,47 @@
         },
         "method": "GET",
         "header": [],
+        "url": {
+          "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "electronics",
+            "products",
+            "23355",
+            "reviews"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Product Reviews Create",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"id\": \"8796111994930\",\r\n  \"headline\": \"Rodolfo TEste\",\r\n  \"comment\": \"Blablalba\",\r\n  \"rating\": 5.0,\r\n  \"date\": \"2026-03-06T14:11:56-03:00\",\r\n  \"alias\": \"Alias\"\r\n }\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
           "host": [
