@@ -2,15 +2,16 @@ package br.com.pocfacades.review.impl;
 
 import br.com.poccore.service.PocCustomerReviewService;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
+import de.hybris.platform.servicelayer.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCutomerReviewFacade.class);
+public class DefaultPocCustomerReviewFacade implements PocCustomerReviewFacade {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCustomerReviewFacade.class);
 
     private PocCustomerReviewService pocReviewService;
-
+    private UserService userService;
 
 
     /**
@@ -25,7 +26,7 @@ public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
     @Override
     public void createProductReviewRating(String productCode, int nth, boolean helpful) throws IllegalArgumentException {
         try {
-            getPocReviewService().createProductReviewRating(productCode, nth, helpful);
+            getPocReviewService().createProductReviewRating(getUserService().getCurrentUser(), productCode, nth, helpful);
         }
         catch (Exception e) {
             LOG.error("Error occurred while creating CustomerReviewRating: {}", e.getMessage(), e);
@@ -39,5 +40,13 @@ public class DefaultPocCutomerReviewFacade implements PocCustomerReviewFacade {
 
     public void setPocReviewService(PocCustomerReviewService pocReviewService) {
         this.pocReviewService = pocReviewService;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

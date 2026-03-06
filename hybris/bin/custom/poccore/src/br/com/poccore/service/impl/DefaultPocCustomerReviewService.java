@@ -23,7 +23,6 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
 
     private ModelService modelService;
     private PocCustomerReviewDao pocReviewDao;
-    private UserService userService;
 
     /**
      * Finds a CustomerReviewModel for given productCode based on its chronological position.
@@ -72,9 +71,8 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
      * @throws IllegalStateException    if the rating user is not a {@link CustomerModel}
      */
     @Override
-    public CustomerReviewRatingModel createProductReviewRating(String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
+    public CustomerReviewRatingModel createProductReviewRating(UserModel ratingUser, String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
         LOG.info("Creating Customer Review Rate for {} Customer Review for product {}", nth, productCode);
-        UserModel ratingUser = getUserService().getCurrentUser();
         CustomerReviewModel review = findNthProductReview(productCode, nth);
         ServicesUtil.validateParameterNotNull(review.getUser(), String.format("Review %s does not contain User.", review));
         PocUtil.validateParameterType(ratingUser, CustomerModel.class);
@@ -106,14 +104,6 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
 
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;
-    }
-
-    public UserService getUserService() {
-        return userService;
-    }
-
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
     public PocCustomerReviewDao getPocReviewDao() {

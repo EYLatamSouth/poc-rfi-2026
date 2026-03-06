@@ -29,8 +29,6 @@ public class DefaultPocCustomerReviewServiceTest {
     @InjectMocks
     private DefaultPocCustomerReviewService service;
     @Mock
-    private UserService userService;
-    @Mock
     private ModelService modelService;
     @Mock
     private PocCustomerReviewDao pocReviewDao;
@@ -47,7 +45,6 @@ public class DefaultPocCustomerReviewServiceTest {
 
     @Before
     public void setUp() {
-        service.setUserService(userService);
         service.setModelService(modelService);
         service.setPocReviewDao(pocReviewDao);
 
@@ -85,21 +82,19 @@ public class DefaultPocCustomerReviewServiceTest {
 
     @Test
     public void testCreateProductReviewRating_CreationSuccess() {
-        when(userService.getCurrentUser()).thenReturn(customerModel);
         when(pocReviewDao.findNthProductReview(anyString(), anyInt())).thenReturn(searchPageData);
         when(pocReviewDao.findReviewRatingByReviewAndRater(any(), any())).thenReturn(null);
         when(searchPageData.getResults()).thenReturn(List.of(customerReviewModel));
         when(customerReviewModel.getUser()).thenReturn(new CustomerModel());
         when(modelService.create(CustomerReviewRatingModel.class)).thenReturn(new CustomerReviewRatingModel());
 
-        CustomerReviewRatingModel actual = service.createProductReviewRating("product", 1, true);
+        CustomerReviewRatingModel actual = service.createProductReviewRating(customerModel, "product", 1, true);
         verify(modelService, times(1)).save(any());
         assertEquals(customerReviewModel, actual.getCustomerReview());
     }
 
     @Test
     public void testCreateProductReviewRating_UpdateSuccess() {
-        when(userService.getCurrentUser()).thenReturn(customerModel);
         when(pocReviewDao.findNthProductReview(anyString(), anyInt())).thenReturn(searchPageData);
         when(pocReviewDao.findReviewRatingByReviewAndRater(any(), any())).thenReturn(customerReviewRatingModel);
         when(customerReviewRatingModel.getCustomerReview()).thenReturn(customerReviewModel);
@@ -107,42 +102,39 @@ public class DefaultPocCustomerReviewServiceTest {
         when(searchPageData.getResults()).thenReturn(List.of(customerReviewModel));
         when(customerReviewModel.getUser()).thenReturn(new CustomerModel());
 
-        CustomerReviewRatingModel actual = service.createProductReviewRating("product", 1, true);
+        CustomerReviewRatingModel actual = service.createProductReviewRating(customerModel, "product", 1, true);
         verify(modelService, times(1)).save(any());
         assertEquals(customerReviewModel, actual.getCustomerReview());
     }
 
     @Test
     public void testCreateProductReviewRating_NoOperationSuccess() {
-        when(userService.getCurrentUser()).thenReturn(customerModel);
         when(pocReviewDao.findNthProductReview(anyString(), anyInt())).thenReturn(searchPageData);
         when(pocReviewDao.findReviewRatingByReviewAndRater(any(), any())).thenReturn(customerReviewRatingModel);
         when(customerReviewRatingModel.getIsUseful()).thenReturn(true);
         when(searchPageData.getResults()).thenReturn(List.of(customerReviewModel));
         when(customerReviewModel.getUser()).thenReturn(new CustomerModel());
 
-        service.createProductReviewRating("product", 1, true);
+        service.createProductReviewRating(customerModel, "product", 1, true);
         verify(modelService, never()).save(any());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateProductReviewRating_IllegalArgumentException() {
-        when(userService.getCurrentUser()).thenReturn(customerModel);
         when(pocReviewDao.findNthProductReview(anyString(), anyInt())).thenReturn(searchPageData);
         when(searchPageData.getResults()).thenReturn(List.of(customerReviewModel));
         when(customerReviewModel.getUser()).thenReturn(null);
 
-        service.createProductReviewRating("product", 1, true);
+        service.createProductReviewRating(customerModel, "product", 1, true);
     }
 
     @Test(expected = IllegalStateException.class)
     public void testCreateProductReviewRating_IllegalStateException() {
-        when(userService.getCurrentUser()).thenReturn(userModel);
         when(pocReviewDao.findNthProductReview(anyString(), anyInt())).thenReturn(searchPageData);
         when(searchPageData.getResults()).thenReturn(List.of(customerReviewModel));
         when(customerReviewModel.getUser()).thenReturn(new CustomerModel());
 
-        service.createProductReviewRating("product", 1, true);
+        service.createProductReviewRating(userModel,"product", 1, true);
     }
 
 }

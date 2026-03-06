@@ -110,7 +110,6 @@
     <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocCustomerReviewService">
         <property name="modelService" ref="modelService"/>
         <property name="pocReviewDao" ref="pocReviewDao"/>
-        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="pocReviewDao" class="br.com.poccore.dao.impl.DefaultPocCustomerReviewDao">

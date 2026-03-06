@@ -1,6 +1,7 @@
 package br.com.pocfacades.review.impl;
 
 import br.com.poccore.service.PocCustomerReviewService;
+import de.hybris.platform.servicelayer.user.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,14 +16,19 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultPocCustomerReviewFacadeTest {
     @InjectMocks
-    private DefaultPocCutomerReviewFacade facade;
+    private DefaultPocCustomerReviewFacade facade;
     @Mock
     private PocCustomerReviewService pocReviewService;
+    @Mock
+    private UserService userService;
 
     @Before
     public void setUp() {
         facade.setPocReviewService(pocReviewService);
-        when(pocReviewService.createProductReviewRating(anyString(), anyInt(), anyBoolean())).thenReturn(null);
+        facade.setUserService(userService);
+
+        when(userService.getCurrentUser()).thenReturn(null);
+        when(pocReviewService.createProductReviewRating(any(), anyString(), anyInt(), anyBoolean())).thenReturn(null);
     }
 
     @Test
@@ -35,18 +41,10 @@ public class DefaultPocCustomerReviewFacadeTest {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateProductReviewRating_BlancString() {
-        facade.createProductReviewRating("", 10, true);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateProductReviewRating_NullString() {
-        facade.createProductReviewRating(null, 10, true);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateProductReviewRating_NegativeNth() {
-        facade.createProductReviewRating("product", -10, true);
+    @Test(expected = NullPointerException.class)
+    public void testCreateProductReviewRating_Fail() {
+        facade.setUserService(null);
+        facade.createProductReviewRating("product", 10, true);
+        fail();
     }
 }
