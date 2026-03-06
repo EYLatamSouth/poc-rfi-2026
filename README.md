@@ -1,67 +1,74 @@
+# SAP COMMERCE B2C POC 🚀
 
-# SAP COMMERECE B2C POC
+## Índice 🧭
 
-## Guia de configuração
+- [Guia de configuração 📘](#guia-de-configuração-)
+  - [Versão - hybris v2211-JDK21 🧩](#versão---hybris-v2211-jdk21-)
+  - [Antes de começar ✅](#antes-de-começar-)
+  - [Organizando o ambiente 🛠️](#organizando-o-ambiente-)
+  - [Desenvolvimento 👩‍💻](#desenvolvimento-)
+  - [Testes automatizados com Karate 🧪](#testes-automatizados-com-karate-)
 
-### Versão - hybris v2211-JDK21
+## Guia de configuração 📘
+
+### Versão - hybris v2211-JDK21 🧩
 
 https://help.sap.com/docs/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/75d4c3895cb346008545900bffe851ce/236dcbe0ff5d4bd0bdf177b7f151cc66.html
 
-### Antes de começar
+### Antes de começar ✅
 
 1. Instale a versão 21 do Java
    https://sapmachine.io/docs/installation
 
-2. Descompacte o Standard do SAPCommerce versão 2211, arquivo CCL2211J2100P_8-80009731.zip do projeto
+2. Descompacte o Standard do SAP Commerce versão 2211, arquivo CCL2211J2100P_8-80009731.zip do projeto
 
-3. Na pasta onde baixou o projeto, sugestão /opt/poc, extrair o conteúdo do ZIP baixados no passo 2.
+3. Na pasta onde baixou o projeto, sugestão /opt/poc, extraia o conteúdo do ZIP baixado no passo 2.
 
-### Organizando o ambiente
+### Organizando o ambiente 🛠️
 
-Dentro da pasta installer, segue lista de commandos:
+Dentro da pasta installer, após clonar o projeto e mesclá-lo ao conteúdo descompactado do ZIP, segue a lista de comandos:
 
 Criar local.properties e localextensions.xml:
 ./install.sh -r poc -A initAdminPassword=nimda setup
 
-Rodar initialize - Inicializacao do ambiente:
+Rodar initialize - Inicialização do ambiente 🧱:
 ./install.sh -r poc -A initAdminPassword=nimda initialize
 
-Rodar updatesystem - Atualizacao do ambiente:
+Rodar updatesystem - Atualização do ambiente 🔄:
 ./install.sh -r poc -A initAdminPassword=nimda update
 
-Rodar build do sistema:
+Rodar build do sistema 🏗️:
 ./install.sh -r poc -A initAdminPassword=ama1relo buildSystem
 
-Subir o servidor:
+Subir o servidor 🚀:
 ./install.sh -r poc -A initAdminPassword=nimda start
 
-Descer o servidor:
+Descer o servidor 🛑:
 ./install.sh -r poc -A initAdminPassword=nimda stop
 
-### Desenvolvimentos 
+### Desenvolvimento 👩‍💻
 
-Voce pode executar tambem os comandos abaixo para suas atividades do dia a dia
+Você também pode executar os comandos abaixo para suas atividades do dia a dia.
 
-Dentro da pasta hybris/bin/platoform executar os comandos
+Dentro da pasta hybris/bin/platform, execute os comandos:
 
-executar . ./setantenv.sh para qualquer um dos comandos abaixo 
+Execute . ./setantenv.sh antes de qualquer um dos comandos abaixo
 
-Rodar initialize - Inicializacao do ambiente:
+Rodar initialize - Inicialização do ambiente 🧱:
 ant initialize
 
-Rodar updatesystem - Atualizacao do ambiente:
+Rodar updatesystem - Atualização do ambiente 🔄:
 ant updatesystem
 
-Rodar build do sistema:
+Rodar build do sistema 🏗️:
 ant clean all
 
-Subir o servidor:
+Subir o servidor 🚀:
 ./hybrisserver.sh
 
-### Testes automatizados com Karate
-Com o servidor rodando, voce pode executar os testes automatizados com o comando abaixo, dentro da pasta hybris/bin/platform
+### Testes automatizados com Karate 🧪
+Com o servidor rodando, você pode executar os testes automatizados com o comando abaixo, dentro da pasta hybris/bin/platform
 
 1- . ./setantenv.sh
 
-2- ant karatetest -Denv={ENVIRONMENT} (onde {ENVIRONMENT} refere-se ao ambiente onde os testes serao executados, exemplo: local)
-
+2- ant karatetest -Denv={ENVIRONMENT} (onde {ENVIRONMENT} refere-se ao ambiente onde os testes serão executados, exemplo: local)
