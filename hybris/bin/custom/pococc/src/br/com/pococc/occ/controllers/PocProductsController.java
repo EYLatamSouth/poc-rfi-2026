@@ -5,9 +5,11 @@ import br.com.pocfacades.product.PocProductFacade;
 import br.com.pocfacades.review.PocReviewFacade;
 import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.commercefacades.product.ProductFacade;
+import de.hybris.platform.commercefacades.product.data.ReviewData;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
 import de.hybris.platform.commercewebservicescommons.dto.product.ReviewListWsDTO;
+import de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.webservicescommons.swagger.ApiBaseSiteIdParam;
 import de.hybris.platform.webservicescommons.swagger.ApiFieldsParam;
@@ -18,9 +20,11 @@ import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -45,6 +49,9 @@ public class PocProductsController extends PocBaseController
 
     @Resource(name = "pocReviewFacade")
     private PocReviewFacade pocReviewFacade;
+
+    @Resource(name = "reviewDTOValidator")
+    private Validator reviewDTOValidator;
 
     @GetMapping("/{productCode}/reviews")
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
@@ -104,4 +111,25 @@ public class PocProductsController extends PocBaseController
             pocProductFacade.getEngagementSummary(productCode);
         return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
+
+    @Secured({"ROLE_CUSTOMERGROUP"})
+    @PostMapping(value = "/{productCode}/reviews", consumes = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE })
+    @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.CreateProductReviews.priority")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    @Operation(operationId = "createProductReview", summary = "Creates a customer review as an anonymous or authenticated user.", description = "Creates a customer review for a product as an anonymous or authenticate user.")
+    @ApiBaseSiteIdParam
+    public ReviewWsDTO createProductReview(
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
+            @Parameter(description = "Object contains review details like : rating, alias, headline, comment.", required = true) @RequestBody final ReviewWsDTO review,
+            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields)
+    {
+
+        validate(review, "review", reviewDTOValidator);
+        final ReviewData reviewData = getDataMapper().map(review, ReviewData.class, "alias,rating,headline,comment");
+        final ReviewData reviewDataRet = productFacade.postReview(productCode, reviewData);
+        return getDataMapper().map(reviewDataRet, ReviewWsDTO.class, fields);
+    }
+
 }

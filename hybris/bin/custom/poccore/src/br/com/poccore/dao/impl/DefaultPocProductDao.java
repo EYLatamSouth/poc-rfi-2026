@@ -82,6 +82,7 @@ public class DefaultPocProductDao implements PocProductDao {
             JOIN Product as pr on {cpi.product} = {pr.pk}
         }
         WHERE {pr.code} = ?code
+        AND {cpi.answerDate} IS NOT NULL
     """;
 
     @Override
