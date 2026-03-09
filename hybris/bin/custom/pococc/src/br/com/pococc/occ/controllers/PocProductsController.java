@@ -35,8 +35,6 @@ public class PocProductsController extends PocBaseController
 {
     private static final Logger LOG = LoggerFactory.getLogger(PocProductsController.class);
 
-    private static final String PRINCIPAL_ANONYMOUS_KEY = "toggle.product.review.principal.anonymization.enabled";
-
     @Resource(name = "cwsProductFacade")
     private ProductFacade productFacade;
 
@@ -52,26 +50,6 @@ public class PocProductsController extends PocBaseController
 
     @Resource(name = "reviewDTOValidator")
     private Validator reviewDTOValidator;
-
-    @GetMapping("/{productCode}/reviews")
-    @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
-    @ResponseBody
-    @Operation(operationId = "getProductReviews", summary = "Retrieves the reviews of a product.", description = "Retrieves all the reviews for a product. To limit the number of reviews returned, use the maxCount parameter.")
-    @ApiBaseSiteIdParam
-    public ReviewListWsDTO getProductReviews(
-            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
-            @Parameter(description = "Maximum number of reviews.") @RequestParam(required = false) final Integer maxCount,
-            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields)
-    {
-        LOG.info("POC CUSTOM GET PRODUCT REVIEWS");
-        final ReviewDataList reviewDataList = new ReviewDataList();
-        reviewDataList.setReviews(productFacade.getReviews(productCode, maxCount));
-        if (configurationService.getConfiguration().getBoolean(PRINCIPAL_ANONYMOUS_KEY, true))
-        {
-        //    vivoPocProductsHelper.anonymizeReviewPrincipal(reviewDataList);
-        }
-        return getDataMapper().map(reviewDataList, ReviewListWsDTO.class, fields);
-    }
 
     /**
      * Creates and updates a Customer Review Rating for given product.
