@@ -15,7 +15,7 @@
 		<property name="approvalStatus" type="String"/>
 	</bean>
 
-    <bean class="br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData">
+    <bean class="br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData">
         <property name="rating"       type="String"/>
         <property name="distribution" type="java.util.List&lt;br.com.poc.occ.dto.product.PocProductReviewInfoData&gt;"/>
         <property name="verified"     type="String"/>

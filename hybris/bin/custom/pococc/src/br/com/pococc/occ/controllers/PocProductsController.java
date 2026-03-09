@@ -3,7 +3,7 @@ package br.com.pococc.occ.controllers;
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
 import br.com.pocfacades.review.PocReviewFacade;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
