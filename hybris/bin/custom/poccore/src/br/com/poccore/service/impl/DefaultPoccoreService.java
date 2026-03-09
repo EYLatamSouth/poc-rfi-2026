@@ -3,8 +3,7 @@
  */
 package br.com.poccore.service.impl;
 
-import br.com.poccore.annotation.FeatureFlagRestriction;
-import br.com.poccore.constants.PoccoreConstants;
+
 import de.hybris.platform.catalog.model.CatalogUnawareMediaModel;
 import de.hybris.platform.core.model.media.MediaModel;
 import de.hybris.platform.servicelayer.exceptions.SystemException;
