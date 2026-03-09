@@ -1,6 +1,6 @@
 package br.com.poccore.service;
 
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 
 public interface PocProductService {
 

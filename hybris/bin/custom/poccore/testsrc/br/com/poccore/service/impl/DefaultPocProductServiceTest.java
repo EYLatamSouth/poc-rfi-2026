@@ -2,7 +2,7 @@ package br.com.poccore.service.impl;
 
 import br.com.poccore.dao.PocProductDao;
 import br.com.poccore.enums.CustomerInquiryApprovalStatus;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.customerreview.enums.CustomerReviewApprovalType;
 import org.junit.Before;
 import org.junit.Test;

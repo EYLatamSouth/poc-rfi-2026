@@ -2,7 +2,7 @@ package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.webservicescommons.mapping.DataMapper;
 import org.junit.Test;
