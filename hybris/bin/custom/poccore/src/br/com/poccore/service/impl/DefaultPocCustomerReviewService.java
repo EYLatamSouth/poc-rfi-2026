@@ -11,7 +11,6 @@ import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.servicelayer.model.ModelService;
-import de.hybris.platform.servicelayer.user.UserService;
 import de.hybris.platform.servicelayer.util.ServicesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 public class DefaultPocCustomerReviewService implements PocCustomerReviewService {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCustomerReviewService.class);
+    private final Logger log = LoggerFactory.getLogger(DefaultPocCustomerReviewService.class);
 
     private ModelService modelService;
     private PocCustomerReviewDao pocCustomerReviewDao;
@@ -37,7 +36,7 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
      */
     @Override
     public CustomerReviewModel findNthProductReview(String productCode, int nth) {
-        LOG.info("Searching for {} Customer Review for product {}", nth, productCode);
+        log.info("Searching for {} Customer Review for product {}", nth, productCode);
         SearchPageData<CustomerReviewModel> result = getPocCustomerReviewDao().findNthProductReview(productCode, nth);
         ServicesUtil.validateIfSingleResult(result.getResults(),
                 "No review was found for given product code and index.",
@@ -72,7 +71,7 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
      */
     @Override
     public CustomerReviewRatingModel createProductReviewRating(UserModel ratingUser, String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
-        LOG.info("Creating Customer Review Rate for {} Customer Review for product {}", nth, productCode);
+        log.info("Creating Customer Review Rate for {} Customer Review for product {}", nth, productCode);
         CustomerReviewModel review = findNthProductReview(productCode, nth);
         ServicesUtil.validateParameterNotNull(review.getUser(), String.format("Review %s does not contain User.", review));
         PocUtil.validateParameterType(ratingUser, CustomerModel.class);
@@ -85,14 +84,14 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
             reviewRate.setIsUseful(helpful);
             getModelService().save(reviewRate);
             getModelService().refresh(reviewRate);
-            LOG.info("Created Customer Review Rate {}", reviewRate);
+            log.info("Created Customer Review Rate {}", reviewRate);
         } else if (helpful != reviewRate.getIsUseful()) {
             reviewRate.setIsUseful(helpful);
             getModelService().save(reviewRate);
             getModelService().refresh(reviewRate);
-            LOG.info("Updated Customer Review Rate {}", reviewRate);
+            log.info("Updated Customer Review Rate {}", reviewRate);
         } else {
-            LOG.warn("No operation was done to Customer Review Rate {}", reviewRate);
+            log.warn("No operation was done to Customer Review Rate {}", reviewRate);
         }
 
         return reviewRate;
