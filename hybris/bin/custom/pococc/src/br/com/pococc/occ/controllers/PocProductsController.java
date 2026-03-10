@@ -10,7 +10,6 @@ import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commercefacades.product.data.ReviewData;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO;
-import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.webservicescommons.swagger.ApiBaseSiteIdParam;
 import de.hybris.platform.webservicescommons.swagger.ApiFieldsParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,8 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @Tag(name = "Poc Products")
 @RequestMapping(value = "/{baseSiteId}/products")
-public class PocProductsController extends PocBaseController
-{
+public class PocProductsController extends PocBaseController {
     private static final Logger LOG = LoggerFactory.getLogger(PocProductsController.class);
 
     @Resource(name = "cwsProductFacade")
@@ -40,10 +38,6 @@ public class PocProductsController extends PocBaseController
 
     @Resource(name = "pocProductFacade")
     private PocProductFacade pocProductFacade;
-
-
-    @Resource(name = "configurationService")
-    private ConfigurationService configurationService;
 
     @Resource(name = "pocReviewFacade")
     private PocCustomerReviewFacade pocCustomerReviewFacade;
@@ -57,9 +51,9 @@ public class PocProductsController extends PocBaseController
     /**
      * Creates and updates a Customer Review Rating for given product.
      *
-     * @param productCode   The code for the target product.
-     * @param id            The chronological position.
-     * @param helpful       Review rate value.
+     * @param productCode The code for the target product.
+     * @param id          The chronological position.
+     * @param helpful     Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
     @Secured({"ROLE_TRUSTED_CLIENT"})
@@ -67,11 +61,10 @@ public class PocProductsController extends PocBaseController
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
     @ApiBaseSiteIdParam
-    public ResponseEntity postReviewRating(
+    public ResponseEntity<Void> postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
-            @RequestParam(defaultValue = "true") final boolean helpful)
-    {
+            @RequestParam(defaultValue = "true") final boolean helpful) {
         PocReviewRatingData validateData = new PocReviewRatingData();
         validateData.setId(id);
         validateData.setProductCode(productCode);
@@ -83,23 +76,22 @@ public class PocProductsController extends PocBaseController
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(
-        operationId = "getProductEngagementSummary",
-        summary = "Retrieves the Engagement Summary of a product.",
-        description = "Retrieves an Engagement Summary AVG for a product."
+            operationId = "getProductEngagementSummary",
+            summary = "Retrieves the Engagement Summary of a product.",
+            description = "Retrieves an Engagement Summary AVG for a product."
     )
     @ApiBaseSiteIdParam
     public PocProductEngagementSummaryWsDTO getProductEngagementSummary(
-            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode)
-    {
+            @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode) {
         LOG.info("POC CUSTOM GET PRODUCT Engagement Summary");
         PocProductEngagementSummaryInfoData pocProductEngagementSummary =
-            pocProductFacade.getEngagementSummary(productCode);
+                pocProductFacade.getEngagementSummary(productCode);
         return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
 
     @Secured({"ROLE_CUSTOMERGROUP"})
-    @PostMapping(value = "/{productCode}/reviews", consumes = { MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE })
+    @PostMapping(value = "/{productCode}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE})
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.CreateProductReviews.priority")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -108,8 +100,7 @@ public class PocProductsController extends PocBaseController
     public ReviewWsDTO createProductReview(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Object contains review details like : rating, alias, headline, comment.", required = true) @RequestBody final ReviewWsDTO review,
-            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields)
-    {
+            @ApiFieldsParam @RequestParam(defaultValue = DEFAULT_FIELD_SET) final String fields) {
 
         validate(review, "review", reviewDTOValidator);
         final ReviewData reviewData = getDataMapper().map(review, ReviewData.class, "alias,rating,headline,comment");

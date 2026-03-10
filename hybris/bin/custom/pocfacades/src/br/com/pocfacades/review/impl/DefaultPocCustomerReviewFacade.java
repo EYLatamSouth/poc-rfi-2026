@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class DefaultPocCustomerReviewFacade implements PocCustomerReviewFacade {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCustomerReviewFacade.class);
+    private final Logger log = LoggerFactory.getLogger(DefaultPocCustomerReviewFacade.class);
 
     private PocCustomerReviewService pocReviewService;
     private UserService userService;
@@ -29,7 +29,7 @@ public class DefaultPocCustomerReviewFacade implements PocCustomerReviewFacade {
             getPocReviewService().createProductReviewRating(getUserService().getCurrentUser(), productCode, nth, helpful);
         }
         catch (Exception e) {
-            LOG.error("Error occurred while creating CustomerReviewRating: {}", e.getMessage(), e);
+            log.error("Error occurred while creating CustomerReviewRating: {}", e.getMessage(), e);
             throw e;
         }
     }

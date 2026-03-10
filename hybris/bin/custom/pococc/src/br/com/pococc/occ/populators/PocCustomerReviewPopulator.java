@@ -1,6 +1,5 @@
 package br.com.pococc.occ.populators;
 
-import de.hybris.platform.commercefacades.product.converters.populator.CustomerReviewPopulator;
 import de.hybris.platform.commercefacades.product.data.ReviewData;
 import de.hybris.platform.converters.Populator;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
