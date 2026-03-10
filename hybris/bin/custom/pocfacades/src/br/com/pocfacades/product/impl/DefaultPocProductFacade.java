@@ -2,7 +2,7 @@ package br.com.pocfacades.product.impl;
 
 import br.com.poccore.service.PocProductService;
 import br.com.pocfacades.product.PocProductFacade;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.search.restriction.SearchRestrictionService;
 
 public class DefaultPocProductFacade implements PocProductFacade {

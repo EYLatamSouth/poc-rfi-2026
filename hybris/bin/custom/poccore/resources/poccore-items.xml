@@ -87,7 +87,7 @@
                         <persistence type="property"/>
                     </attribute>
                     <attribute qualifier="question" type="localized:java.lang.String">
-                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="true"/>
                         <persistence type="property">
                             <columntype>
                                 <value>HYBRIS.LONG_STRING</value>

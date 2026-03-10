@@ -24,12 +24,13 @@ public class PocCoreSystemSetup extends AbstractSystemSetup {
         this.poccoreService = poccoreService;
     }
 
-    @SystemSetup(process = SystemSetup.Process.ALL, type = SystemSetup.Type.ESSENTIAL)
+    @SystemSetup(process = SystemSetup.Process.INIT, type = SystemSetup.Type.PROJECT)
     public void createEssentialData(final SystemSetupContext context) {
         importImpexFile(context, "/poccore/import/customer-inquiry-config.impex");
         importImpexFile(context, "/poccore/import/customer-inquiry-data.impex");
         importImpexFile(context, "/poccore/import/oauth-client.impex");
         importImpexFile(context, "/poccore/import/solr.impex");
+        importImpexFile(context, "/poccore/import/feature-flags.impex");
         importImpexFile(context, "/poccore/import/user-group.impex");
 
         poccoreService.createLogo(PLATFORM_LOGO_CODE);
