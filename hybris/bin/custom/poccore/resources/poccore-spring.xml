@@ -99,7 +99,9 @@
         <property name="typeCode" value="CustomerProductInquiry"/>
     </bean>
 
-    <bean id="customerReviewPrepareInterceptor" class="br.com.poccore.interceptors.CustomerReviewPrepareInterceptor"/>
+    <bean id="customerReviewPrepareInterceptor" class="br.com.poccore.interceptors.CustomerReviewPrepareInterceptor">
+        <property name="eventService" ref="eventService"/>
+    </bean>
 
     <bean id="customerReviewPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
         <property name="interceptor" ref="customerReviewPrepareInterceptor"/>
@@ -173,4 +175,9 @@
             </list>
         </property>
     </bean>
+
+    <bean id="customerReviewEventListener" class="br.com.poccore.event.CustomerReviewEventListener" parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
 </beans>
