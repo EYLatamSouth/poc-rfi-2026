@@ -2,7 +2,6 @@ package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
 import br.com.poc.occ.dto.product.PocReviewRatingData;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
 import br.com.pococc.occ.validators.PocCustomerReviewRatingValidator;

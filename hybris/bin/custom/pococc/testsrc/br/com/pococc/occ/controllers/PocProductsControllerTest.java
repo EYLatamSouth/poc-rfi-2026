@@ -4,7 +4,6 @@ import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
 import br.com.pococc.occ.validators.PocCustomerReviewRatingValidator;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
 import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.commercefacades.product.ProductFacade;
