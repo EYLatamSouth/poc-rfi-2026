@@ -32,4 +32,19 @@
 			</list>
 		</property>
 	</bean>
+
+	<alias name="pocReviewWsDTOFieldSetLevelMapping" alias="reviewWsDTOFieldSetLevelMapping" />
+	<bean parent="fieldSetLevelMapping" id="pocReviewWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,headline,principal,alias,rating,date,comment, helpfulnessRating"/>
+				<entry key="DEFAULT"
+					   value="id,headline,principal(DEFAULT),alias,rating,date,comment, helpfulnessRating"/>
+				<entry key="FULL"
+					   value="id,headline,principal(FULL),alias,rating,date,comment, helpfulnessRating"/>
+			</map>
+		</property>
+	</bean>
 </beans>
