@@ -2,8 +2,10 @@ package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
 import br.com.pocfacades.product.PocProductFacade;
-import br.com.pocfacades.review.PocReviewFacade;
 import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.poc.occ.dto.product.PocReviewRatingData;
+import br.com.pocfacades.review.PocCustomerReviewFacade;
+import br.com.pococc.occ.validators.PocCustomerReviewRatingValidator;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
 import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
@@ -44,7 +46,10 @@ public class PocProductsController extends PocBaseController
     private ConfigurationService configurationService;
 
     @Resource(name = "pocReviewFacade")
-    private PocReviewFacade pocReviewFacade;
+    private PocCustomerReviewFacade pocCustomerReviewFacade;
+
+    @Resource(name = "pocReviewRatingValidator")
+    private PocCustomerReviewRatingValidator pocReviewRatingValidator;
 
     @GetMapping("/{productCode}/reviews")
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.getProductReviews.priority")
@@ -74,17 +79,21 @@ public class PocProductsController extends PocBaseController
      * @param helpful       Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
-    @Secured({"ROLE_TRUSTED_CLIENT", "ROLE_CUSTOMERGROUP"})
+//    @Secured({"ROLE_TRUSTED_CLIENT"})
     @PostMapping("/{productCode}/review/{id}/helpful")
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
     @ApiBaseSiteIdParam
-    public ResponseEntity<Object> postReviewRating(
+    public ResponseEntity postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
-            @Parameter(description = "Review Id.", required = true) @PathVariable final String id,
+            @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
             @RequestParam(defaultValue = "true") final boolean helpful)
     {
-        pocReviewFacade.createProductReviewRating(productCode, Integer.parseInt(id), helpful);
+        PocReviewRatingData validateData = new PocReviewRatingData();
+        validateData.setId(id);
+        validateData.setProductCode(productCode);
+        validate(validateData, "PocReviewRatingData", pocReviewRatingValidator);
+        pocCustomerReviewFacade.createProductReviewRating(productCode, id, helpful);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

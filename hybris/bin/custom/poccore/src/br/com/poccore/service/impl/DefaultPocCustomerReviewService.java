@@ -1,9 +1,9 @@
 package br.com.poccore.service.impl;
 
 import br.com.poccore.PocUtil;
-import br.com.poccore.dao.PocReviewDao;
+import br.com.poccore.dao.PocCustomerReviewDao;
 import br.com.poccore.model.CustomerReviewRatingModel;
-import br.com.poccore.service.PocReviewService;
+import br.com.poccore.service.PocCustomerReviewService;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.core.servicelayer.data.SearchPageData;
@@ -18,16 +18,15 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
-public class DefaultPocReviewService implements PocReviewService {
-    private final Logger LOG = LoggerFactory.getLogger(DefaultPocReviewService.class);
+public class DefaultPocCustomerReviewService implements PocCustomerReviewService {
+    private final Logger LOG = LoggerFactory.getLogger(DefaultPocCustomerReviewService.class);
 
     private ModelService modelService;
-    private PocReviewDao pocReviewDao;
-    private UserService userService;
+    private PocCustomerReviewDao pocCustomerReviewDao;
 
     /**
      * Finds a CustomerReviewModel for given productCode based on its chronological position.
-     * Uses to {@link PocReviewDao} to search the review with the provided information, then validates the returned content.
+     * Uses to {@link PocCustomerReviewDao} to search the review with the provided information, then validates the returned content.
      *
      * @param productCode The code for the target product.
      * @param nth         The chronological position.
@@ -39,7 +38,7 @@ public class DefaultPocReviewService implements PocReviewService {
     @Override
     public CustomerReviewModel findNthProductReview(String productCode, int nth) {
         LOG.info("Searching for {} Customer Review for product {}", nth, productCode);
-        SearchPageData<CustomerReviewModel> result = getPocReviewDao().findNthProductReview(productCode, nth);
+        SearchPageData<CustomerReviewModel> result = getPocCustomerReviewDao().findNthProductReview(productCode, nth);
         ServicesUtil.validateIfSingleResult(result.getResults(),
                 "No review was found for given product code and index.",
                 "Multiple reviews were found for given product code and index.");
@@ -55,7 +54,7 @@ public class DefaultPocReviewService implements PocReviewService {
      */
     @Override
     public CustomerReviewRatingModel findCustomerReviewRating(CustomerReviewModel review, CustomerModel rater) {
-        return getPocReviewDao().findReviewRatingByReviewAndRater(review.getPk(), rater.getPk());
+        return getPocCustomerReviewDao().findReviewRatingByReviewAndRater(review.getPk(), rater.getPk());
     }
 
     /**
@@ -72,9 +71,8 @@ public class DefaultPocReviewService implements PocReviewService {
      * @throws IllegalStateException    if the rating user is not a {@link CustomerModel}
      */
     @Override
-    public CustomerReviewRatingModel createProductReviewRating(String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
+    public CustomerReviewRatingModel createProductReviewRating(UserModel ratingUser, String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
         LOG.info("Creating Customer Review Rate for {} Customer Review for product {}", nth, productCode);
-        UserModel ratingUser = getUserService().getCurrentUser();
         CustomerReviewModel review = findNthProductReview(productCode, nth);
         ServicesUtil.validateParameterNotNull(review.getUser(), String.format("Review %s does not contain User.", review));
         PocUtil.validateParameterType(ratingUser, CustomerModel.class);
@@ -108,19 +106,11 @@ public class DefaultPocReviewService implements PocReviewService {
         this.modelService = modelService;
     }
 
-    public UserService getUserService() {
-        return userService;
+    public PocCustomerReviewDao getPocCustomerReviewDao() {
+        return pocCustomerReviewDao;
     }
 
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
-
-    public PocReviewDao getPocReviewDao() {
-        return pocReviewDao;
-    }
-
-    public void setPocReviewDao(PocReviewDao pocReviewDao) {
-        this.pocReviewDao = pocReviewDao;
+    public void setPocCustomerReviewDao(PocCustomerReviewDao pocCustomerReviewDao) {
+        this.pocCustomerReviewDao = pocCustomerReviewDao;
     }
 }

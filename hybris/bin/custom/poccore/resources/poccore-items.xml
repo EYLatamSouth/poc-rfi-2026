@@ -66,6 +66,11 @@
                         <defaultvalue>java.lang.Boolean.FALSE</defaultvalue>
                         <persistence type="property"/>
                     </attribute>
+                    <attribute qualifier="helpfulnessRating" type="java.lang.Integer">
+                        <modifiers unique="false" read="true" search="true" initial="true" optional="false"/>
+                        <persistence type="property"/>
+                        <defaultvalue>0</defaultvalue>
+                    </attribute>
                 </attributes>
             </itemtype>
 
