@@ -108,13 +108,12 @@
         <property name="typeCode" value="CustomerReview"/>
     </bean>
 
-    <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocReviewService">
+    <bean id="pocReviewService" class="br.com.poccore.service.impl.DefaultPocCustomerReviewService">
         <property name="modelService" ref="modelService"/>
-        <property name="pocReviewDao" ref="pocReviewDao"/>
-        <property name="userService" ref="userService"/>
+        <property name="pocCustomerReviewDao" ref="pocCustomerReviewDao"/>
     </bean>
 
-    <bean id="pocReviewDao" class="br.com.poccore.dao.impl.DefaultPocReviewDao">
+    <bean id="pocCustomerReviewDao" class="br.com.poccore.dao.impl.DefaultPocCustomerReviewDao">
         <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
@@ -177,5 +176,19 @@
     </bean>
 
     <bean id="customerReviewEventListener" class="br.com.poccore.event.CustomerReviewEventListener" parent="abstractEventListener" />
+
+    <bean id="customerReviewRatingValidateInterceptor" class="br.com.poccore.interceptors.CustomerReviewRatingValidateInterceptor" />
+
+    <bean id="customerReviewRatingValidateInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerReviewRatingValidateInterceptor"/>
+        <property name="typeCode" value="CustomerReviewRating"/>
+    </bean>
+
+    <bean id="customerReviewRatingRemoveInterceptor" class="br.com.poccore.interceptors.CustomerReviewRatingRemoveInterceptor" />
+
+    <bean id="customerReviewRatingRemoveInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="customerReviewRatingRemoveInterceptor"/>
+        <property name="typeCode" value="CustomerReviewRating"/>
+    </bean>
 
 </beans>

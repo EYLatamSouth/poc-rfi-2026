@@ -1,6 +1,6 @@
 package br.com.poccore.dao.impl;
 
-import br.com.poccore.dao.PocReviewDao;
+import br.com.poccore.dao.PocCustomerReviewDao;
 import br.com.poccore.model.CustomerReviewRatingModel;
 import de.hybris.platform.core.PK;
 import de.hybris.platform.core.model.product.ProductModel;
@@ -14,7 +14,7 @@ import de.hybris.platform.servicelayer.search.paginated.PaginatedFlexibleSearchP
 import de.hybris.platform.servicelayer.search.paginated.PaginatedFlexibleSearchService;
 import org.springframework.util.CollectionUtils;
 
-public class DefaultPocReviewDao implements PocReviewDao {
+public class DefaultPocCustomerReviewDao implements PocCustomerReviewDao {
 
     private static final String FIND_NTH_PRODUCT_REVIEW = "SELECT {cr.pk}" +
             " FROM {" + CustomerReviewModel._TYPECODE + " AS cr " +

@@ -25,16 +25,6 @@ public class PocUtil {
      *
      * @param parameter     The string.
      * @param attribute     Attribute name for error message.
-     */
-    public static void validateStringValues(final String parameter, final String attribute) {
-        validateStringValues(parameter, attribute, null);
-    }
-
-    /**
-     * Validates conditions for a given string.
-     *
-     * @param parameter     The string.
-     * @param attribute     Attribute name for error message.
      * @param regex         Regex to match given parameter.
      */
     public static void validateStringValues(final String parameter, final String attribute, String regex) {
