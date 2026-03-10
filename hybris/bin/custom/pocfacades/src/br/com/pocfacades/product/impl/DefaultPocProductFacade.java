@@ -11,10 +11,10 @@ public class DefaultPocProductFacade implements PocProductFacade {
     private PocProductService pocProductService;
 
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode){
-        searchRestrictionService.disableSearchRestrictions();
+        getSearchRestrictionService().disableSearchRestrictions();
         PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData;
         pocProductEngagementSummaryInfoData = getPocProductService().getEngagementSummary(productCode);
-        searchRestrictionService.enableSearchRestrictions();
+        getSearchRestrictionService().enableSearchRestrictions();
 
         return pocProductEngagementSummaryInfoData;
 

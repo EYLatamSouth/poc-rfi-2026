@@ -15,17 +15,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.List;
+import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultPocCustomerReviewDaoTest {
+public class DefaultPocReviewDaoTest {
 
     @InjectMocks
-    private DefaultPocCustomerReviewDao dao;
+    private DefaultPocReviewDao dao;
 
     @Mock
     private PaginatedFlexibleSearchService paginatedFlexibleSearchService;
@@ -49,15 +50,20 @@ public class DefaultPocCustomerReviewDaoTest {
     }
 
     @Test
-    public void testFindReviewRatingByReviewAndRater() {
-        SearchResult expected = mock(SearchResult.class);
-        doReturn(expected).when(flexibleSearchService).search(any(FlexibleSearchQuery.class));
+    public void testFindReviewRatingByReviewAndRater_validResult() {
+        SearchResult<CustomerReviewRatingModel> searchResult = mock(SearchResult.class);
+        doReturn(searchResult).when(flexibleSearchService).search(any(FlexibleSearchQuery.class));
+        when(searchResult.getResult()).thenReturn(Collections.singletonList(mock(CustomerReviewRatingModel.class)));
+        CustomerReviewRatingModel actual = dao.findReviewRatingByReviewAndRater(PK.fromLong(2L), PK.fromLong(1L));
+        assertNotNull(actual);
+        verify(flexibleSearchService, times(1)).search(any(FlexibleSearchQuery.class));
+    }
+
+    @Test
+    public void testFindReviewRatingByReviewAndRater_nullResult() {
+        doReturn(mock(SearchResult.class)).when(flexibleSearchService).search(any(FlexibleSearchQuery.class));
         CustomerReviewRatingModel actual = dao.findReviewRatingByReviewAndRater(PK.fromLong(2L), PK.fromLong(1L));
         assertNull(actual);
         verify(flexibleSearchService, times(1)).search(any(FlexibleSearchQuery.class));
-
-        when(expected.getResult()).thenReturn(List.of(new CustomerReviewRatingModel()));
-        actual = dao.findReviewRatingByReviewAndRater(PK.fromLong(1L), PK.fromLong(2L));
-        assertNotNull(actual);
     }
 }

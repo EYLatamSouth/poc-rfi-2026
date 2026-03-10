@@ -9,8 +9,6 @@ import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.commercefacades.product.ProductFacade;
 import de.hybris.platform.commercefacades.product.data.ReviewData;
 import de.hybris.platform.commerceservices.request.mapping.annotation.RequestMappingOverride;
-import de.hybris.platform.commercewebservices.core.product.data.ReviewDataList;
-import de.hybris.platform.commercewebservicescommons.dto.product.ReviewListWsDTO;
 import de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO;
 import de.hybris.platform.servicelayer.config.ConfigurationService;
 import de.hybris.platform.webservicescommons.swagger.ApiBaseSiteIdParam;

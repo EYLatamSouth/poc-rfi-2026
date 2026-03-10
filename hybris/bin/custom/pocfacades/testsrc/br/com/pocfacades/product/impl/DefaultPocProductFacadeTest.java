@@ -1,6 +1,7 @@
 package br.com.pocfacades.product.impl;
 
 import br.com.poccore.service.PocProductService;
+import de.hybris.platform.search.restriction.SearchRestrictionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -17,10 +18,14 @@ public class DefaultPocProductFacadeTest {
 	@Mock
 	private PocProductService pocProductService;
 
+	@Mock
+	private SearchRestrictionService searchRestrictionService;
+
 	@Before
 	public void setUp() {
 		MockitoAnnotations.openMocks(this);
 		defaultPocProductFacade.setPocProductService(pocProductService);
+		defaultPocProductFacade.setSearchRestrictionService(searchRestrictionService);
 	}
 
 	@Test
