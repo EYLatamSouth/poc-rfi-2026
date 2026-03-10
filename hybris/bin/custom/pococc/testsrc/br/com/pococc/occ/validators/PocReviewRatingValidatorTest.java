@@ -2,7 +2,6 @@ package br.com.pococc.occ.validators;
 
 import br.com.poc.occ.dto.product.PocReviewRatingData;
 import de.hybris.bootstrap.annotations.UnitTest;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,9 +21,6 @@ public class PocReviewRatingValidatorTest {
 
     @InjectMocks
     private PocCustomerReviewRatingValidator validator;
-
-    @Before
-    public void setUp() {}
 
     @Test
     public void testValidate_Success() {

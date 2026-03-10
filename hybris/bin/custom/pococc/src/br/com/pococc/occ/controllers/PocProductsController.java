@@ -67,7 +67,7 @@ public class PocProductsController extends PocBaseController
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
     @ApiBaseSiteIdParam
-    public ResponseEntity postReviewRating(
+    public ResponseEntity<Void> postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
             @RequestParam(defaultValue = "true") final boolean helpful)
