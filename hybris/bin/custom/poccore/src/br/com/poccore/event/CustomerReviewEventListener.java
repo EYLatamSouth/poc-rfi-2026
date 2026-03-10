@@ -17,9 +17,7 @@ public class CustomerReviewEventListener extends AbstractEventListener<CustomerR
                 .anyMatch(order -> order.getEntries().stream()
                         .anyMatch(entry -> entry.getProduct().equals(product)));
 
-        if (customerHasBoughtProduct) {
-            customerReview.setHasBoughtProduct(Boolean.TRUE);
-        }
+        customerReview.setHasBoughtProduct(customerHasBoughtProduct);
     }
 
 }
