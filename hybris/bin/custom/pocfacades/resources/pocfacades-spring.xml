@@ -29,8 +29,9 @@
         <property name="customerInquiryDataConverter" ref="customerInquiryDataConverter"/>
     </bean>
 
-    <bean id="pocReviewFacade" class="br.com.pocfacades.review.impl.DefaultPocReviewFacade">
+    <bean id="pocReviewFacade" class="br.com.pocfacades.review.impl.DefaultPocCustomerReviewFacade">
         <property name="pocReviewService" ref="pocReviewService"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="pocProductFacade" class="br.com.pocfacades.product.impl.DefaultPocProductFacade">

@@ -39,4 +39,19 @@
 		<property name="approvalStatus" type="String"/>
 	</bean>
 
+    <bean class="de.hybris.platform.commercefacades.product.data.ReviewData">
+        <property name="helpfulnessRating" type="Integer" />
+    </bean>
+
+    <bean class="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO">
+        <property name="helpfulnessRating" type="Integer">
+            <description>Helpfulness rating of review</description>
+        </property>
+    </bean>
+
+    <bean class="br.com.poc.occ.dto.product.PocReviewRatingData">
+        <property name="productCode" type="String" />
+        <property name="id" type="Integer" />
+    </bean>
+
 </beans>
