@@ -401,7 +401,7 @@
         "header": [],
         "body": {
           "mode": "raw",
-          "raw": "{\r\n  \"id\": \"8796111994930\",\r\n  \"headline\": \"Rodolfo TEste\",\r\n  \"comment\": \"Blablalba\",\r\n  \"rating\": 5.0,\r\n  \"date\": \"2026-03-06T14:11:56-03:00\",\r\n  \"alias\": \"Alias\"\r\n }\r\n",
+          "raw": "{\r\n    \"id\": \"8796111994930\",\r\n    \"headline\": \"Rodolfo TEste\",\r\n    \"comment\": \"Blablalba\",\r\n    \"rating\": 5.0,\r\n    \"date\": \"2026-03-06T14:11:56-03:00\",\r\n    \"alias\": \"Alias\"\r\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -454,7 +454,7 @@
         "method": "POST",
         "header": [],
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/2278102/review/2/helpful?helpful=false",
+          "raw": "{{server}}/occ/v2/electronics/products/23355/review/2/helpful?helpful=false",
           "host": [
             "{{server}}"
           ],
@@ -463,7 +463,7 @@
             "v2",
             "electronics",
             "products",
-            "2278102",
+            "23355",
             "review",
             "2",
             "helpful"
@@ -494,7 +494,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/2278102/engagementSummary",
+          "raw": "{{server}}/occ/v2/electronics/products/23355/engagementSummary",
           "host": [
             "{{server}}"
           ],
@@ -503,7 +503,7 @@
             "v2",
             "electronics",
             "products",
-            "2278102",
+            "23355",
             "engagementSummary"
           ]
         }
@@ -576,6 +576,166 @@
           "path": [
             "v2",
             "usage"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Cart",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server}}/occ/v2/{{baseSite}}/users/{{userId}}/carts?fields=DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser&lang=en&curr=USD",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "{{baseSite}}",
+            "users",
+            "{{userId}}",
+            "carts"
+          ],
+          "query": [
+            {
+              "key": "fields",
+              "value": "DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser"
+            },
+            {
+              "key": "lang",
+              "value": "en"
+            },
+            {
+              "key": "curr",
+              "value": "USD"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "add to cart",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n \"product\": {\r\n  \"code\": \"23355\"\r\n  },\r\n  \"quantity\": 1,\r\n  \"processType\": {\r\n  \"id\": \"ACQUISITION\"\r\n }\r\n\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server}}/occ/v2/{{baseSite}}/users/{{userId}}/carts/{{cart_code}}/entries?fields=DEFAULT&lang=en&curr=USD",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "{{baseSite}}",
+            "users",
+            "{{userId}}",
+            "carts",
+            "{{cart_code}}",
+            "entries"
+          ],
+          "query": [
+            {
+              "key": "fields",
+              "value": "DEFAULT"
+            },
+            {
+              "key": "lang",
+              "value": "en"
+            },
+            {
+              "key": "curr",
+              "value": "USD"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Place Order (Acessar o carrinho antes e setar o modo de entrega)",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{userToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{server}}/occ/v2/{{baseSite}}/users/{{userId}}/orders/paymentAuthorizedOrderPlacement?cartId=00000002",
+          "host": [
+            "{{server}}"
+          ],
+          "path": [
+            "occ",
+            "v2",
+            "{{baseSite}}",
+            "users",
+            "{{userId}}",
+            "orders",
+            "paymentAuthorizedOrderPlacement"
+          ],
+          "query": [
+            {
+              "key": "cartId",
+              "value": "00000002"
+            }
           ]
         }
       },
