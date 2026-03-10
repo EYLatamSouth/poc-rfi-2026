@@ -23,10 +23,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultPocReviewDaoTest {
+public class DefaultPocCustomerReviewDaoTest {
 
     @InjectMocks
-    private DefaultPocReviewDao dao;
+    private DefaultPocCustomerReviewDao dao;
 
     @Mock
     private PaginatedFlexibleSearchService paginatedFlexibleSearchService;
