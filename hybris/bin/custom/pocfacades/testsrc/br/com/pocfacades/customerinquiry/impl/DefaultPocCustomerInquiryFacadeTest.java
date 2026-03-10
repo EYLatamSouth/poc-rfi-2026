@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
@@ -50,12 +50,12 @@ public class DefaultPocCustomerInquiryFacadeTest {
         when(userService.getCurrentUser()).thenReturn(currentUser);
         when(userService.isAnonymousUser(currentUser)).thenReturn(true);
 
-        assertThrows(UsernameNotFoundException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
+        assertThrows(BadCredentialsException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
 
         verify(pocCustomerInquiryService, never()).createCustomerInquiry(any());
 
         when(userService.isAnonymousUser(currentUser)).thenReturn(false);
-        assertThrows(UsernameNotFoundException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
+        assertThrows(BadCredentialsException.class, () -> pocCustomerInquiryFacade.createCustomerInquiry("productCode", new PocProductQuestionWsDTO()));
 
         verify(pocCustomerInquiryService, never()).createCustomerInquiry(any());
     }

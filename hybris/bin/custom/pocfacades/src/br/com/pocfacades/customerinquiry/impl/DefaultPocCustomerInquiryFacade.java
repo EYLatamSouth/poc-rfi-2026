@@ -5,13 +5,11 @@ import br.com.poccore.customerinquiry.PocCustomerInquiryService;
 import br.com.poccore.model.CustomerProductInquiryModel;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
 import br.com.pocfacades.data.customerinquiry.CustomerInquiryData;
-import de.hybris.platform.core.model.product.ProductModel;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.platform.product.ProductService;
 import de.hybris.platform.servicelayer.dto.converter.Converter;
 import de.hybris.platform.servicelayer.user.UserService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import static br.com.pocfacades.constants.PocfacadesConstants.USER_NOT_CUSTOMER_MESSAGE;
 
@@ -34,7 +32,7 @@ public class DefaultPocCustomerInquiryFacade implements PocCustomerInquiryFacade
             return getCustomerInquiryDataConverter().convert(model);
         }
 
-        throw new UsernameNotFoundException(String.format(USER_NOT_CUSTOMER_MESSAGE, userModel.getUid()));
+        throw new BadCredentialsException(String.format(USER_NOT_CUSTOMER_MESSAGE, userModel.getUid()));
     }
 
     private boolean isValidCustomer(UserModel userModel) {
