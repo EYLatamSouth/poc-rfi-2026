@@ -6,7 +6,8 @@
 # Macros / Replacement Parameter definitions
 $productCatalog = electronicsProductCatalog
 $productCV = catalogVersion(catalog(id[default = $productCatalog]), version[default = Online])[unique = true, default = $productCatalog:Online]
-$lang = pt
+#$lang = hu,pl,cs,id,hi,zh_TW,zh,ru,pt,ko,ja,it,fr,es_CO,es,de,en
+$lang = pt,en
 
 INSERT_UPDATE CustomerReview; product(code, $productCV)[unique = true]; user(uid)[unique = true]  ; moderationNotes[lang = $lang]                                                               ; hasBoughtProduct
                             ; 280916                                  ; keenreviewer1@hybris.com  ; Obrigado por compartilhar sua experiência positiva! Sua avaliação foi aprovada.             ; TRUE

@@ -1,6 +1,7 @@
 $productCatalog = electronicsProductCatalog
 $productCV = catalogVersion(catalog(id[default = $productCatalog]), version[default = Online])[unique = true, default = $productCatalog:Online]
-$lang = pt
+#$lang = hu,pl,cs,id,hi,zh_TW,zh,ru,pt,ko,ja,it,fr,es_CO,es,de,en
+$lang = pt,en
 
 INSERT_UPDATE CustomerProductInquiry; customer(uid)[unique = true]; product(code, $productCV)[unique = true]; question[unique = true][lang = $lang]                                   ; answer[lang = $lang]                                                                                                                             ; approvalStatus(code); answerDate[dateformat = dd.MM.yyyy]
                                     ; keenreviewer25@hybris.com   ; 300938                                  ; Este produto possui conectividade Bluetooth?                            ; Sim, este produto possui conectividade Bluetooth para facilitar a conexão com outros dispositivos.                                               ; UNAPPROVED          ; 12.03.2026

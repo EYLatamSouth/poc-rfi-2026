@@ -17,4 +17,34 @@
 
 	<bean id="pocProductQuestionValidator" class="br.com.pococc.occ.validators.PocProductQuestionValidator"/>
 
+	<bean id="pocReviewRatingValidator" class="br.com.pococc.occ.validators.PocCustomerReviewRatingValidator"/>
+
+	<alias name="defaultPocCustomerReviewPopulator" alias="pocCustomerReviewPopulator"/>
+	<bean id="defaultPocCustomerReviewPopulator" class="br.com.pococc.occ.populators.PocCustomerReviewPopulator"/>
+
+	<alias name="defaultCustomerReviewConverter" alias="customerReviewConverter"/>
+	<bean id="defaultCustomerReviewConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commercefacades.product.data.ReviewData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerReviewPopulator"/>
+				<ref bean="pocCustomerReviewPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="pocReviewWsDTOFieldSetLevelMapping" alias="reviewWsDTOFieldSetLevelMapping" />
+	<bean parent="fieldSetLevelMapping" id="pocReviewWsDTOFieldSetLevelMapping">
+		<property name="dtoClass"
+				  value="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO"/>
+		<property name="levelMapping">
+			<map>
+				<entry key="BASIC" value="id,headline,principal,alias,rating,date,comment, helpfulnessRating"/>
+				<entry key="DEFAULT"
+					   value="id,headline,principal(DEFAULT),alias,rating,date,comment, helpfulnessRating"/>
+				<entry key="FULL"
+					   value="id,headline,principal(FULL),alias,rating,date,comment, helpfulnessRating"/>
+			</map>
+		</property>
+	</bean>
 </beans>

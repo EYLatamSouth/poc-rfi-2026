@@ -4,6 +4,7 @@ import br.com.poc.occ.dto.user.product.PocProductQuestionWsDTO;
 import br.com.pocfacades.customerinquiry.PocCustomerInquiryFacade;
 import br.com.pococc.occ.validators.PocProductQuestionValidator;
 import de.hybris.bootstrap.annotations.UnitTest;
+import de.hybris.platform.webservicescommons.mapping.DataMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +31,9 @@ public class PocUsersControllerTest {
 
     @Mock
     private PocCustomerInquiryFacade pocCustomerInquiryFacade;
+
+    @Mock
+    private DataMapper dataMapper;
 
     @Before
     public void setUp() {}

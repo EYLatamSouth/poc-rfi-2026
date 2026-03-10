@@ -1,5 +1,5 @@
 package br.com.pocfacades.review;
 
-public interface PocReviewFacade {
+public interface PocCustomerReviewFacade {
     void createProductReviewRating(String productCode, int reviewId, boolean helpful);
 }

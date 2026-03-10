@@ -5,7 +5,7 @@ import br.com.poc.occ.dto.product.PocProductReviewsInfoData;
 import br.com.poccore.dao.PocProductDao;
 import br.com.poccore.enums.CustomerInquiryApprovalStatus;
 import br.com.poccore.service.PocProductService;
-import br.com.vivo.facades.product.data.PocProductEngagementSummaryInfoData;
+import br.com.pocfacades.product.data.PocProductEngagementSummaryInfoData;
 import de.hybris.platform.customerreview.enums.CustomerReviewApprovalType;
 import jakarta.annotation.Nonnull;
 import org.springframework.util.CollectionUtils;
