@@ -176,8 +176,6 @@
         </property>
     </bean>
 
-    <bean id="customerReviewEventListener" class="br.com.poccore.event.CustomerReviewEventListener" parent="abstractEventListener">
-        <property name="modelService" ref="modelService"/>
-    </bean>
+    <bean id="customerReviewEventListener" class="br.com.poccore.event.CustomerReviewEventListener" parent="abstractEventListener" />
 
 </beans>
