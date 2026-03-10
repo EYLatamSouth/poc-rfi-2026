@@ -2,6 +2,7 @@ package br.com.poccore.interceptors;
 
 import de.hybris.bootstrap.annotations.UnitTest;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
+import de.hybris.platform.servicelayer.event.EventService;
 import de.hybris.platform.servicelayer.interceptor.InterceptorContext;
 import de.hybris.platform.servicelayer.interceptor.InterceptorException;
 import org.junit.Before;
@@ -21,11 +22,16 @@ public class CustomerReviewPrepareInterceptorTest {
     @InjectMocks
     private CustomerReviewPrepareInterceptor customerReviewPrepareInterceptor;
 
-    @Before
-    public void setUp() {}
-
     @Mock
     private InterceptorContext ctx;
+
+    @Mock
+    private EventService eventService;
+
+    @Before
+    public void setUp() {
+        customerReviewPrepareInterceptor.setEventService(eventService);
+    }
 
     @Test
     public void testRatingNotModified() throws InterceptorException {
