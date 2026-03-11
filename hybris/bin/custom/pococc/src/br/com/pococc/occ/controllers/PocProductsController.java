@@ -56,7 +56,7 @@ public class PocProductsController extends PocBaseController {
      * @param helpful     Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
-    @Secured({"ROLE_TRUSTED_CLIENT"})
+    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @PostMapping("/{productCode}/review/{id}/helpful")
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
@@ -73,6 +73,7 @@ public class PocProductsController extends PocBaseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(
@@ -89,7 +90,7 @@ public class PocProductsController extends PocBaseController {
         return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
 
-    @Secured({"ROLE_CUSTOMERGROUP"})
+    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @PostMapping(value = "/{productCode}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE})
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.CreateProductReviews.priority")
