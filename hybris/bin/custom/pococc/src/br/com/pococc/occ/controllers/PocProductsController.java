@@ -73,7 +73,7 @@ public class PocProductsController extends PocBaseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
+    
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(
