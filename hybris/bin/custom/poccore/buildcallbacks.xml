@@ -103,6 +103,7 @@
             <chmod file="${HYBRIS_BIN_DIR}/../../scripts/run-karate-tests.sh" perm="u+x"/>
             <exec executable="${HYBRIS_BIN_DIR}/../../scripts/run-karate-tests.sh" failonerror="@{failonerror}">
                 <arg value="${env}"/>
+                <arg value="${HYBRIS_BIN_DIR}/../../karate-project/"/>
             </exec>
         </sequential>
     </macrodef>

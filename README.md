@@ -66,7 +66,16 @@ ant clean all
 Subir o servidor 🚀:
 ./hybrisserver.sh
 
-### Testes automatizados com Karate 🧪
+## Testes automatizados com Karate 🧪
+
+### Instalação do maven
+Para rodar os testes automatizados, é necessário ter a versão 3.8.7 ou superior do maven instalado na máquina. Para instalar, utilize os comandos:
+
+1- sudo apt update
+
+2- sudo apt install maven
+
+### Execução dos testes
 Com o servidor rodando, você pode executar os testes automatizados com o comando abaixo, dentro da pasta hybris/bin/platform
 
 1- . ./setantenv.sh
