@@ -19,6 +19,7 @@
         <et:explorer-tree>
             <et:navigation-node id="hmc_treenode_marketing">
                 <et:type-node id="hmc_typenode_product_inquiry" code="CustomerProductInquiry" position="1"/>
+                <et:type-node id="hmc_typenode_review_rating" code="CustomerReviewRating" position="1"/>
             </et:navigation-node>
 
             <et:navigation-node id="hmc_treenode_system">
