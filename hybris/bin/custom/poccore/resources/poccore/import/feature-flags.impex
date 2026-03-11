@@ -1,2 +1,5 @@
 INSERT_UPDATE FeatureFlag;key[unique=true]          ; activity ; description                             ; status
-                         ;ft-send-customer-question ; US-03    ; Habilita endpoint /questions de cliente ; true
+                         ;ft-create-customer-review ; US-01    ; Habilita endpoint /reviews de cliente           ; true
+                         ;ft-vote-helpful-review    ; US-02    ; Habilita endpoint /helpful de cliente           ; true
+                         ;ft-send-customer-question ; US-03    ; Habilita endpoint /question de cliente          ; true
+                         ;ft-engagement-summary     ; US-05    ; Habilita endpoint /engagementSummary de cliente ; true
