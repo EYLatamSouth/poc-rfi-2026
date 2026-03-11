@@ -1,2 +1,22 @@
 INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid)[mode = append]; name          ; locName[lang = en]; locName[lang = pt]
                        ; support           ; employeegroup             ; Support Group ; Support Group     ; Support Group
+
+UPDATE BackofficeRole; UID[unique = true]; groups(uid)[mode = append]; name    ; locName [lang = en]; backOfficeLoginDisabled
+                     ; Support           ;                           ; Support ; Support            ; FALSE
+
+# Access rights for Support
+# These are needed for rendering (CustomerReviewRating).
+
+$START_USERRIGHTS
+Type           ; UID               ; MemberOfGroups; Password; Target                 ; read; change ; create; remove; change_perm
+UserGroup      ; Support           ;               ;         ;                        ;     ;        ;       ;       ;
+# access rights for Support
+               ;                   ;               ;         ; Product                ; +   ; -      ;       ;       ;
+               ;                   ;               ;         ; Customer               ; +   ; -      ;       ;       ;
+               ;                   ;               ;         ; CustomerReview         ; +   ; +      ;       ;       ;
+               ;                   ;               ;         ; CustomerReviewRating   ; +   ; +      ;       ;       ;
+               ;                   ;               ;         ; CustomerProductInquiry ; +   ; +      ;       ;       ;
+               ;                   ;               ;         ; Order                  ; +   ; -      ;       ;       ;
+               ;                   ;               ;         ; Item                   ; -   ; -      ;       ;       ;
+
+$END_USERRIGHTS
