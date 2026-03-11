@@ -1,6 +1,7 @@
 package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
+import br.com.poccore.annotation.FeatureFlagRestriction;
 import br.com.pocfacades.product.PocProductFacade;
 import br.com.poc.occ.dto.product.PocReviewRatingData;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
@@ -25,6 +26,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+
+import static br.com.pococc.occ.constants.PococcConstants.*;
 
 
 @Controller
@@ -61,6 +64,7 @@ public class PocProductsController extends PocBaseController {
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_02)
     public ResponseEntity<Void> postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
@@ -82,6 +86,7 @@ public class PocProductsController extends PocBaseController {
             description = "Retrieves an Engagement Summary AVG for a product."
     )
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_05)
     public PocProductEngagementSummaryWsDTO getProductEngagementSummary(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode) {
         LOG.info("POC CUSTOM GET PRODUCT Engagement Summary");
@@ -98,6 +103,7 @@ public class PocProductsController extends PocBaseController {
     @ResponseBody
     @Operation(operationId = "createProductReview", summary = "Creates a customer review as an anonymous or authenticated user.", description = "Creates a customer review for a product as an anonymous or authenticate user.")
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_01)
     public ReviewWsDTO createProductReview(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Object contains review details like : rating, alias, headline, comment.", required = true) @RequestBody final ReviewWsDTO review,

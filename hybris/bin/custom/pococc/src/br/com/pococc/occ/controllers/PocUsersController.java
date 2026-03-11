@@ -17,6 +17,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import static br.com.pococc.occ.constants.PococcConstants.US_03;
+
 @Controller
 @Tag(name = "Poc Users")
 @RequestMapping(value = "/{baseSiteId}/users")
@@ -33,7 +35,7 @@ public class PocUsersController extends PocBaseController {
     @ResponseBody
     @Operation(operationId = "sendProductQuestion", summary = "Send Customer Question about the Product.", description = "Customer makes a question about the current product before buy")
     @ApiBaseSiteIdAndUserIdParam
-    @FeatureFlagRestriction(name = "ft-send-customer-question")
+    @FeatureFlagRestriction(name = US_03)
     public ResponseEntity<PocCustomerInquiryWsDTO> sendProductQuestion(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Customer question about the product.") @RequestBody final PocProductQuestionWsDTO questionWsDTO) {
