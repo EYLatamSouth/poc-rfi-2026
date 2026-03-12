@@ -55,7 +55,7 @@ public class PocProductsController extends PocBaseController {
      * Creates and updates a Customer Review Rating for given product.
      *
      * @param productCode The code for the target product.
-     * @param id          The chronological position.
+     * @param id          The Review's ID (Primary Key) value.
      * @param helpful     Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
@@ -67,7 +67,7 @@ public class PocProductsController extends PocBaseController {
     @FeatureFlagRestriction(name = US_02)
     public ResponseEntity<Void> postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
-            @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
+            @Parameter(description = "Review Id.", required = true) @PathVariable final String id,
             @RequestParam(defaultValue = "true") final boolean helpful) {
         PocReviewRatingData validateData = new PocReviewRatingData();
         validateData.setId(id);

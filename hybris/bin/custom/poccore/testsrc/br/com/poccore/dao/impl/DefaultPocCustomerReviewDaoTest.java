@@ -2,12 +2,10 @@ package br.com.poccore.dao.impl;
 
 import br.com.poccore.model.CustomerReviewRatingModel;
 import de.hybris.platform.core.PK;
-import de.hybris.platform.core.servicelayer.data.SearchPageData;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
 import de.hybris.platform.servicelayer.search.FlexibleSearchService;
 import de.hybris.platform.servicelayer.search.SearchResult;
-import de.hybris.platform.servicelayer.search.paginated.PaginatedFlexibleSearchService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,24 +27,30 @@ public class DefaultPocCustomerReviewDaoTest {
     private DefaultPocCustomerReviewDao dao;
 
     @Mock
-    private PaginatedFlexibleSearchService paginatedFlexibleSearchService;
-
-    @Mock
     private FlexibleSearchService flexibleSearchService;
 
     @Before
     public void setUp() {
-        dao.setPaginatedFlexibleSearchService(paginatedFlexibleSearchService);
         dao.setFlexibleSearchService(flexibleSearchService);
     }
 
     @Test
-    public void testFindNthProductReview() {
-        SearchPageData expected = mock(SearchPageData.class);
-        doReturn(expected).when(paginatedFlexibleSearchService).search(any());
-        SearchPageData<CustomerReviewModel> actual = dao.findNthProductReview("productCode", 1);
+    public void testFindProductReviewById_validResult() {
+        SearchResult expected = mock(SearchResult.class);
+        doReturn(expected).when(flexibleSearchService).search(any(FlexibleSearchQuery.class));
+        when(expected.getResult()).thenReturn(Collections.singletonList(mock(CustomerReviewModel.class)));
+        CustomerReviewModel actual = dao.findProductReviewById("productCode", "1");
         assertNotNull(actual);
-        verify(paginatedFlexibleSearchService, times(1)).search(any());
+        verify(flexibleSearchService, times(1)).search(any(FlexibleSearchQuery.class));
+    }
+
+    @Test
+    public void testFindProductReviewById_nullResult() {
+        SearchResult expected = mock(SearchResult.class);
+        doReturn(expected).when(flexibleSearchService).search(any(FlexibleSearchQuery.class));
+        CustomerReviewModel actual = dao.findProductReviewById("productCode", "1");
+        assertNull(actual);
+        verify(flexibleSearchService, times(1)).search(any(FlexibleSearchQuery.class));
     }
 
     @Test
