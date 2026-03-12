@@ -1,8 +1,6 @@
-INSERT_UPDATE UserGroup; uid[unique = true]; groups(uid)[mode = append]; name          ; locName[lang = en]; locName[lang = pt]
-                       ; support           ; employeegroup             ; Support Group ; Support Group     ; Support Group
 
-UPDATE BackofficeRole; UID[unique = true]; groups(uid)[mode = append]; name    ; locName [lang = en]; backOfficeLoginDisabled
-                     ; Support           ;                           ; Support ; Support            ; FALSE
+INSERT_UPDATE BackofficeRole; UID[unique = true]; groups(uid)[mode = append]; name    ; locName [lang = pt]; backOfficeLoginDisabled
+                     ; Support               ;  employeegroup                  ; Support Role ; Support Role            ; FALSE
 
 # Access rights for Support
 # These are needed for rendering (CustomerReviewRating).
