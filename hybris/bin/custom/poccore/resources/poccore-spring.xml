@@ -114,7 +114,6 @@
     </bean>
 
     <bean id="pocCustomerReviewDao" class="br.com.poccore.dao.impl.DefaultPocCustomerReviewDao">
-        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
     </bean>
 

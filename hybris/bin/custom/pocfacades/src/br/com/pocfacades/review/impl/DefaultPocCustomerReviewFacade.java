@@ -18,15 +18,15 @@ public class DefaultPocCustomerReviewFacade implements PocCustomerReviewFacade {
      * Will call the PocReviewService to create a ProductReviewRating.
      *
      * @param productCode   The code for the target product.
-     * @param nth           The chronological position.
+     * @param reviewId      The Review's ID (Primary Key) value.
      * @param helpful       Review rate value.
      *
-     * @throws IllegalArgumentException when productCode or nth doesn't follow requirements
+     * @throws IllegalArgumentException when productCode or reviewId doesn't follow requirements
      */
     @Override
-    public void createProductReviewRating(String productCode, int nth, boolean helpful) throws IllegalArgumentException {
+    public void createProductReviewRating(String productCode, String reviewId, boolean helpful) throws IllegalArgumentException {
         try {
-            getPocReviewService().createProductReviewRating(getUserService().getCurrentUser(), productCode, nth, helpful);
+            getPocReviewService().createProductReviewRating(getUserService().getCurrentUser(), productCode, reviewId, helpful);
         }
         catch (Exception e) {
             log.error("Error occurred while creating CustomerReviewRating: {}", e.getMessage(), e);
