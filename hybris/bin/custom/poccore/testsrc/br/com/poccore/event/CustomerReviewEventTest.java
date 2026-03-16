@@ -34,7 +34,6 @@ public class CustomerReviewEventTest {
 
     @Test
     public void testSetOrder() {
-        CustomerReviewModel customerReviewModel = new CustomerReviewModel();
         customerReviewEvent.setCustomerReview(customerReviewModel);
         assertEquals(customerReviewModel, customerReviewEvent.getCustomerReview());
     }

@@ -6,7 +6,6 @@ import br.com.poccore.model.CustomerReviewRatingModel;
 import br.com.poccore.service.PocCustomerReviewService;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
-import de.hybris.platform.core.servicelayer.data.SearchPageData;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
 import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
 import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
@@ -24,24 +23,25 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
     private PocCustomerReviewDao pocCustomerReviewDao;
 
     /**
-     * Finds a CustomerReviewModel for given productCode based on its chronological position.
+     * Finds a CustomerReviewModel for given productCode based on its review ID.
      * Uses to {@link PocCustomerReviewDao} to search the review with the provided information, then validates the returned content.
      *
      * @param productCode The code for the target product.
-     * @param nth         The chronological position.
-     * @return single {@link CustomerReviewModel} fond
+     * @param reviewId    The Review's ID (Primary Key) value.
+     * @return single {@link CustomerReviewModel} found
      * @throws IllegalArgumentException     if the search result is null
      * @throws UnknownIdentifierException   if the search result is empty
      * @throws AmbiguousIdentifierException if the search result contains more than one item
      */
     @Override
-    public CustomerReviewModel findNthProductReview(String productCode, int nth) {
-        log.info("Searching for {} Customer Review for product {}", nth, productCode);
-        SearchPageData<CustomerReviewModel> result = getPocCustomerReviewDao().findNthProductReview(productCode, nth);
-        ServicesUtil.validateIfSingleResult(result.getResults(),
-                "No review was found for given product code and index.",
-                "Multiple reviews were found for given product code and index.");
-        return result.getResults().getFirst();
+    public CustomerReviewModel getProductReviewById(String productCode, String reviewId) {
+        log.info("Searching for {} Customer Review for product {}", reviewId, productCode);
+        CustomerReviewModel result = getPocCustomerReviewDao().findProductReviewById(productCode, reviewId);
+        ServicesUtil.validateParameterNotNull(
+            result,
+            "No review was found for given product code and review ID."
+        );
+        return result;
     }
 
     /**
@@ -58,21 +58,26 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
 
     /**
      * Create a Product Review Rating or Updates an existing one.
-     * Will use the productCode and its position to find the targeted review, and create a {@link CustomerReviewRatingModel}
+     * Will use the productCode and its review ID to find the targeted review, and create a {@link CustomerReviewRatingModel}
      * to save is helpfulness link both the creator customer (the one that created the CustomerReview) and the rating
      * customer (the one that rated the review). If a {@link CustomerReviewRatingModel} for the given information was found,
      * will update its value instead
      *
      * @param productCode The code for the target product.
-     * @param nth         The chronological position.
+     * @param reviewId    The Review's ID (Primary Key) value.
      * @param helpful     The review helpfulness.
      * @throws IllegalArgumentException if the user from the {@link CustomerReviewModel} is null
      * @throws IllegalStateException    if the rating user is not a {@link CustomerModel}
      */
     @Override
-    public CustomerReviewRatingModel createProductReviewRating(UserModel ratingUser, String productCode, int nth, boolean helpful) throws IllegalArgumentException, IllegalStateException {
-        log.info("Creating Customer Review Rate for {} Customer Review for product {}", nth, productCode);
-        CustomerReviewModel review = findNthProductReview(productCode, nth);
+    public CustomerReviewRatingModel createProductReviewRating(
+        UserModel ratingUser,
+        String productCode,
+        String reviewId,
+        boolean helpful
+    ) throws IllegalArgumentException, IllegalStateException {
+        log.info("Creating Customer Review Rate for {} Customer Review for product {}", reviewId, productCode);
+        CustomerReviewModel review = getProductReviewById(productCode, reviewId);
         ServicesUtil.validateParameterNotNull(review.getUser(), String.format("Review %s does not contain User.", review));
         PocUtil.validateParameterType(ratingUser, CustomerModel.class);
 

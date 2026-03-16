@@ -25,7 +25,7 @@ public class PocReviewRatingValidatorTest {
     @Test
     public void testValidate_Success() {
         PocReviewRatingData validateData = mock(PocReviewRatingData.class);
-        when(validateData.getId()).thenReturn(4);
+        when(validateData.getId()).thenReturn("4");
         when(validateData.getProductCode()).thenReturn("productCode");
         Errors errors = new BeanPropertyBindingResult(validateData, "validDto");
 
@@ -43,11 +43,6 @@ public class PocReviewRatingValidatorTest {
 
         validator.validate(validateData, errors );
         assertTrue(errors.hasErrors());
-
-        when(validateData.getId()).thenReturn(-10);
-        validator.validate(validateData, errors );
-        assertTrue(errors.hasErrors());
-
 
         validator.validate(new Object(), errors );
         assertTrue(errors.hasErrors());

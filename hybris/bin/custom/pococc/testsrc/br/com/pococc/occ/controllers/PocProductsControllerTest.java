@@ -80,11 +80,11 @@ public class PocProductsControllerTest {
 	@Test
 	public void testPostReviewRating() {
 		String productCode = "PRODUCT";
-		Integer index = 0;
+		String index = "0";
 		boolean helpful = false;
 
 		doNothing().when(pocReviewRatingValidator).validate(any(), any());
-		doNothing().when(pocCustomerReviewFacade).createProductReviewRating(anyString(), anyInt(), anyBoolean());
+		doNothing().when(pocCustomerReviewFacade).createProductReviewRating(anyString(), anyString(), anyBoolean());
 
 		ResponseEntity response = pocProductsController.postReviewRating(productCode, index, helpful);
 

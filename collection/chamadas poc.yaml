@@ -1,0 +1,1498 @@
+openapi: 3.0.1
+info:
+  title: Commerce Webservices
+  description: >-
+    Manages all of the common commerce functionality, and also includes
+    customizations from installed AddOns. The implementing extension is called
+    commercewebservices.
+  license:
+    name: >-
+      Use of this file is subject to the terms of your agreement with SAP SE or
+      its affiliates respecting the use of the SAP product for which this file
+      relates.
+    url: ''
+  version: 2.2.1
+externalDocs:
+  description: SAP Commerce Cloud
+  url: 'https://www.sap.com'
+servers:
+  - url: 'https://pocbackoffice.servehttp.com:9002/occ/v2'
+    description: Generated server url
+security:
+  - oauth2_client_credentials:
+      - extended
+  - oauth2_authorization_code:
+      - basic
+tags:
+  - name: Poc Products
+  - name: Poc Users
+paths:
+  '/{baseSiteId}/products/{productCode}/engagementSummary':
+    get:
+      tags:
+        - Poc Products
+      summary: Retrieves the Engagement Summary of a product.
+      description: Retrieves an Engagement Summary AVG for a product.
+      operationId: getProductEngagementSummary
+      parameters:
+        - name: baseSiteId
+          in: path
+          description: Base site identifier
+          required: true
+          schema:
+            type: string
+        - name: productCode
+          in: path
+          description: Product identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PocProductEngagementSummary'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PocProductEngagementSummary'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - oauth2_client_credentials:
+            - extended
+        - oauth2_authorization_code:
+            - basic
+  '/{baseSiteId}/products/{productCode}/review/{id}/helpful':
+    post:
+      tags:
+        - Poc Products
+      summary: Rate a review helpability.
+      description: Rate a review if it as helpful or not.
+      operationId: postReviewRating
+      parameters:
+        - name: baseSiteId
+          in: path
+          description: Base site identifier
+          required: true
+          schema:
+            type: string
+        - name: helpful
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: id
+          in: path
+          description: Review Id.
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: productCode
+          in: path
+          description: Product identifier.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - oauth2_client_credentials:
+            - extended
+        - oauth2_authorization_code:
+            - basic
+  '/{baseSiteId}/products/{productCode}/reviews':
+    post:
+      tags:
+        - Poc Products
+      summary: Creates a customer review as an anonymous or authenticated user.
+      description: >-
+        Creates a customer review for a product as an anonymous or authenticate
+        user.
+      operationId: createProductReview
+      parameters:
+        - name: baseSiteId
+          in: path
+          description: Base site identifier
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: >-
+            Response configuration. This is the list of fields that should be
+            returned in the response body. Examples: BASIC,DEFAULT,FULL
+          required: false
+          schema:
+            type: string
+            default: DEFAULT
+        - name: productCode
+          in: path
+          description: Product identifier.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Review'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Review'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - oauth2_client_credentials:
+            - extended
+        - oauth2_authorization_code:
+            - basic
+  '/{baseSiteId}/users/{userId}/products/{productCode}/question':
+    post:
+      tags:
+        - Poc Users
+      summary: Customer question about the product.
+      operationId: postProductQuestion
+      parameters:
+        - name: baseSiteId
+          in: path
+          description: Base site identifier
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          description: User identifier
+          required: true
+          schema:
+            type: string
+        - name: productCode
+          in: path
+          description: Product identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PocProductQuestion'
+        required: true
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - oauth2_client_credentials:
+            - extended
+        - oauth2_authorization_code:
+            - basic
+components:
+  schemas:
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          description: >-
+            Unique id value of the address which is optional while creating new
+            address. While performing other address operations this value is the
+            key
+        title:
+          type: string
+          description: Title of the address person
+          example: Mr.
+        titleCode:
+          type: string
+          description: Code of the title
+          example: MR
+        firstName:
+          type: string
+          description: First name of the address person
+          example: John
+        lastName:
+          type: string
+          description: Last name of the address person
+          example: Doe
+        companyName:
+          type: string
+          description: Company Name
+          example: Global Corp.
+        line1:
+          type: string
+          description: First line of the address
+          example: 123 Main Street
+        line2:
+          type: string
+          description: Second line of the address
+          example: Garden Level
+        town:
+          type: string
+          description: 'Town, field required'
+          example: New York City
+        region:
+          $ref: '#/components/schemas/Region'
+        district:
+          type: string
+          description: District name
+          example: 8th
+        postalCode:
+          type: string
+          description: Postal code of the address
+          example: '10001'
+        phone:
+          type: string
+          description: Phone number
+          example: +1 (123) 456-7890
+        cellphone:
+          type: string
+          description: Cellphone number
+          example: +1 (123) 456-7890
+        email:
+          type: string
+          description: Email address
+          example: johndoe@domain.com
+        country:
+          $ref: '#/components/schemas/Country'
+        shippingAddress:
+          type: boolean
+          description: Boolean flag if address is for shipping
+        defaultAddress:
+          type: boolean
+          description: Boolean flag if address is default
+        visibleInAddressBook:
+          type: boolean
+          description: Boolean flag if address is visible in the Address Book
+        formattedAddress:
+          type: string
+          description: Boolean flag if address is formatted
+      description: Address object
+    BaseOption:
+      type: object
+      properties:
+        variantType:
+          type: string
+          description: Variant type of base option
+        options:
+          type: array
+          description: List of all variant options
+          items:
+            $ref: '#/components/schemas/VariantOption'
+        selected:
+          $ref: '#/components/schemas/VariantOption'
+      description: Representation of a Base Option
+    Category:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the category
+        name:
+          type: string
+          description: Name of the category
+        url:
+          type: string
+          description: URL of the category
+        image:
+          $ref: '#/components/schemas/Image'
+      description: Representation of a Category
+    CategoryHierarchy:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of abstract catalog item
+        lastModified:
+          type: string
+          description: Date of last modification
+          format: date-time
+          example: '2026-03-10T15:52:13-03:00'
+        name:
+          type: string
+          description: Name of abstract catalog item
+        url:
+          type: string
+          description: Url address of abstract catalog item
+        subcategories:
+          type: array
+          description: List of subcategory hierarchies
+          items:
+            $ref: '#/components/schemas/CategoryHierarchy'
+      description: Representation of a Category Hierarchy
+    Classification:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the classification
+        name:
+          type: string
+          description: Name of the classification
+        features:
+          type: array
+          description: List of features for given classification
+          items:
+            $ref: '#/components/schemas/Feature'
+      description: Representation of a Classification
+    ConfigurationInfo:
+      type: object
+      properties:
+        configuratorType:
+          type: string
+          description: Type of configuration info
+        status:
+          type: string
+          description: Status of configuration info
+        configurationLabel:
+          type: string
+          description: Label of configuration info
+        configurationValue:
+          type: string
+          description: Value of configuration info
+      description: Representation of a Configuration Info
+    Country:
+      type: object
+      properties:
+        isocode:
+          type: string
+          description: Country code in iso format
+          example: US
+        name:
+          type: string
+          description: Name of the country
+          example: United States
+      description: >-
+        Response body fields which will be returned while fetching the list of
+        countries. The DTO is in XML or .json format
+    Currency:
+      type: object
+      properties:
+        isocode:
+          type: string
+          description: Code of the currency in iso format
+        name:
+          type: string
+          description: Name of the currency
+        active:
+          type: boolean
+          description: Boolean flag whether currency is active
+        symbol:
+          type: string
+          description: Symbol of the currency
+      description: Representation of a Currency
+    DeliveryMode:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the delivery mode
+          example: premium-gross
+        name:
+          type: string
+          description: Name of the delivery mode
+          example: Premium Delivery
+        description:
+          type: string
+          description: Description of the delivery mode
+          example: 1-2 business days
+        deliveryCost:
+          $ref: '#/components/schemas/Price'
+      description: Representation of a Delivery mode
+    EntryArrivalSlot:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: Represents the number of items expected to arrive.
+          format: double
+          example: 12
+        at:
+          type: string
+          description: The date associated with the expected arrival slot.
+          format: date-time
+          example: '2024-01-18T17:40:46+05:30'
+        accuracy:
+          type: string
+          description: 'The accuracy of the arrival slot as estimated, or unknown.'
+          example: ESTIMATED
+          enum:
+            - ESTIMATED
+            - UNKNOWN
+      description: >-
+        Records of item arrivals facilitate the tracking and management of item
+        quantities, associated arrival times, and certainty levels. These
+        records distinguish between guaranteed, estimated, and unknown arrival
+        scenarios.
+    EntryGroup:
+      type: object
+      properties:
+        entries:
+          type: array
+          description: List of order entries
+          items:
+            $ref: '#/components/schemas/OrderEntry'
+        entryGroups:
+          type: array
+          description: List of child entry groups
+          items:
+            $ref: '#/components/schemas/EntryGroup'
+        entryGroupNumber:
+          type: integer
+          description: Identifier of the entry group
+          format: int32
+          example: 1
+        label:
+          type: string
+          description: Label for the entry group
+          example: Photo On The Go Package
+        erroneous:
+          type: boolean
+          description: Indicates if the entry group is in an error state
+          example: true
+        type:
+          type: string
+          description: >-
+            Indicates type of the group, possible values are STANDALONE,
+            CONFIGURABLEBUNDLE or any customer implemented type for any new
+            provider
+          example: STANDALONE
+      description: Representation of an Entry Group
+    Feature:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the feature
+        name:
+          type: string
+          description: Name of the feature
+        description:
+          type: string
+          description: Description of the feature
+        type:
+          type: string
+          description: Type of the feature
+        range:
+          type: boolean
+          description: Range number of the feature
+        comparable:
+          type: boolean
+          description: Flag defining it feature is comparable
+        featureUnit:
+          $ref: '#/components/schemas/FeatureUnit'
+        featureValues:
+          type: array
+          description: List of feature values
+          items:
+            $ref: '#/components/schemas/FeatureValue'
+      description: Representation of a Feature
+    FeatureUnit:
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: Symbol of the feature unit
+        name:
+          type: string
+          description: Name of the feature unit
+        unitType:
+          type: string
+          description: Type of the feature unit
+      description: Representation of a Feature Unit
+    FeatureValue:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Value of the feature
+      description: Representation of a Feature Value
+    FutureStock:
+      type: object
+      properties:
+        stock:
+          $ref: '#/components/schemas/Stock'
+        date:
+          type: string
+          description: Date of future stock
+          format: date-time
+          example: '2026-03-10T15:52:03-03:00'
+        formattedDate:
+          type: string
+          description: Date of future stock expressed in text value
+          example: 31/12/2056
+      description: Representation of a Future Stock
+    GeoPoint:
+      type: object
+      properties:
+        latitude:
+          type: number
+          description: Geopoint latitude
+          format: double
+        longitude:
+          type: number
+          description: Geopoint longitude
+          format: double
+      description: Representation of a GeoPoint
+    Image:
+      type: object
+      properties:
+        imageType:
+          type: string
+          description: 'Type of the image, can be PRIMARY or GALLERY'
+          enum:
+            - PRIMARY
+            - GALLERY
+        format:
+          type: string
+          description: >-
+            Format of the image, can be zoom, product, thumbnail, store,
+            cartIcon, etc.
+        url:
+          type: string
+          description: URL address of the image
+        altText:
+          type: string
+          description: Tooltip content which is visible while image mouse hovering
+        galleryIndex:
+          type: integer
+          description: Index of the image while displayed in gallery
+          format: int32
+      description: Representation of an Image
+    Language:
+      type: object
+      properties:
+        isocode:
+          type: string
+          description: iso code of the language
+        name:
+          type: string
+          description: name of the language
+        nativeName:
+          type: string
+          description: name the language in native form
+        active:
+          type: boolean
+          description: true/false indicator when the language is active
+      description: Representation of a Language
+    OpeningSchedule:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the opening schedule
+        code:
+          type: string
+          description: Code of the opening schedule
+        weekDayOpeningList:
+          type: array
+          description: List of weekday opening days
+          items:
+            $ref: '#/components/schemas/WeekdayOpeningDay'
+        specialDayOpeningList:
+          type: array
+          description: List of special opening days
+          items:
+            $ref: '#/components/schemas/SpecialOpeningDay'
+      description: Representation of an Opening schedule
+    OrderEntry:
+      type: object
+      properties:
+        entryNumber:
+          type: integer
+          description: Entry number of the order entry
+          format: int32
+        quantity:
+          type: integer
+          description: Quantity number of items in order entry
+          format: int64
+        basePrice:
+          $ref: '#/components/schemas/Price'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+        product:
+          $ref: '#/components/schemas/Product'
+        updateable:
+          type: boolean
+          description: Flag defining if order entry item is updateable
+        deliveryMode:
+          $ref: '#/components/schemas/DeliveryMode'
+        configurationInfos:
+          type: array
+          description: Configuration info of order entry
+          items:
+            $ref: '#/components/schemas/ConfigurationInfo'
+        statusSummaryList:
+          type: array
+          description: >-
+            List of aggregated status information per entry, relevant if the
+            entry is configurable and its configuration contains one or many
+            issues in different severities. Note that configurators typically
+            raise such issues only in case the parent document is changeable. In
+            this case the issues (depending on their severity) need to be fixed
+            before a checkout can be done. This means this segment can be
+            present for a cart entry, for order entries it will always be empty
+          items:
+            $ref: '#/components/schemas/StatusSummary'
+        deliveryPointOfService:
+          $ref: '#/components/schemas/PointOfService'
+        cancelledItemsPrice:
+          $ref: '#/components/schemas/Price'
+        cancellableQuantity:
+          type: integer
+          description: Quantity number of cancellable items in order entry
+          format: int64
+          example: 5
+        returnedItemsPrice:
+          $ref: '#/components/schemas/Price'
+        returnableQuantity:
+          type: integer
+          description: Quantity number of returnable items in order entry
+          format: int64
+          example: 5
+        arrivalSlots:
+          type: array
+          description: List of item arrival slot
+          items:
+            $ref: '#/components/schemas/EntryArrivalSlot'
+        url:
+          type: string
+        quantityAllocated:
+          type: integer
+          format: int64
+        quantityUnallocated:
+          type: integer
+          format: int64
+        quantityCancelled:
+          type: integer
+          format: int64
+        quantityPending:
+          type: integer
+          format: int64
+        quantityShipped:
+          type: integer
+          format: int64
+        quantityReturned:
+          type: integer
+          format: int64
+      description: >-
+        Request body parameter that contains details such as the quantity of
+        product (quantity), and the pickup store name
+        (deliveryPointOfService.name)
+
+
+        The DTO is in XML or .json format.
+    PocProductEngagementSummary:
+      type: object
+      properties:
+        rating:
+          type: string
+        distribution:
+          type: array
+          items:
+            $ref: '#/components/schemas/PocProductReviewInfo'
+        verified:
+          type: string
+        topReviews:
+          type: array
+          items:
+            $ref: '#/components/schemas/PocProductReviews'
+        reviewPublication:
+          type: string
+        questionCount:
+          type: integer
+          format: int32
+        questionPublication:
+          type: string
+        responseTime:
+          type: integer
+          format: int32
+    PocProductQuestion:
+      type: object
+      properties:
+        question:
+          type: string
+      description: Customer question about the product.
+    PocProductReviewInfo:
+      type: object
+      properties:
+        grade:
+          type: integer
+          format: int32
+        gradeCount:
+          type: integer
+          format: int32
+    PocProductReviews:
+      type: object
+      properties:
+        reviewCount:
+          type: integer
+          format: int32
+        headLine:
+          type: string
+    PointOfService:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the point of service
+          example: Misato
+        displayName:
+          type: string
+          description: Display name of the point of service
+        url:
+          type: string
+          description: Url address of the point of service
+        description:
+          type: string
+          description: Description of the point of service
+        openingHours:
+          $ref: '#/components/schemas/OpeningSchedule'
+        storeContent:
+          type: string
+          description: Store content of given point of service
+        features:
+          type: object
+          additionalProperties:
+            type: string
+            description: List of features for a given point of service
+          description: List of features for a given point of service
+        geoPoint:
+          $ref: '#/components/schemas/GeoPoint'
+        formattedDistance:
+          type: string
+          description: Distance to the point of service as text value
+        distanceKm:
+          type: number
+          description: Distance to the point of service as number value
+          format: double
+        mapIcon:
+          $ref: '#/components/schemas/Image'
+        address:
+          $ref: '#/components/schemas/Address'
+        storeImages:
+          type: array
+          description: Collection of images associated with a point of service
+          items:
+            $ref: '#/components/schemas/Image'
+        pickUpInStoreInstructions:
+          type: string
+          description: Instructions used for picking up an order in store
+        warehouseCodes:
+          type: array
+          items:
+            type: string
+      description: Representation of a Point of service
+    Price:
+      type: object
+      properties:
+        currencyIso:
+          type: string
+          description: Currency iso format
+          example: USD
+        value:
+          type: number
+          description: Value of price in BigDecimal format
+        priceType:
+          type: string
+          description: Type of the price
+          enum:
+            - BUY
+            - FROM
+        formattedValue:
+          type: string
+          description: Value of price formatted
+        minQuantity:
+          type: integer
+          description: Minimum quantity of the price value
+          format: int64
+        maxQuantity:
+          type: integer
+          description: Maximum quantity of the price value
+          format: int64
+      description: Representation of a Price
+    PriceRange:
+      type: object
+      properties:
+        maxPrice:
+          $ref: '#/components/schemas/Price'
+        minPrice:
+          $ref: '#/components/schemas/Price'
+      description: Representation of a Price Range
+    Principal:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique user identifier
+        name:
+          type: string
+          description: Name of the user
+      description: >-
+        Representation of a Principal webservice DTO used for defining User data
+        types
+    Product:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the product
+        name:
+          type: string
+          description: Name of the product
+        url:
+          type: string
+          description: Url address of the product
+        description:
+          type: string
+          description: Description of the product
+        purchasable:
+          type: boolean
+          description: Flag defining if product is purchasable
+        stock:
+          $ref: '#/components/schemas/Stock'
+        futureStocks:
+          type: array
+          description: List of future stocks
+          items:
+            $ref: '#/components/schemas/FutureStock'
+        availableForPickup:
+          type: boolean
+          description: Flag defining if product is available for pickup
+        averageRating:
+          type: number
+          description: Rating number of average value
+          format: double
+        numberOfReviews:
+          type: integer
+          description: Number of reviews associated with the product
+          format: int32
+        summary:
+          type: string
+          description: Product summary
+        manufacturer:
+          type: string
+          description: Data of product manufacturer
+        variantType:
+          type: string
+          description: Variant type of the product
+        price:
+          $ref: '#/components/schemas/Price'
+        sapUnit:
+          $ref: '#/components/schemas/SAPUnit'
+        baseProduct:
+          type: string
+          description: Information about base product
+        images:
+          type: array
+          description: List of images linked to product
+          items:
+            $ref: '#/components/schemas/Image'
+        categories:
+          type: array
+          description: List of categories product belongs to
+          items:
+            $ref: '#/components/schemas/Category'
+        reviews:
+          type: array
+          description: List of reviews associated with the product
+          items:
+            $ref: '#/components/schemas/Review'
+        classifications:
+          type: array
+          description: List of classifications related to the product
+          items:
+            $ref: '#/components/schemas/Classification'
+        potentialPromotions:
+          type: array
+          description: List of potential promotions related to the product
+          items:
+            $ref: '#/components/schemas/Promotion'
+        variantOptions:
+          type: array
+          description: List of variant options related to the product
+          items:
+            $ref: '#/components/schemas/VariantOption'
+        baseOptions:
+          type: array
+          description: List of base options related to the product
+          items:
+            $ref: '#/components/schemas/BaseOption'
+        volumePricesFlag:
+          type: boolean
+          description: Flag stating if volume price should be displayed
+        volumePrices:
+          type: array
+          description: List of volume prices
+          items:
+            $ref: '#/components/schemas/Price'
+        productReferences:
+          type: array
+          description: List of product references
+          items:
+            $ref: '#/components/schemas/ProductReference'
+        variantMatrix:
+          type: array
+          description: List of variant matrixes associated with the product
+          items:
+            $ref: '#/components/schemas/VariantMatrixElement'
+        priceRange:
+          $ref: '#/components/schemas/PriceRange'
+        multidimensional:
+          type: boolean
+          description: Flag stating if product is multidimensional
+        configuratorType:
+          type: string
+          description: Configurator type related to the product
+        configurable:
+          type: boolean
+          description: Flag stating if product is configurable
+        tags:
+          uniqueItems: true
+          type: array
+          description: Tags associated with the product
+          items:
+            type: string
+            description: Tags associated with the product
+        sapAddToCartDisabled:
+          type: boolean
+          description: >-
+            Flag specifies whether product can be added to cart. When
+            addToCartDisabled=true, the product is not allowed to be added into
+            cart and the reason is explained through
+            sapAddToCartDisabledMessage; when addToCartDisabled=false, the
+            product is allowed to be added into cart.
+          example: true
+        sapAddToCartDisabledMessage:
+          type: string
+          description: Message shows why product can not be added to cart.
+          example: >-
+            'EF-S 60mm f/2.8 USM Macro' is not available with 'EOS450D + 18-55
+            IS Kit'
+      description: Representation of a Product
+    ProductReference:
+      type: object
+      properties:
+        referenceType:
+          type: string
+          description: Reference type
+        description:
+          type: string
+          description: Reference description
+        quantity:
+          type: integer
+          description: Reference quantity
+          format: int32
+        target:
+          $ref: '#/components/schemas/Product'
+        preselected:
+          type: boolean
+          description: Flag stating if product reference is preselected
+      description: Representation of a Product Reference
+    Promotion:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the promotion
+        title:
+          type: string
+          description: Promotion title
+        promotionType:
+          type: string
+          description: Type of the promotion
+        startDate:
+          type: string
+          description: The initial date of the promotion
+          format: date-time
+          example: '2026-03-10T15:52:03-03:00'
+        endDate:
+          type: string
+          description: Last date of validity of the promotion
+          format: date-time
+          example: '2026-03-10T15:52:03-03:00'
+        description:
+          type: string
+          description: Description of the promotion
+        couldFireMessages:
+          type: array
+          description: >-
+            Message about promotion which is displayed when planning potential
+            promotion. This field has higher priority over promotion description
+          items:
+            type: string
+            description: >-
+              Message about promotion which is displayed when planning potential
+              promotion. This field has higher priority over promotion
+              description
+        firedMessages:
+          type: array
+          description: >-
+            Message fired while the promotion is active. This is info how much
+            you will get when applying the promotion
+          items:
+            type: string
+            description: >-
+              Message fired while the promotion is active. This is info how much
+              you will get when applying the promotion
+        productBanner:
+          $ref: '#/components/schemas/Image'
+        enabled:
+          type: boolean
+          description: Boolean flag if promotion is enabled
+        priority:
+          type: integer
+          description: >-
+            Priority index as numeric value of the promotion. Higher number
+            means higher priority
+          format: int32
+        promotionGroup:
+          type: string
+          description: Group of the promotion
+        restrictions:
+          type: array
+          description: List of promotion restrictions
+          items:
+            $ref: '#/components/schemas/PromotionRestriction'
+      description: Representation of a Promotion
+    PromotionRestriction:
+      type: object
+      properties:
+        restrictionType:
+          type: string
+          description: Type of the promotion restriction
+        description:
+          type: string
+          description: Description of the promotion restriction
+      description: Representation of a Promotion Restriction
+    Region:
+      type: object
+      properties:
+        isocode:
+          type: string
+          description: Country and Region code in iso format
+          example: US-NY
+        isocodeShort:
+          type: string
+          description: Region code in short iso form
+          example: NY
+        countryIso:
+          type: string
+          description: Country code in iso format
+          example: US
+        name:
+          type: string
+          description: Name of the region
+          example: New York
+      description: >-
+        Response body fields which will be returned while fetching the list of
+        country's regions.
+    Review:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of review
+        headline:
+          type: string
+          description: Review headline
+        comment:
+          type: string
+          description: Review comment
+        rating:
+          type: number
+          description: Review rating value
+          format: double
+        date:
+          type: string
+          description: Date of the review
+          format: date-time
+          example: '2026-03-10T15:52:03-03:00'
+        alias:
+          type: string
+          description: Alias name for the review
+        principal:
+          $ref: '#/components/schemas/User'
+        helpfulnessRating:
+          type: integer
+          description: Helpfulness rating of review
+          format: int32
+      description: 'Object contains review details like : rating, alias, headline, comment.'
+    SAPOrderSubsequentDocument:
+      type: object
+      properties:
+        sapDocumentId:
+          type: string
+          description: Document Id
+          example: '323920'
+        sapDocumentEntryIdColumnName:
+          type: string
+          description: UI Name for the column with ID's of the Document Entries
+          example: Invoice Item ID
+        sapSubsequentDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/SAPOrderSubsequentDocument'
+        sapCreatedAt:
+          type: string
+          description: Creation Date/Time
+          example: '2000-10-31T01:30:00.000-05:00'
+        sapStatus:
+          type: string
+          description: Name of the status of the document
+          example: Completed
+        sapDocumentCategory:
+          type: string
+          description: UI Name for the column with ID's of the Document Entries
+          example: Invoice Item ID
+      description: Representation of a metadata of an Order Subsequent Document
+    SAPUnit:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the unit
+        name:
+          type: string
+          description: Name of the unit
+        availabilityCode:
+          type: string
+          description: >-
+            Code of the unit is used to check availability, which can be
+            retrieved either from 'code' without any integration, from 'sapCode'
+            with SAP OMSA integration, or potentially from another source
+            through custom integration with a stock service.
+        sapCode:
+          type: string
+          description: Code of the SAP unit
+      description: Representation of a Unit
+    SpecialOpeningDay:
+      type: object
+      properties:
+        openingTime:
+          $ref: '#/components/schemas/Time'
+        closingTime:
+          $ref: '#/components/schemas/Time'
+        date:
+          type: string
+          description: Date of special opening day
+          format: date-time
+          example: '2026-03-10T15:52:03-03:00'
+        formattedDate:
+          type: string
+          description: Text representation of the date of special opening day
+        closed:
+          type: boolean
+          description: Flag stating if special opening day is closed
+        name:
+          type: string
+          description: Name of the special opening day event
+        comment:
+          type: string
+          description: Comment field
+      description: Representation of a special opening day
+    StatusSummary:
+      type: object
+      properties:
+        status:
+          type: string
+          description: >-
+            Status or severity indicator, can be one of ERROR, WARNING, INFO or
+            SUCCESS
+          example: ERROR
+        numberOfIssues:
+          type: integer
+          description: Number of issues per status
+          format: int32
+          example: 3
+      description: >-
+        Representation of a status summary, an aggregated view on issues for a
+        specific status or severity. These issues are attached to configurations
+        of products or order entries
+    Stock:
+      type: object
+      properties:
+        stockLevelStatus:
+          type: string
+          description: Status of stock level
+          example: inStock
+        stockLevel:
+          type: integer
+          description: Stock level expressed as number
+          format: int64
+          example: 25
+        isValueRounded:
+          type: boolean
+          description: Indicate whether Stock level value is rounded
+          example: false
+      description: Representation of a Stock
+    StoreCount:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Type of store count
+        name:
+          type: string
+          description: Name of store count
+        isoCode:
+          type: string
+          description: Iso code of store
+        count:
+          type: integer
+          description: Count
+          format: int32
+        storeCountDataList:
+          type: array
+          description: List of store counts
+          items:
+            $ref: '#/components/schemas/StoreCount'
+      description: Representation of a Store Count
+    Time:
+      type: object
+      properties:
+        hour:
+          type: string
+          description: Hour part of the time data
+          format: byte
+        minute:
+          type: string
+          description: Minute part of the time data
+          format: byte
+        formattedHour:
+          type: string
+          description: Formatted hour
+        meridiemIndicator:
+          type: string
+          description: Meridiem indicator
+      description: Representation of a Time
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique user identifier
+        name:
+          type: string
+          description: Name of the user
+        defaultAddress:
+          $ref: '#/components/schemas/Address'
+        titleCode:
+          type: string
+          description: User title code
+        title:
+          type: string
+          description: User title
+        firstName:
+          type: string
+          description: User first name
+        lastName:
+          type: string
+          description: User last name
+        currency:
+          $ref: '#/components/schemas/Currency'
+        language:
+          $ref: '#/components/schemas/Language'
+        displayUid:
+          type: string
+          description: User identifier
+        customerId:
+          type: string
+          description: Customer identifier
+        deactivationDate:
+          type: string
+          description: Deactivation date
+          format: date-time
+          example: '2026-03-10T15:52:02-03:00'
+        defaultPointOfServiceName:
+          type: string
+          description: Name of the default pick up location
+          example: Misato
+      description: User's object.
+    UserGroup:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique user identifier
+        name:
+          type: string
+          description: Name of the user
+        members:
+          type: array
+          description: List of members
+          items:
+            $ref: '#/components/schemas/Principal'
+        subGroups:
+          type: array
+          description: List of subgroups
+          items:
+            $ref: '#/components/schemas/UserGroup'
+        membersCount:
+          type: integer
+          description: Number of members
+          format: int32
+      description: User group object with id and name.
+    VariantCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Variant category name
+        hasImage:
+          type: boolean
+          description: Flag if varian category has image assigned
+        priority:
+          type: integer
+          description: Priority number of variant category
+          format: int32
+      description: Representation of a Variant Category
+    VariantMatrixElement:
+      type: object
+      properties:
+        variantValueCategory:
+          $ref: '#/components/schemas/VariantValueCategory'
+        parentVariantCategory:
+          $ref: '#/components/schemas/VariantCategory'
+        variantOption:
+          $ref: '#/components/schemas/VariantOption'
+        elements:
+          type: array
+          description: List of elements with the type of variant matrix element
+          items:
+            $ref: '#/components/schemas/VariantMatrixElement'
+        isLeaf:
+          type: boolean
+      description: Representation of a Variant Matrix Element
+    VariantOption:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Code of the variant option
+        stock:
+          $ref: '#/components/schemas/Stock'
+        url:
+          type: string
+          description: Url address of the variant option
+        priceData:
+          $ref: '#/components/schemas/Price'
+        variantOptionQualifiers:
+          type: array
+          description: List of variant option qualifiers
+          items:
+            $ref: '#/components/schemas/VariantOptionQualifier'
+      description: Representation of a Variant Option
+    VariantOptionQualifier:
+      type: object
+      properties:
+        qualifier:
+          type: string
+          description: Qualifier
+        name:
+          type: string
+          description: Name of variant option qualifier
+        value:
+          type: string
+          description: Value of variant option qualifier
+        image:
+          $ref: '#/components/schemas/Image'
+      description: Representation of a Variant Option Qualifier
+    VariantValueCategory:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the variant value category
+        sequence:
+          type: integer
+          description: Sequence number of variant value category
+          format: int32
+        superCategories:
+          type: array
+          description: Parent category of variant value category
+          items:
+            $ref: '#/components/schemas/VariantCategory'
+      description: Representation of a Variant Value Category
+    WeekdayOpeningDay:
+      type: object
+      properties:
+        openingTime:
+          $ref: '#/components/schemas/Time'
+        closingTime:
+          $ref: '#/components/schemas/Time'
+        weekDay:
+          type: string
+          description: Text representation of week day opening day
+        closed:
+          type: boolean
+          description: Flag stating if weekday opening day is closed
+      description: Representation of a Weekday Opening Day
+  securitySchemes:
+    oauth2_client_credentials:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /authorizationserver/oauth/token
+          scopes:
+            extended: ''
+    oauth2_authorization_code:
+      type: oauth2
+      description: PKCE is required only for clients configured to use PKCE
+      flows:
+        authorizationCode:
+          authorizationUrl: /authorizationserver/oauth/authorize
+          tokenUrl: /authorizationserver/oauth/token
+          scopes:
+            basic: ''
+x-sap-api-type: REST
+x-sap-shortText: Enables you to manage all of the common commerce functionality.
+x-sap-stateInfo:
+  state: Active
+x-servers:
+  - templates:
+      url:
+        description: SAP Commerce Cloud server URL where the application is deployed.
+    description: Commerce Webservices v2 REST API endpoint
+    url: 'https://{url}/occ/v2'

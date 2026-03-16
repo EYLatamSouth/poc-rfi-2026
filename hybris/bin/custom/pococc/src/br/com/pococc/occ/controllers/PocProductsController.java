@@ -1,6 +1,7 @@
 package br.com.pococc.occ.controllers;
 
 import br.com.poc.occ.dto.product.PocProductEngagementSummaryWsDTO;
+import br.com.poccore.annotation.FeatureFlagRestriction;
 import br.com.pocfacades.product.PocProductFacade;
 import br.com.poc.occ.dto.product.PocReviewRatingData;
 import br.com.pocfacades.review.PocCustomerReviewFacade;
@@ -25,6 +26,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+
+import static br.com.pococc.occ.constants.PococcConstants.*;
 
 
 @Controller
@@ -52,18 +55,19 @@ public class PocProductsController extends PocBaseController {
      * Creates and updates a Customer Review Rating for given product.
      *
      * @param productCode The code for the target product.
-     * @param id          The chronological position.
+     * @param id          The Review's ID (Primary Key) value.
      * @param helpful     Review rate value.
      * @return HttpStatus 201 to created customer review rating.
      */
-    @Secured({"ROLE_TRUSTED_CLIENT"})
+    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @PostMapping("/{productCode}/review/{id}/helpful")
     @ResponseBody
     @Operation(operationId = "postReviewRating", summary = "Rate a review helpability.", description = "Rate a review if it as helpful or not.")
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_02)
     public ResponseEntity<Void> postReviewRating(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
-            @Parameter(description = "Review Id.", required = true) @PathVariable final Integer id,
+            @Parameter(description = "Review Id.", required = true) @PathVariable final String id,
             @RequestParam(defaultValue = "true") final boolean helpful) {
         PocReviewRatingData validateData = new PocReviewRatingData();
         validateData.setId(id);
@@ -73,6 +77,7 @@ public class PocProductsController extends PocBaseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(
@@ -81,6 +86,7 @@ public class PocProductsController extends PocBaseController {
             description = "Retrieves an Engagement Summary AVG for a product."
     )
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_05)
     public PocProductEngagementSummaryWsDTO getProductEngagementSummary(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode) {
         LOG.info("POC CUSTOM GET PRODUCT Engagement Summary");
@@ -89,7 +95,7 @@ public class PocProductsController extends PocBaseController {
         return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
 
-    @Secured({"ROLE_CUSTOMERGROUP"})
+    @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @PostMapping(value = "/{productCode}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE})
     @RequestMappingOverride(priorityProperty = "pococc.PocProductsController.CreateProductReviews.priority")
@@ -97,6 +103,7 @@ public class PocProductsController extends PocBaseController {
     @ResponseBody
     @Operation(operationId = "createProductReview", summary = "Creates a customer review as an anonymous or authenticated user.", description = "Creates a customer review for a product as an anonymous or authenticate user.")
     @ApiBaseSiteIdParam
+    @FeatureFlagRestriction(name = US_01)
     public ReviewWsDTO createProductReview(
             @Parameter(description = "Product identifier.", required = true) @PathVariable final String productCode,
             @Parameter(description = "Object contains review details like : rating, alias, headline, comment.", required = true) @RequestBody final ReviewWsDTO review,

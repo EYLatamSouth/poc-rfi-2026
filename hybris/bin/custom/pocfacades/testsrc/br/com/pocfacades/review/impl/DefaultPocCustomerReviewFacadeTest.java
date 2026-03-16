@@ -28,13 +28,13 @@ public class DefaultPocCustomerReviewFacadeTest {
         facade.setUserService(userService);
 
         when(userService.getCurrentUser()).thenReturn(null);
-        when(pocReviewService.createProductReviewRating(any(), anyString(), anyInt(), anyBoolean())).thenReturn(null);
+        when(pocReviewService.createProductReviewRating(any(), anyString(), anyString(), anyBoolean())).thenReturn(null);
     }
 
     @Test
     public void testCreateProductReviewRating_Success() {
         try {
-            facade.createProductReviewRating("product", 10, true);
+            facade.createProductReviewRating("product", "10", true);
         }
         catch (Exception e) {
             fail();
@@ -44,7 +44,7 @@ public class DefaultPocCustomerReviewFacadeTest {
     @Test(expected = NullPointerException.class)
     public void testCreateProductReviewRating_Fail() {
         facade.setUserService(null);
-        facade.createProductReviewRating("product", 10, true);
+        facade.createProductReviewRating("product", "10", true);
         fail();
     }
 }

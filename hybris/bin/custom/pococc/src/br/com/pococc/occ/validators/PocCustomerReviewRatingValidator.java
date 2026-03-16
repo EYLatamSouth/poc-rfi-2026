@@ -8,7 +8,6 @@ import org.springframework.validation.Validator;
 public class PocCustomerReviewRatingValidator implements Validator {
 
     private static final String FIELD_REQUIRED = "field.required";
-    private static final String FIELD_LESS_THAN_ZERO = "field.lessThanZero";
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -18,13 +17,11 @@ public class PocCustomerReviewRatingValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         if (target instanceof PocReviewRatingData data) {
-            if (StringUtils.isEmpty(data.getProductCode())) {
+            if (StringUtils.isBlank(data.getProductCode())) {
                 errors.rejectValue("productCode", FIELD_REQUIRED);
             }
-            if (data.getId() == null) {
+            if (StringUtils.isBlank(data.getId())) {
                 errors.rejectValue("id", FIELD_REQUIRED);
-            } else if (data.getId() < 0) {
-                errors.rejectValue("id", FIELD_LESS_THAN_ZERO);
             }
         } else {
             errors.reject("Target is not PocReviewRatingData");
