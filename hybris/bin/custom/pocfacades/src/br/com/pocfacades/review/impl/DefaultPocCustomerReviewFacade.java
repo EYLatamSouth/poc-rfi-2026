@@ -21,7 +21,7 @@ public class DefaultPocCustomerReviewFacade implements PocCustomerReviewFacade {
      * @param reviewId      The Review's ID (Primary Key) value.
      * @param helpful       Review rate value.
      *
-     * @throws IllegalArgumentException when productCode or reviewId doesn't follow requirements
+     * @throws IllegalArgumentException when productCode or reviewId doesn't follow requirements.
      */
     @Override
     public void createProductReviewRating(String productCode, String reviewId, boolean helpful) throws IllegalArgumentException {

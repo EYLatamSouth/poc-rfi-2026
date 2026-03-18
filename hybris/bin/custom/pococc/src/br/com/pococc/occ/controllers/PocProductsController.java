@@ -77,7 +77,12 @@ public class PocProductsController extends PocBaseController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    
+    /**
+     * Generates a summary report of the engagement statistics for given product.
+     *
+     * @param productCode The code for the target product.
+     * @return HttpStatus 200 for successfully generated report.
+     */
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(
@@ -95,6 +100,14 @@ public class PocProductsController extends PocBaseController {
         return getDataMapper().map(pocProductEngagementSummary, PocProductEngagementSummaryWsDTO.class);
     }
 
+    /**
+     * Creates a Customer Review for given product.
+     *
+     * @param productCode The code of the target product.
+     * @param review      The review content - headline, comment and rating for the target product.
+     * @param fields      Optional - The fields that will be returned from the response object.
+     * @return HttpStatus 201 and ReviewWsDTO of the created information.
+     */
     @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT" })
     @PostMapping(value = "/{productCode}/reviews", consumes = {MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE})

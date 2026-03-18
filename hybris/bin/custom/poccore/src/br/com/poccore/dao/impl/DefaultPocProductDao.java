@@ -9,8 +9,8 @@ import de.hybris.platform.servicelayer.search.SearchResult;
 import jakarta.annotation.Nonnull;
 import org.apache.commons.lang3.BooleanUtils;
 
-import java.util.*;
 import java.time.Duration;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -85,6 +85,12 @@ public class DefaultPocProductDao implements PocProductDao {
         AND {cpi.answerDate} IS NOT NULL
     """;
 
+    /**
+     * Searches for the ratings of the Reviews given by the Customers for a given Product.
+     *
+     * @param productCode  The target product code.
+     * @return {@link List<Double>} from given information.
+     */
     @Override
     public List<Double> getProductRatings(String productCode) {
         final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(GET_PRODUCT_REVIEW_RATINGS);
@@ -95,6 +101,13 @@ public class DefaultPocProductDao implements PocProductDao {
         return result.getResult().stream().map(Number::doubleValue).toList();
     }
 
+    /**
+     * Searches for the count of Reviews of a given Product with different "hasBoughtProduct" values.
+     *
+     * @param productCode     The target product code.
+     * @param hasBoughtValues Desired values of hasBoughtProduct to be considered in the result.
+     * @return int from given information.
+     */
     @Override
     public int getVerifiedReviewRatingCount(String productCode, List<Boolean> hasBoughtValues) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_VERIFIED_REVIEW_RATING_COUNT);
@@ -107,6 +120,13 @@ public class DefaultPocProductDao implements PocProductDao {
 
     }
 
+    /**
+     * Searches for a list of Review headlines and their amount of upvotes.
+     * Only Reviews with at least one upvote are considered.
+     *
+     * @param productCode  The target product code.
+     * @return {@link Map} from given information.
+     */
     @Override
     public Map<String, Integer> getRatingsWithUpvoteCount(String productCode) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_REVIEWS_WITH_USEFUL_RATING);
@@ -124,6 +144,13 @@ public class DefaultPocProductDao implements PocProductDao {
             );
     }
 
+    /**
+     * Searches for the count of Reviews of a given Product with different "approvalStatus" values.
+     *
+     * @param productCode      The target product code.
+     * @param approvalStatuses Desired values of approvalStatus to be considered in the result.
+     * @return int from given information.
+     */
     @Override
     public int getReviewCountByStatus(String productCode, List<CustomerReviewApprovalType> approvalStatuses) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_REVIEWS_BY_APPROVAL_STATUS);
@@ -137,6 +164,12 @@ public class DefaultPocProductDao implements PocProductDao {
         return result.getResult().getFirst();
     }
 
+    /**
+     * Searches for the count of Customer Inquiries of a given Product with "APPROVED" approvalStatus.
+     *
+     * @param productCode     The target product code.
+     * @return int from given information.
+     */
     @Override
     public int getTotalApprovedQuestions(String productCode) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_APPROVED_QUESTIONS_BY_CODE);
@@ -146,7 +179,13 @@ public class DefaultPocProductDao implements PocProductDao {
         return result.getResult().getFirst();
     }
 
-
+    /**
+     * Searches for the count of Customer Inquiries of a given Product with different "approvalStatus" values.
+     *
+     * @param productCode      The target product code.
+     * @param approvalStatuses Desired values of approvalStatus to be considered in the result.
+     * @return int from given information.
+     */
     @Override
     public int getQuestionCountByStatus(String productCode, List<CustomerInquiryApprovalStatus> approvalStatuses) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_QUESTIONS_BY_APPROVAL_STATUS);
@@ -160,6 +199,13 @@ public class DefaultPocProductDao implements PocProductDao {
         return result.getResult().getFirst();
     }
 
+    /**
+     * Searches for the dates of Customer Inquiry creation and response
+     * and returns a list of those time periods.
+     *
+     * @param productCode     The target product code.
+     * @return {@link List<Duration>} from given information.
+     */
     @Override
     public List<Duration> getResponseTime(String productCode) {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_QUESTION_RESPONSE_TIMES);

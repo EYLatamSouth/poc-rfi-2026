@@ -20,6 +20,13 @@ public class DefaultPocProductService implements PocProductService {
 
     private PocProductDao pocProductDao;
 
+    /**
+     * Gathers all information regarding questions and reviews and maps it to a Data object.
+     *
+     * @param productCode The code for the target product.
+     * @return single {@link PocProductEngagementSummaryInfoData} with found information
+     */
+    @Override
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode) {
 
         PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData = new PocProductEngagementSummaryInfoData();
@@ -148,7 +155,7 @@ public class DefaultPocProductService implements PocProductService {
 		return df.format(rating);
     }
 
-    public static double calculateAverageDurationInMinutes(List<Duration> durations) {
+    private static double calculateAverageDurationInMinutes(List<Duration> durations) {
         if (CollectionUtils.isEmpty(durations)) {
             return 0.0;
         }

@@ -11,6 +11,12 @@ public class DefaultPocCustomerInquiryService implements PocCustomerInquiryServi
     private ModelService modelService;
     private Converter<CustomerInquiryData, CustomerProductInquiryModel> customerInquiryModelConverter;
 
+    /**
+     * Creates and saves new Customer question via ModelService
+     *
+     * @param inquiryData The content of the question to be created.
+     * @return single {@link CustomerProductInquiryModel} saved.
+     */
     @Override
     public CustomerProductInquiryModel createCustomerInquiry(CustomerInquiryData inquiryData) {
         CustomerProductInquiryModel inquiryModel = getModelService().create(CustomerProductInquiryModel.class);
