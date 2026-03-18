@@ -11,7 +11,6 @@ import de.hybris.platform.webservicescommons.errors.exceptions.WebserviceValidat
 import de.hybris.platform.webservicescommons.mapping.DataMapper;
 import de.hybris.platform.webservicescommons.mapping.FieldSetLevelHelper;
 import jakarta.annotation.Resource;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,28 +24,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 public class PocBaseController {
-
-    protected static final String DEFAULT_PAGE_SIZE = "20";
-    protected static final String DEFAULT_CURRENT_PAGE = "0";
-    protected static final String BASIC_FIELD_SET = FieldSetLevelHelper.BASIC_LEVEL;
     protected static final String DEFAULT_FIELD_SET = FieldSetLevelHelper.DEFAULT_LEVEL;
-    protected static final String HEADER_TOTAL_COUNT = "X-Total-Count";
     protected static final String INVALID_REQUEST_BODY_ERROR_MESSAGE = "Request body is invalid or missing";
 
     private static final Logger LOG = LoggerFactory.getLogger(PocBaseController.class);
 
     @Resource(name = "dataMapper")
     private DataMapper dataMapper;
-
-    protected static String logParam(final String paramName, final Long paramValue)
-    {
-        return paramName + " = " + paramValue;
-    }
-
-    protected static String logParam(final String paramName, final String paramValue)
-    {
-        return paramName + " = " + logValue(paramValue);
-    }
 
     protected static String logValue(final String paramValue)
     {
@@ -87,25 +71,6 @@ public class PocBaseController {
         {
             throw new WebserviceValidationException(errors);
         }
-    }
-
-    /**
-     * Adds pagination field to the 'fields' parameter
-     *
-     * @param fields
-     * @return fields with pagination
-     */
-    protected String addPaginationField(final String fields)
-    {
-        String fieldsWithPagination = fields;
-
-        if (StringUtils.isNotBlank(fieldsWithPagination))
-        {
-            fieldsWithPagination += ",";
-        }
-        fieldsWithPagination += "pagination";
-
-        return fieldsWithPagination;
     }
 
     protected DataMapper getDataMapper()

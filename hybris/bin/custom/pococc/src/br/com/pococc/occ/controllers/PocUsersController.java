@@ -30,6 +30,13 @@ public class PocUsersController extends PocBaseController {
     @Resource(name = "pocCustomerInquiryFacade")
     private PocCustomerInquiryFacade pocCustomerInquiryFacade;
 
+    /**
+     * Creates a question made from a customer for a given product.
+     *
+     * @param productCode       The code for the target product.
+     * @param questionWsDTO     The content of the question to be created.
+     * @return HttpStatus 201 to created customer inquiry.
+     */
     @Secured({ "ROLE_CUSTOMERGROUP", "ROLE_TRUSTED_CLIENT", "ROLE_CUSTOMERMANAGERGROUP" })
     @PostMapping("/{userId}/products/{productCode}/question")
     @ResponseBody

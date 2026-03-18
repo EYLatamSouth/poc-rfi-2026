@@ -7,8 +7,6 @@ import br.com.poccore.service.PocCustomerReviewService;
 import de.hybris.platform.core.model.user.CustomerModel;
 import de.hybris.platform.core.model.user.UserModel;
 import de.hybris.platform.customerreview.model.CustomerReviewModel;
-import de.hybris.platform.servicelayer.exceptions.AmbiguousIdentifierException;
-import de.hybris.platform.servicelayer.exceptions.UnknownIdentifierException;
 import de.hybris.platform.servicelayer.model.ModelService;
 import de.hybris.platform.servicelayer.util.ServicesUtil;
 import org.slf4j.Logger;
@@ -24,14 +22,13 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
 
     /**
      * Finds a CustomerReviewModel for given productCode based on its review ID.
-     * Uses to {@link PocCustomerReviewDao} to search the review with the provided information, then validates the returned content.
+     * Uses {@link PocCustomerReviewDao} to search the review with the provided information, then validates the returned content.
      *
      * @param productCode The code for the target product.
      * @param reviewId    The Review's ID (Primary Key) value.
      * @return single {@link CustomerReviewModel} found
-     * @throws IllegalArgumentException     if the search result is null
-     * @throws UnknownIdentifierException   if the search result is empty
-     * @throws AmbiguousIdentifierException if the search result contains more than one item
+     *
+     * @throws IllegalArgumentException if the search result is null
      */
     @Override
     public CustomerReviewModel getProductReviewById(String productCode, String reviewId) {
@@ -45,7 +42,7 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
     }
 
     /**
-     * Find a previously created {@link CustomerReviewRatingModel} by the rater customer.
+     * Finds a previously created {@link CustomerReviewRatingModel} by the rater customer.
      *
      * @param review    The target review.
      * @param rater     The rater customer.
@@ -57,7 +54,7 @@ public class DefaultPocCustomerReviewService implements PocCustomerReviewService
     }
 
     /**
-     * Create a Product Review Rating or Updates an existing one.
+     * Creates a Product Review Rating or Updates an existing one.
      * Will use the productCode and its review ID to find the targeted review, and create a {@link CustomerReviewRatingModel}
      * to save is helpfulness link both the creator customer (the one that created the CustomerReview) and the rating
      * customer (the one that rated the review). If a {@link CustomerReviewRatingModel} for the given information was found,
