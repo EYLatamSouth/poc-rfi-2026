@@ -19,6 +19,14 @@ public class DefaultPocCustomerInquiryFacade implements PocCustomerInquiryFacade
     private UserService userService;
     private Converter<CustomerProductInquiryModel, CustomerInquiryData> customerInquiryDataConverter;
 
+    /**
+     * Will call the PocReviewService to create a ProductReviewRating.
+     *
+     * @param productCode   The code for the target product.
+     * @param questionWsDTO The content of the question to be created.
+     *
+     * @throws BadCredentialsException when session user is not valid.
+     */
     @Override
     public CustomerInquiryData createCustomerInquiry(String productCode, PocProductQuestionWsDTO questionWsDTO) {
         UserModel userModel = getUserService().getCurrentUser();

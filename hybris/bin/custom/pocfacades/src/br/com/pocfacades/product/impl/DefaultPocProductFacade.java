@@ -10,14 +10,18 @@ public class DefaultPocProductFacade implements PocProductFacade {
     private SearchRestrictionService searchRestrictionService;
     private PocProductService pocProductService;
 
-    public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode){
+    /**
+     * Will call the PocProductService to get the mapped Data object of the engagement statistics of the Product.
+     *
+     * @param productCode   The code for the target product.
+     */
+    public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode) {
         getSearchRestrictionService().disableSearchRestrictions();
         PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData;
         pocProductEngagementSummaryInfoData = getPocProductService().getEngagementSummary(productCode);
         getSearchRestrictionService().enableSearchRestrictions();
 
         return pocProductEngagementSummaryInfoData;
-
     }
 
     public PocProductService getPocProductService() {
@@ -35,6 +39,4 @@ public class DefaultPocProductFacade implements PocProductFacade {
     public void setSearchRestrictionService(SearchRestrictionService searchRestrictionService) {
         this.searchRestrictionService = searchRestrictionService;
     }
-
-
 }

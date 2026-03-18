@@ -33,7 +33,7 @@ public class DefaultPocCustomerReviewDao implements PocCustomerReviewDao {
      *
      * @param productCode   The target product code
      * @param reviewId      The Review's ID (Primary Key) value.
-     * @return The search result for a single {@Link CustomerReviewModel}
+     * @return The search result for a single {@link CustomerReviewModel}
      */
     @Override
     public CustomerReviewModel findProductReviewById(String productCode, String reviewId) {
