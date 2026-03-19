@@ -16,10 +16,8 @@ public class DefaultPocProductFacade implements PocProductFacade {
      * @param productCode   The code for the target product.
      */
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode) {
-        getSearchRestrictionService().disableSearchRestrictions();
         PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData;
         pocProductEngagementSummaryInfoData = getPocProductService().getEngagementSummary(productCode);
-        getSearchRestrictionService().enableSearchRestrictions();
 
         return pocProductEngagementSummaryInfoData;
     }
