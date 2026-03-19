@@ -16,8 +16,14 @@ public class DefaultPocProductFacade implements PocProductFacade {
      * @param productCode   The code for the target product.
      */
     public PocProductEngagementSummaryInfoData getEngagementSummary(String productCode) {
-        PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData;
-        pocProductEngagementSummaryInfoData = getPocProductService().getEngagementSummary(productCode);
+        PocProductEngagementSummaryInfoData pocProductEngagementSummaryInfoData = null;
+        //Standard SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
+        try {
+            getSearchRestrictionService().disableSearchRestrictions();
+            pocProductEngagementSummaryInfoData = getPocProductService().getEngagementSummary(productCode);
+        } finally {
+            getSearchRestrictionService().enableSearchRestrictions();
+        }
 
         return pocProductEngagementSummaryInfoData;
     }

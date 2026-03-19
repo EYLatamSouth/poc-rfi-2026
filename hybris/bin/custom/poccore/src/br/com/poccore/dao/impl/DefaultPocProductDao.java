@@ -94,10 +94,6 @@ public class DefaultPocProductDao implements PocProductDao {
     @Override
     public List<Double> getProductRatings(String productCode) {
         final FlexibleSearchQuery fQuery = new FlexibleSearchQuery(GET_PRODUCT_REVIEW_RATINGS);
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        fQuery.setDisableSearchRestrictions(Boolean.TRUE);
-
         fQuery.addQueryParameter("code", productCode);
         fQuery.setResultClassList(List.of(Double.class));
 
@@ -119,9 +115,6 @@ public class DefaultPocProductDao implements PocProductDao {
         query.addQueryParameter("code", productCode);
         query.addQueryParameter("hasBoughtValues", formatBooleansForQuery(hasBoughtValues));
 
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
-
         SearchResult<Integer> result = getFlexibleSearchService().search(query);
         return result.getResult().getFirst();
 
@@ -139,9 +132,6 @@ public class DefaultPocProductDao implements PocProductDao {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_REVIEWS_WITH_USEFUL_RATING);
         query.setResultClassList(Arrays.asList(String.class, Integer.class));
         query.addQueryParameter("code", productCode);
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
 
         SearchResult<List<Object>> result = getFlexibleSearchService().search(query);
 
@@ -170,10 +160,6 @@ public class DefaultPocProductDao implements PocProductDao {
             "approvalCodes",
             approvalStatuses.stream().map(CustomerReviewApprovalType::getCode).toList()
         );
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
-
         SearchResult<Integer> result = getFlexibleSearchService().search(query);
         return result.getResult().getFirst();
     }
@@ -189,10 +175,6 @@ public class DefaultPocProductDao implements PocProductDao {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_APPROVED_QUESTIONS_BY_CODE);
         query.setResultClassList(Collections.singletonList(Integer.class));
         query.addQueryParameter("code", productCode);
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
-
         SearchResult<Integer> result = getFlexibleSearchService().search(query);
         return result.getResult().getFirst();
     }
@@ -213,10 +195,6 @@ public class DefaultPocProductDao implements PocProductDao {
             "approvalCodes",
             approvalStatuses.stream().map(CustomerInquiryApprovalStatus::getCode).toList()
         );
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
-
         SearchResult<Integer> result = getFlexibleSearchService().search(query);
         return result.getResult().getFirst();
     }
@@ -233,11 +211,8 @@ public class DefaultPocProductDao implements PocProductDao {
         FlexibleSearchQuery query = new FlexibleSearchQuery(GET_QUESTION_RESPONSE_TIMES);
         query.setResultClassList(Arrays.asList(Date.class, Date.class));
         query.addQueryParameter("code", productCode);
-
-        //SearchRestriction Frontend_ProductApprovalStatus prevents all products from being returned to the report. The disableSearchRestrictions method makes the query work regardless of the product's status
-        query.setDisableSearchRestrictions(Boolean.TRUE);
-
         final SearchResult<List<Object>> result = getFlexibleSearchService().search(query);
+
         return result.getResult().stream()
             .map(c -> Duration.between(((Date) c.getFirst()).toInstant(), ((Date) c.get(1)).toInstant()))
             .toList();
