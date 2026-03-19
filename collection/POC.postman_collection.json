@@ -368,7 +368,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
+          "raw": "{{server}}/occ/v2/electronics/products/{{poduct}}/reviews",
           "host": [
             "{{server}}"
           ],
@@ -377,7 +377,7 @@
             "v2",
             "electronics",
             "products",
-            "23355",
+            "{{poduct}}",
             "reviews"
           ]
         }
@@ -409,7 +409,7 @@
           }
         },
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/23355/reviews",
+          "raw": "{{server}}/occ/v2/electronics/products/{{poduct}}/reviews",
           "host": [
             "{{server}}"
           ],
@@ -418,7 +418,7 @@
             "v2",
             "electronics",
             "products",
-            "23355",
+            "{{poduct}}",
             "reviews"
           ]
         }
@@ -454,7 +454,7 @@
         "method": "POST",
         "header": [],
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/23355/review/2/helpful?helpful=false",
+          "raw": "{{server}}/occ/v2/electronics/products/{{poduct}}/review/1/helpful?helpful=true",
           "host": [
             "{{server}}"
           ],
@@ -463,15 +463,15 @@
             "v2",
             "electronics",
             "products",
-            "23355",
+            "{{poduct}}",
             "review",
-            "2",
+            "1",
             "helpful"
           ],
           "query": [
             {
               "key": "helpful",
-              "value": "false"
+              "value": "true"
             }
           ]
         }
@@ -494,7 +494,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{server}}/occ/v2/electronics/products/23355/engagementSummary",
+          "raw": "{{server}}/occ/v2/electronics/products/{{poduct}}/engagementSummary",
           "host": [
             "{{server}}"
           ],
@@ -503,7 +503,7 @@
             "v2",
             "electronics",
             "products",
-            "23355",
+            "{{poduct}}",
             "engagementSummary"
           ]
         }
@@ -550,32 +550,6 @@
             "products",
             "23355",
             "question"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Tradução - Limite de caracteres",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "DeepL-Auth-Key 14a78b01-3151-499f-b495-2f2d77dfff20:fx"
-          }
-        ],
-        "url": {
-          "raw": "https://api-free.deepl.com/v2/usage",
-          "protocol": "https",
-          "host": [
-            "api-free",
-            "deepl",
-            "com"
-          ],
-          "path": [
-            "v2",
-            "usage"
           ]
         }
       },
