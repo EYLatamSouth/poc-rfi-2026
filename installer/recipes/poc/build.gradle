@@ -53,7 +53,7 @@ def platform = platform {
         property 'log4j2.logger.auditableActionsHandler.name', 'de.hybris.platform.audit.actions.impl.Slf4jAuditableActionHandler'
         property 'log4j2.logger.auditableActionsHandler.level', 'OFF'
         property 'audit.order.enabled', 'false'
-        property 'auditing.enabled', 'false'
+        property 'auditing.enabled', 'true'
         property 'ansi.colors', 'true'
 
     }
