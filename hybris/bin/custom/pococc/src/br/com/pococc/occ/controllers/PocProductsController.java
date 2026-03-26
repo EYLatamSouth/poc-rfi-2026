@@ -83,6 +83,7 @@ public class PocProductsController extends PocBaseController {
      * @param productCode The code for the target product.
      * @return HttpStatus 200 for successfully generated report.
      */
+    @Secured({ "ROLE_EMPLOYEEGROUP", "ROLE_TRUSTED_CLIENT" })
     @GetMapping("/{productCode}/engagementSummary")
     @ResponseBody
     @Operation(

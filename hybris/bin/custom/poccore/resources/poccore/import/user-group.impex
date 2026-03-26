@@ -16,5 +16,6 @@ UserGroup      ; Support           ;               ;         ;                  
                ;                   ;               ;         ; CustomerProductInquiry ; +   ; +      ;       ;       ;
                ;                   ;               ;         ; Order                  ; +   ; -      ;       ;       ;
                ;                   ;               ;         ; Item                   ; -   ; -      ;       ;       ;
+               ;                   ;               ;         ; SavedValues            ; +   ; -      ;       ;       ;
 
 $END_USERRIGHTS
